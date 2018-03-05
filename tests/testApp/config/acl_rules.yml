@@ -1,0 +1,38 @@
+parameters:
+    acl_rule:
+        owner:
+            # Key must match with key in acl.yml under resources
+            user:   ['read', 'write']
+            group:  ['read', 'write']
+
+        fixture_groups:
+            service:
+                level: 0
+                users:
+                    - {email: 'root@hanaboso.com', password: 'root'}
+                rules:
+                    group:      ['read', 'write', 'delete']
+                    user:       ['read', 'write', 'delete']
+                    tmp_user:   ['read', 'write', 'delete']
+                    token:      ['read', 'write', 'delete']
+                    topology:   ['read', 'write', 'delete']
+                    node:       ['read', 'write', 'delete']
+                    file:       ['read', 'write', 'delete']
+            admin:
+                level: 1
+                users:
+                rules:
+                    group:      ['read']
+                    user:       ['read', 'write', 'delete']
+                    tmp_user:   ['read', 'write', 'delete']
+                    token:      ['read', 'write']
+                    topology:   ['read', 'write']
+                    node:       ['read', 'write']
+                    file:       ['read', 'write']
+            user:
+                level: 5
+                users:
+                rules:
+                    topology:   ['read']
+                    node:       ['read']
+                    file:       ['read']

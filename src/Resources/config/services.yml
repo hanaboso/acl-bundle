@@ -1,0 +1,34 @@
+services:
+    _defaults:
+        public: '%public.services%'
+
+    hbpf.acl.provider.database:
+        class: Hanaboso\AclBundle\Provider\Impl\DatabaseProvider
+        arguments:
+            - '@hbpf.database_manager_locator'
+            - '@hbpf.user.provider.resource'
+
+    hbpf.factory.rule:
+        class: Hanaboso\AclBundle\Factory\RuleFactory
+        arguments:
+            - '@hbpf.database_manager_locator'
+            - '%acl_rule%'
+            - '%resource_enum%'
+
+    hbpf.access.manager:
+        class: Hanaboso\AclBundle\Manager\AccessManager
+        arguments:
+            - '@hbpf.database_manager_locator'
+            - '@hbpf.factory.rule'
+            - '@hbpf.acl.provider.database'
+            - '@hbpf.user.provider.resource'
+            - '%resource_enum%'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    hbpf.manager.user:
+        class: Hanaboso\AclBundle\Manager\UserManager
+        arguments:
+            - '@hbpf.access.manager'
+        tags:
+            - { name: kernel.event_subscriber }
