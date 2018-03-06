@@ -33,15 +33,22 @@ class DatabaseProvider implements ProviderInterface
     private $provider;
 
     /**
+     * @var string
+     */
+    private $resourceEnum;
+
+    /**
      * DatabaseProvider constructor.
      *
      * @param DatabaseManagerLocator $dml
      * @param ResourceProvider       $provider
+     * @param string                 $resourceEnum
      */
-    public function __construct(DatabaseManagerLocator $dml, ResourceProvider $provider)
+    public function __construct(DatabaseManagerLocator $dml, ResourceProvider $provider, string $resourceEnum)
     {
         $this->dm       = $dml->get();
         $this->provider = $provider;
+        $this->resourceEnum = $resourceEnum;
     }
 
     /**
@@ -53,7 +60,7 @@ class DatabaseProvider implements ProviderInterface
     public function getRules(UserInterface $user): array
     {
         /** @var OrmRepo|OdmRepo $groupRepository */
-        $groupRepository = $this->dm->getRepository($this->provider->getResource(ResourceEnum::GROUP));
+        $groupRepository = $this->dm->getRepository($this->provider->getResource(($this->resourceEnum)::GROUP));
 
         $rules = [];
         foreach ($groupRepository->getUserGroups($user) as $group) {

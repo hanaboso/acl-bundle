@@ -53,9 +53,9 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
         $enum       = $this->container->getParameter('resource_enum');
 
         $provider   = new ResourceProvider($config);
-        $groupClass = $provider->getResource($enum::GROUP);
-        $userClass  = $provider->getResource($enum::USER);
-        $ruleClass  = $provider->getResource($enum::RULE);
+        $groupClass = $provider->getResource(($enum)::GROUP);
+        $userClass  = $provider->getResource(($enum)::USER);
+        $ruleClass  = $provider->getResource(($enum)::RULE);
 
         foreach ($rules as $key => $val) {
             $group = new $groupClass(NULL);
