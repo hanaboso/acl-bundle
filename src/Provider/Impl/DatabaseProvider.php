@@ -5,7 +5,6 @@ namespace Hanaboso\AclBundle\Provider\Impl;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
 use Hanaboso\AclBundle\Entity\RuleInterface;
-use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Provider\ProviderInterface;
 use Hanaboso\AclBundle\Repository\Document\GroupRepository as OdmRepo;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository as OrmRepo;
@@ -46,8 +45,8 @@ class DatabaseProvider implements ProviderInterface
      */
     public function __construct(DatabaseManagerLocator $dml, ResourceProvider $provider, string $resourceEnum)
     {
-        $this->dm       = $dml->get();
-        $this->provider = $provider;
+        $this->dm           = $dml->get();
+        $this->provider     = $provider;
         $this->resourceEnum = $resourceEnum;
     }
 
