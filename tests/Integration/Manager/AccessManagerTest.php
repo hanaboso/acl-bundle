@@ -386,7 +386,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $data = new GroupDto($group);
         $data
             ->addUser($user)
-            ->addRule([
+            ->addRule(Rule::class, [
                 [
                     'resource'      => 'user',
                     'action_mask'   => [

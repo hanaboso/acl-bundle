@@ -4,14 +4,15 @@ namespace Hanaboso\AclBundle\DataFixtures\MongoDB;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Hanaboso\AclBundle\Document\Group;
-use Hanaboso\AclBundle\Document\Rule;
+use Hanaboso\AclBundle\Entity\GroupInterface;
+use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Factory\MaskFactory;
-use Hanaboso\UserBundle\Document\User;
+use Hanaboso\UserBundle\Entity\UserInterface;
+use Hanaboso\UserBundle\Exception\UserException;
+use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Security\Core\Encoder\EncoderFactory;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
 
 /**
  * Class RoleFixtures
@@ -38,6 +39,8 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
      * Load data fixtures with the passed EntityManager
      *
      * @param ObjectManager $manager
+     *
+     * @throws UserException
      */
     public function load(ObjectManager $manager): void
     {
@@ -45,15 +48,20 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
             return;
         }
 
-        /** @var EncoderFactory $factory */
-        $factory = $this->container->get('security.encoder_factory');
-        /** @var PasswordEncoderInterface $encoder */
-        $encoder    = $factory->getEncoder(User::class);
+        $encoder    = new BCryptPasswordEncoder(12);
         $rules      = $this->container->getParameter('acl_rule')['fixture_groups'];
         $ownerRules = $this->container->getParameter('acl_rule')['owner'];
+        $config     = $this->container->getParameter('db_res');
+        $enum       = $this->container->getParameter('resource_enum');
+
+        $provider   = new ResourceProvider($config);
+        $groupClass = $provider->getResource(($enum)::GROUP);
+        $userClass  = $provider->getResource(($enum)::USER);
+        $ruleClass  = $provider->getResource(($enum)::RULE);
 
         foreach ($rules as $key => $val) {
-            $group = new Group(NULL);
+            /** @var GroupInterface $group */
+            $group = new $groupClass(NULL);
             $group
                 ->setName($key)
                 ->setLevel($val['level']);
@@ -61,7 +69,8 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
 
             if (is_array($val['users'])) {
                 foreach ($val['users'] as $row) {
-                    $user = new User();
+                    /** @var UserInterface $user */
+                    $user = new $userClass();
                     $user
                         ->setPassword($encoder->encodePassword($row['password'], ''))
                         ->setEmail($row['email']);
@@ -71,12 +80,12 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
             }
             if (is_array($val['rules'])) {
                 foreach ($val['rules'] as $res => $rights) {
-                    $this->createRule($manager, $group, $rights, $res);
+                    $this->createRule($manager, $group, $rights, $res, $ruleClass);
                 }
             }
             if (is_array($ownerRules)) {
                 foreach ($ownerRules as $res => $rights) {
-                    $this->createRule($manager, $group, $rights, $res);
+                    $this->createRule($manager, $group, $rights, $res, $ruleClass);
                 }
             }
 
@@ -86,14 +95,22 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
     }
 
     /**
-     * @param ObjectManager $manager
-     * @param Group         $group
-     * @param array         $rights
-     * @param string        $res
+     * @param ObjectManager  $manager
+     * @param GroupInterface $group
+     * @param array          $rights
+     * @param string         $res
+     * @param string         $ruleClass
      */
-    private function createRule(ObjectManager $manager, Group $group, array $rights, string $res): void
+    private function createRule(
+        ObjectManager $manager,
+        GroupInterface $group,
+        array $rights,
+        string $res,
+        string $ruleClass
+    ): void
     {
-        $rule = new Rule();
+        /** @var RuleInterface $rule */
+        $rule = new $ruleClass();
         $rule
             ->setGroup($group)
             ->setActionMask(MaskFactory::maskActionFromYmlArray($rights))

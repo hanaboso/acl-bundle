@@ -4,12 +4,12 @@ namespace Hanaboso\AclBundle\Factory;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
-use Hanaboso\AclBundle\Document\Rule as OdmRule;
 use Hanaboso\AclBundle\Entity\GroupInterface;
-use Hanaboso\AclBundle\Entity\Rule as OrmRule;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\CommonsBundle\DatabaseManager\DatabaseManagerLocator;
+use Hanaboso\UserBundle\Exception\UserException;
+use Hanaboso\UserBundle\Provider\ResourceProvider;
 
 /**
  * Class RuleFactory
@@ -35,15 +35,26 @@ class RuleFactory
     private $resource;
 
     /**
+     * @var ResourceProvider
+     */
+    private $provider;
+
+    /**
      * RuleFactory constructor.
      *
      * @param DatabaseManagerLocator $userDml
+     * @param ResourceProvider       $provider
      * @param array                  $rules
      * @param mixed                  $resEnum
      *
      * @throws AclException
      */
-    function __construct(DatabaseManagerLocator $userDml, array $rules, $resEnum)
+    function __construct(
+        DatabaseManagerLocator $userDml,
+        ResourceProvider $provider,
+        array $rules,
+        $resEnum
+    )
     {
         if (!is_array($rules) || !array_key_exists('owner', $rules)) {
             throw new AclException(
@@ -55,6 +66,7 @@ class RuleFactory
         $this->dm       = $userDml->get();
         $this->rules    = $rules['owner'];
         $this->resource = $resEnum;
+        $this->provider = $provider;
     }
 
     /**
@@ -62,18 +74,20 @@ class RuleFactory
      * @param GroupInterface $group
      * @param int            $actMask
      * @param int            $propMask
+     * @param string         $ruleClass
      *
      * @return RuleInterface
-     * @throws AclException
      */
-    public static function createRule(string $resource, GroupInterface $group, int $actMask,
-                                      int $propMask): RuleInterface
+    public static function createRule(
+        string $resource,
+        GroupInterface $group,
+        int $actMask,
+        int $propMask,
+        string $ruleClass
+    ): RuleInterface
     {
-        if ($group->getType() === GroupInterface::TYPE_ORM) {
-            $rule = new OrmRule();
-        } else {
-            $rule = new OdmRule();
-        }
+        /** @var RuleInterface $rule */
+        $rule = new $ruleClass();
 
         $rule
             ->setResource($resource)
@@ -91,6 +105,7 @@ class RuleFactory
      *
      * @return array|RuleInterface[]
      * @throws AclException
+     * @throws UserException
      */
     public function getDefaultRules(GroupInterface $group): array
     {
@@ -106,8 +121,9 @@ class RuleFactory
                 );
             }
 
+            $ruleClass = $this->provider->getResource(($this->resource)::RULE);
             $actMask = MaskFactory::maskActionFromYmlArray($rule);
-            $rule    = self::createRule($key, $group, $actMask, 1);
+            $rule    = self::createRule($key, $group, $actMask, 1, $ruleClass);
             $group->addRule($rule);
             $this->dm->persist($rule);
 

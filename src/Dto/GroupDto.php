@@ -77,12 +77,13 @@ final class GroupDto
     }
 
     /**
-     * @param array $data
+     * @param string $ruleClass
+     * @param array  $data
      *
      * @return GroupDto
      * @throws AclException
      */
-    public function addRule(array $data): GroupDto
+    public function addRule(string $ruleClass, array $data): GroupDto
     {
         foreach ($data as $rule) {
             if (!isset($rule['resource']) || !isset($rule['action_mask']) || !isset($rule['property_mask'])) {
@@ -95,7 +96,8 @@ final class GroupDto
                 $rule['resource'],
                 $this->group,
                 MaskFactory::maskAction($rule['action_mask']),
-                MaskFactory::maskProperty($rule['property_mask'])
+                MaskFactory::maskProperty($rule['property_mask']),
+                $ruleClass
             );
         }
 

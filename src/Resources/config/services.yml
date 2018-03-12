@@ -13,6 +13,7 @@ services:
         class: Hanaboso\AclBundle\Factory\RuleFactory
         arguments:
             - '@hbpf.database_manager_locator'
+            - '@hbpf.user.provider.resource'
             - '%acl_rule%'
             - '%resource_enum%'
 

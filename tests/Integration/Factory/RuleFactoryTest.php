@@ -28,7 +28,7 @@ class RuleFactoryTest extends DatabaseTestCaseAbstract
 
         $fac = $this->container->get('hbpf.factory.rule');
         /** @var Rule $rule */
-        $rule = $fac->createRule('user', $group, 3, 2);
+        $rule = $fac->createRule('user', $group, 3, 2, Rule::class);
 
         self::assertInstanceOf(Rule::class, $rule);
         self::assertEquals(3, $rule->getActionMask());

@@ -5,7 +5,9 @@ namespace Hanaboso\AclBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Hanaboso\AclBundle\Entity\GroupInterface;
+use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Factory\MaskFactory;
+use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -58,6 +60,7 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
         $ruleClass  = $provider->getResource(($enum)::RULE);
 
         foreach ($rules as $key => $val) {
+            /** @var GroupInterface $group */
             $group = new $groupClass(NULL);
             $group
                 ->setName($key)
@@ -66,6 +69,7 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
 
             if (is_array($val['users'])) {
                 foreach ($val['users'] as $row) {
+                    /** @var UserInterface $user */
                     $user = new $userClass();
                     $user
                         ->setPassword($encoder->encodePassword($row['password'], ''))
@@ -105,6 +109,7 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
         string $ruleClass
     ): void
     {
+        /** @var RuleInterface $rule */
         $rule = new $ruleClass();
         $rule
             ->setGroup($group)

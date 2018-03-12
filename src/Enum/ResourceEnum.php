@@ -17,6 +17,7 @@ class ResourceEnum extends EnumAbstract
     public const TMP_USER = 'tmp_user';
     public const TOKEN    = 'token';
     public const FILE     = 'file';
+    public const RULE     = 'rule';
 
     /**
      * @var string[]
@@ -27,6 +28,7 @@ class ResourceEnum extends EnumAbstract
         self::TMP_USER => 'TmpUser entity',
         self::TOKEN    => 'Token entity',
         self::FILE     => 'File',
+        self::RULE     => 'Rule',
     ];
 
 }
