@@ -6,9 +6,9 @@ use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle;
 use Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle;
 use EmailServiceBundle\EmailServiceBundle;
-use Hanaboso\AclBundle\AclBundle;
-use Hanaboso\CommonsBundle\CommonsBundle;
-use Hanaboso\UserBundle\UserBundle;
+use Hanaboso\AclBundle\HbPFAclBundle;
+use Hanaboso\CommonsBundle\HbPFCommonsBundle;
+use Hanaboso\UserBundle\HbPFUserBundle;
 use RabbitMqBundle\RabbitMqBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -60,12 +60,12 @@ class Kernel extends BaseKernel
             DoctrineBundle::class        => ['all' => TRUE],
             MonologBundle::class         => ['all' => TRUE],
             DoctrineMongoDBBundle::class => ['all' => TRUE],
-            CommonsBundle::class         => ['all' => TRUE],
+            HbPFCommonsBundle::class     => ['all' => TRUE],
             RabbitMqBundle::class        => ['all' => TRUE],
             SwiftmailerBundle::class     => ['all' => TRUE],
             EmailServiceBundle::class    => ['all' => TRUE],
-            UserBundle::class            => ['all' => TRUE],
-            AclBundle::class             => ['all' => TRUE],
+            HbPFUserBundle::class        => ['all' => TRUE],
+            HbPFAclBundle::class         => ['all' => TRUE],
 
         ];
         foreach ($contents as $class => $envs) {

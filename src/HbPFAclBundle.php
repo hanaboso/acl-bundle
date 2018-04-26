@@ -5,11 +5,11 @@ namespace Hanaboso\AclBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class AclBundle
+ * Class HbPFAclBundle
  *
  * @package Hanaboso\AclBundle
  */
-class AclBundle extends Bundle
+class HbPFAclBundle extends Bundle
 {
 
 }
