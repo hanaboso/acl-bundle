@@ -34,3 +34,9 @@ services:
             - '@hbpf.access.manager'
         tags:
             - { name: kernel.event_subscriber }
+
+    hbpf.manager.group:
+        class: Hanaboso\AclBundle\Manager\GroupManager
+        arguments:
+            - '@hbpf.database_manager_locator'
+            - '@hbpf.user.provider.resource'

@@ -3,10 +3,8 @@
 namespace Hanaboso\AclBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Hanaboso\CommonsBundle\Traits\Entity\IdTrait;
-use Hanaboso\UserBundle\Entity\TmpUser;
 use Hanaboso\UserBundle\Entity\UserInterface;
 
 /**
@@ -54,7 +52,7 @@ class Group extends EntityAbstract implements GroupInterface
     protected $owner = [];
 
     /**
-     * @var ArrayCollection|TmpUser[]|array
+     * @var UserInterface[]|ArrayCollection|array
      *
      * @ORM\ManyToMany(targetEntity="Hanaboso\UserBundle\Entity\TmpUser")
      * @ORM\JoinColumn(name="tmp_user_id", referencedColumnName="id", nullable=true)
@@ -182,7 +180,7 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @return array|Collection|array
+     * @return UserInterface[]|ArrayCollection|array
      */
     public function getTmpUsers()
     {
@@ -190,11 +188,11 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @param TmpUser $tmpUser
+     * @param UserInterface $tmpUser
      *
      * @return Group
      */
-    public function addTmpUser(TmpUser $tmpUser): Group
+    public function addTmpUser(UserInterface $tmpUser): GroupInterface
     {
         $this->tmpUsers[] = $tmpUser;
 

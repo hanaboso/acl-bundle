@@ -88,4 +88,16 @@ interface GroupInterface extends EntityInterface
      */
     public function setLevel(int $level): GroupInterface;
 
+    /**
+     * @return UserInterface[]|ArrayCollection
+     */
+    public function getTmpUsers();
+
+    /**
+     * @param UserInterface $tmpUser
+     *
+     * @return GroupInterface
+     */
+    public function addTmpUser(UserInterface $tmpUser): GroupInterface;
+
 }

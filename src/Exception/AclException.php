@@ -20,5 +20,6 @@ final class AclException extends PipesFrameworkException
     public const PERMISSION            = self::OFFSET + 4;
     public const INVALID_RESOURCE      = self::OFFSET + 5;
     public const INVALID_ACTION        = self::OFFSET + 6;
+    public const GROUP_NOT_FOUND       = self::OFFSET + 7;
 
 }

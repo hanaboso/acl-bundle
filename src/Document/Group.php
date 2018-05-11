@@ -7,7 +7,6 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\CommonsBundle\Traits\Document\IdTrait;
-use Hanaboso\UserBundle\Document\TmpUser;
 use Hanaboso\UserBundle\Entity\UserInterface;
 
 /**
@@ -44,7 +43,7 @@ class Group extends DocumentAbstract implements GroupInterface
     private $users = [];
 
     /**
-     * @var TmpUser[]|ArrayCollection|array
+     * @var UserInterface[]|ArrayCollection|array
      *
      * @ODM\ReferenceMany(targetDocument="Hanaboso\UserBundle\Document\TmpUser", strategy="set")
      */
@@ -170,7 +169,7 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @return ArrayCollection|TmpUser[]|array
+     * @return UserInterface[]|ArrayCollection|array
      */
     public function getTmpUsers()
     {
@@ -178,11 +177,11 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @param TmpUser $tmpUser
+     * @param UserInterface $tmpUser
      *
-     * @return Group
+     * @return GroupInterface
      */
-    public function addTmpUsers(TmpUser $tmpUser): Group
+    public function addTmpUser(UserInterface $tmpUser): GroupInterface
     {
         $this->tmpUsers[] = $tmpUser;
 
