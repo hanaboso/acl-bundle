@@ -55,19 +55,33 @@ class GroupManager
     }
 
     /**
-     * @param string        $groupName
      * @param UserInterface $user
+     * @param null|string   $id
+     * @param string        $groupName
      *
      * @throws AclException
-     * @throws UserException
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws UserException
      */
-    public function addUserIntoGroup(string $groupName, UserInterface $user): void
+    public function addUserIntoGroup(UserInterface $user, ?string $id = NULL, ?string $groupName = NULL): void
     {
+        $query = [];
+
+        if ($id) {
+            $query['id'] = $id;
+        }
+
+        if ($groupName) {
+            $query['name'] = $groupName;
+        }
+
+        if (empty($query)) {
+            throw new AclException('Insert [name] or [id] of Group!', AclException::GROUP_NOT_FOUND);
+        }
+
         /** @var GroupInterface $group */
-        $group = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))
-            ->findOneBy(['name' => $groupName]);
+        $group = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))->findOneBy($query);
 
         if (!$group) {
             throw new AclException(sprintf('Group [%s] was not found!', $groupName), AclException::GROUP_NOT_FOUND);
@@ -85,19 +99,33 @@ class GroupManager
     }
 
     /**
-     * @param string        $groupName
      * @param UserInterface $user
+     * @param null|string   $id
+     * @param string        $groupName
      *
      * @throws AclException
-     * @throws UserException
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws UserException
      */
-    public function removeUserFromGroup(string $groupName, UserInterface $user): void
+    public function removeUserFromGroup(UserInterface $user, ?string $id = NULL, ?string $groupName = NULL): void
     {
+        $query = [];
+
+        if ($id) {
+            $query['id'] = $id;
+        }
+
+        if ($groupName) {
+            $query['name'] = $groupName;
+        }
+
+        if (empty($query)) {
+            throw new AclException('Insert [name] or [id] of Group!', AclException::GROUP_NOT_FOUND);
+        }
+
         /** @var GroupInterface $group */
-        $group = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))
-            ->findOneBy(['name' => $groupName]);
+        $group = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))->findOneBy($query);
 
         if (!$group) {
             throw new AclException(sprintf('Group [%s] was not found!', $groupName), AclException::GROUP_NOT_FOUND);
