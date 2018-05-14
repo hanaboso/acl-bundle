@@ -100,4 +100,11 @@ interface GroupInterface extends EntityInterface
      */
     public function addTmpUser(UserInterface $tmpUser): GroupInterface;
 
+    /**
+     * @param UserInterface[] $tmpUsers
+     *
+     * @return GroupInterface
+     */
+    public function setTmpUsers($tmpUsers): GroupInterface;
+
 }

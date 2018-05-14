@@ -29,4 +29,19 @@ class GroupRepository extends EntityRepository
             ->execute();
     }
 
+    /**
+     * @param UserInterface $user
+     *
+     * @return Group[]
+     */
+    public function getTmpUserGroups(UserInterface $user): array
+    {
+        return $this->createQueryBuilder('g')
+            ->join('g.tmpUsers', 'u')
+            ->where('u = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->execute();
+    }
+
 }

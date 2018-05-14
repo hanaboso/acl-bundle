@@ -199,4 +199,16 @@ class Group extends EntityAbstract implements GroupInterface
         return $this;
     }
 
+    /**
+     * @param UserInterface[] $tmpUsers
+     *
+     * @return GroupInterface
+     */
+    public function setTmpUsers($tmpUsers): GroupInterface
+    {
+        $this->tmpUsers = $tmpUsers;
+
+        return $this;
+    }
+
 }

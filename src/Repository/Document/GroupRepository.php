@@ -32,4 +32,21 @@ class GroupRepository extends DocumentRepository
         return $query->toArray();
     }
 
+    /**
+     * @param UserInterface $user
+     *
+     * @return Group[]
+     */
+    public function getTmpUserGroups(UserInterface $user): array
+    {
+        /** @var Query $query */
+        $query = $this->createQueryBuilder()
+            ->field('tmpUsers')
+            ->includesReferenceTo($user)
+            ->getQuery()
+            ->execute();
+
+        return $query->toArray();
+    }
+
 }

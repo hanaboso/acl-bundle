@@ -16,6 +16,8 @@ use Doctrine\ORM\ORMException;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Exception\AclException;
+use Hanaboso\AclBundle\Repository\Document\GroupRepository as GroupRepositoryDocument;
+use Hanaboso\AclBundle\Repository\Entity\GroupRepository as GroupRepositoryEntity;
 use Hanaboso\CommonsBundle\DatabaseManager\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Enum\UserTypeEnum;
@@ -80,6 +82,90 @@ class GroupManager
         }
 
         $this->dm->flush();
+    }
+
+    /**
+     * @param string        $groupName
+     * @param UserInterface $user
+     *
+     * @throws AclException
+     * @throws UserException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function removeUserFromGroup(string $groupName, UserInterface $user): void
+    {
+        /** @var GroupInterface $group */
+        $group = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))
+            ->findOneBy(['name' => $groupName]);
+
+        if (!$group) {
+            throw new AclException(sprintf('Group [%s] was not found!', $groupName), AclException::GROUP_NOT_FOUND);
+        }
+
+        if ($user->getType() === UserTypeEnum::TMP_USER) {
+            $users = $group->getTmpUsers()->toArray();
+            $this->removeItem($users, $user);
+            $group->setTmpUsers($users);
+        }
+
+        if ($user->getType() === UserTypeEnum::USER) {
+            $users = $group->getUsers()->toArray();
+            $this->removeItem($users, $user);
+            $group->setUsers($users);
+        }
+
+        $this->dm->persist($group);
+
+        if (count($group->getTmpUsers()) == 0 && count($group->getUsers()) == 0) {
+            $this->dm->remove($group);
+        }
+
+        $this->dm->flush();
+    }
+
+    /**
+     * @param UserInterface $user
+     *
+     * @return array
+     * @throws UserException
+     * @throws ORMException
+     */
+    public function getUserGroups(UserInterface $user): array
+    {
+        /** @var GroupRepositoryEntity|GroupRepositoryDocument $repo */
+        $repo = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP));
+
+        if ($user->getType() === UserTypeEnum::USER) {
+            $groups = $repo->getUserGroups($user) ?? [];
+        } else {
+            $groups = $repo->getTmpUserGroups($user) ?? [];
+        }
+
+        $res = [];
+        foreach ($groups as $group) {
+            $res[] = $group->getName();
+        };
+
+        return $res;
+    }
+
+    /**
+     * ----------------------------------------- HELPERS ----------------------------------------
+     */
+
+    /**
+     * @param array         $users
+     * @param UserInterface $user
+     */
+    private function removeItem(array &$users, UserInterface $user): void
+    {
+        foreach ($users as $key => $item) {
+            if ($item->getId() == $user->getId()) {
+                unset($users[$key]);
+                break;
+            }
+        }
     }
 
 }
