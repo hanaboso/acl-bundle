@@ -233,7 +233,8 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
         $man = $this->container->get('hbpf.manager.group');
 
         $res = $man->getUserGroups($u);
-        self::assertEquals(['a'], $res);
+        self::assertNotEmpty($res);
+        self::assertEquals(['name' => $group->getName(), 'id' => $group->getId()], $res[0]);
     }
 
 }

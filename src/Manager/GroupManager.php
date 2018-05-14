@@ -172,7 +172,7 @@ class GroupManager
 
         $res = [];
         foreach ($groups as $group) {
-            $res[] = $group->getName();
+            $res[] = ['name' => $group->getName(), 'id' => $group->getId()];
         };
 
         return $res;
