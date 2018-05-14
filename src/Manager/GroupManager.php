@@ -35,12 +35,12 @@ class GroupManager
     /**
      * @var DocumentManager|EntityManager
      */
-    private $dm;
+    protected $dm;
 
     /**
      * @var ResourceProvider
      */
-    private $resourceProvider;
+    protected $resourceProvider;
 
     /**
      * GroupManager constructor.
