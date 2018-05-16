@@ -145,7 +145,12 @@ class GroupManager
 
         $this->dm->persist($group);
 
-        if (count($group->getTmpUsers()) == 0 && count($group->getUsers()) == 0) {
+        if (count($group->getTmpUsers()) == 0 && count($group->getUsers()) == 0 && $group->getOwner()) {
+            $group->setOwner(NULL);
+            foreach ($group->getRules() as $rule) {
+                $this->dm->remove($rule);
+            }
+            $group->getRules()->clear();
             $this->dm->remove($group);
         }
 
@@ -172,8 +177,16 @@ class GroupManager
 
         $res = [];
         foreach ($groups as $group) {
-            $res[] = ['name' => $group->getName(), 'id' => $group->getId()];
+            $res[] = ['name' => $group->getName(), 'id' => $group->getId(), 'level' => $group->getLevel()];
         };
+
+        usort($res, function (array $a, array $b): int {
+            if ($a['level'] == $b['level']) {
+                return 0;
+            }
+
+            return ($a['level'] > $b['level']) ? -1 : 1;
+        });
 
         return $res;
     }

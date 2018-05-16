@@ -212,11 +212,16 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
         $group->setName('a');
         $this->persistAndFlush($group);
 
+        $group2 = new Group(NULL);
+        $group2->setName('b')->setLevel(1);
+        $this->persistAndFlush($group2);
+
         $tmpUser = new TmpUser();
         $tmpUser->setEmail('a@b.c');
         $this->persistAndFlush($tmpUser);
 
         $group->addTmpUser($tmpUser);
+        $group2->addTmpUser($tmpUser);
 
         $this->dm->flush();
         $this->dm->clear();
@@ -234,7 +239,10 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
 
         $res = $man->getUserGroups($u);
         self::assertNotEmpty($res);
-        self::assertEquals(['name' => $group->getName(), 'id' => $group->getId()], $res[0]);
+        self::assertEquals(
+            ['name' => $group->getName(), 'id' => $group->getId(), 'level' => $group->getLevel()],
+            $res[0]
+        );
     }
 
 }
