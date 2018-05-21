@@ -133,17 +133,20 @@ class GroupManager
 
         if ($user->getType() === UserTypeEnum::TMP_USER) {
             $users = $group->getTmpUsers()->toArray();
+            $group->getTmpUsers()->clear();
+            $this->dm->flush();
             $this->removeItem($users, $user);
             $group->setTmpUsers($users);
         }
 
         if ($user->getType() === UserTypeEnum::USER) {
             $users = $group->getUsers()->toArray();
+            $group->getUsers()->clear();
+            $this->dm->flush();
             $this->removeItem($users, $user);
             $group->setUsers($users);
         }
 
-        $this->dm->persist($group);
 
         if (count($group->getTmpUsers()) == 0 && count($group->getUsers()) == 0 && $group->getOwner()) {
             $group->setOwner(NULL);
