@@ -4,6 +4,7 @@ namespace Tests;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle;
+use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
 use Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle;
 use EmailServiceBundle\EmailServiceBundle;
 use Hanaboso\AclBundle\HbPFAclBundle;
@@ -54,18 +55,19 @@ class Kernel extends BaseKernel
     public function registerBundles(): iterable
     {
         $contents = [
-            FrameworkBundle::class       => ['all' => TRUE],
-            SecurityBundle::class        => ['all' => TRUE],
-            DoctrineCacheBundle::class   => ['all' => TRUE],
-            DoctrineBundle::class        => ['all' => TRUE],
-            MonologBundle::class         => ['all' => TRUE],
-            DoctrineMongoDBBundle::class => ['all' => TRUE],
-            HbPFCommonsBundle::class     => ['all' => TRUE],
-            RabbitMqBundle::class        => ['all' => TRUE],
-            SwiftmailerBundle::class     => ['all' => TRUE],
-            EmailServiceBundle::class    => ['all' => TRUE],
-            HbPFUserBundle::class        => ['all' => TRUE],
-            HbPFAclBundle::class         => ['all' => TRUE],
+            FrameworkBundle::class        => ['all' => TRUE],
+            SecurityBundle::class         => ['all' => TRUE],
+            DoctrineCacheBundle::class    => ['all' => TRUE],
+            DoctrineBundle::class         => ['all' => TRUE],
+            MonologBundle::class          => ['all' => TRUE],
+            DoctrineMongoDBBundle::class  => ['all' => TRUE],
+            HbPFCommonsBundle::class      => ['all' => TRUE],
+            RabbitMqBundle::class         => ['all' => TRUE],
+            SwiftmailerBundle::class      => ['all' => TRUE],
+            EmailServiceBundle::class     => ['all' => TRUE],
+            HbPFUserBundle::class         => ['all' => TRUE],
+            HbPFAclBundle::class          => ['all' => TRUE],
+            DoctrineFixturesBundle::class => ['all' => TRUE],
 
         ];
         foreach ($contents as $class => $envs) {

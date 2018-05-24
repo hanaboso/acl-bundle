@@ -59,15 +59,17 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
         $userClass  = $provider->getResource(($enum)::USER);
         $ruleClass  = $provider->getResource(($enum)::RULE);
 
+        $parentMap = [];
+
         foreach ($rules as $key => $val) {
             /** @var GroupInterface $group */
             $group = new $groupClass(NULL);
             $group
                 ->setName($key)
-                ->setLevel($val['level']);
+                ->setLevel($val['level'] ?? 999);
             $manager->persist($group);
 
-            if (is_array($val['users'])) {
+            if (is_array($val['users'] ?? NULL)) {
                 foreach ($val['users'] as $row) {
                     /** @var UserInterface $user */
                     $user = new $userClass();
@@ -78,7 +80,7 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
                     $group->addUser($user);
                 }
             }
-            if (is_array($val['rules'])) {
+            if (is_array($val['rules'] ?? NULL)) {
                 foreach ($val['rules'] as $res => $rights) {
                     $this->createRule($manager, $group, $rights, $res, $ruleClass);
                 }
@@ -89,6 +91,20 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
                 }
             }
 
+            $parentMap[$key]['pointer'] = $group;
+            $parentMap[$key]['parents'] = [];
+            if (is_array($val['extends'] ?? NULL)) {
+                $parentMap[$key]['parents'] = $val['extends'];
+            }
+
+        }
+
+        foreach ($parentMap as $groupName => $data) {
+            /** @var GroupInterface $group */
+            $group = $data['pointer'];
+            foreach ($data['parents'] as $parentName) {
+                $group->addParent($parentMap[$parentName]['pointer']);
+            }
         }
 
         $manager->flush();

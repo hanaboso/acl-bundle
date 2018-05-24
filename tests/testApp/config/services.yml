@@ -8,3 +8,8 @@ services:
             - '@doctrine_mongodb.odm.default_document_manager'
             - '@doctrine.orm.default_entity_manager'
             - '%database_type%'
+
+    hbpf.orm_role.fixture:
+        class: Hanaboso\AclBundle\DataFixtures\ORM\RoleFixtures
+        tags:
+            - { name: doctrine.fixture.orm }

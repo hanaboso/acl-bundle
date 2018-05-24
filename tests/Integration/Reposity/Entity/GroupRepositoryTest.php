@@ -2,6 +2,7 @@
 
 namespace Tests\Integration\Reposity\Entity;
 
+use Exception;
 use Hanaboso\AclBundle\Entity\Group;
 use Hanaboso\UserBundle\Entity\User;
 use Tests\DatabaseTestCaseAbstract;
@@ -16,6 +17,8 @@ class GroupRepositoryTest extends DatabaseTestCaseAbstract
 
     /**
      * @covers GroupRepository::getUserGroups()
+     *
+     * @throws Exception
      */
     public function testUserGroups(): void
     {
@@ -28,18 +31,19 @@ class GroupRepositoryTest extends DatabaseTestCaseAbstract
         $em->persist($user2);
         $em->flush($user2);
 
-        $group  = (new Group($user))->addUser($user)->addUser($user2)->setName('asd');
+        $group3 = (new Group(NULL))->setName('qwe');
+        $group  = (new Group($user))->addUser($user)->addUser($user2)->setName('asd')->addParent($group3);
         $group2 = (new Group($user2))->addUser($user2)->setName('asd');
         $em->persist($group);
-        $em->flush($group);
         $em->persist($group2);
-        $em->flush($group2);
+        $em->persist($group3);
+        $em->flush();
 
         $em->clear();
         /** @var User $user */
         $user = $em->getRepository(User::class)->find($user->getId());
         $res  = $em->getRepository(Group::class)->getUserGroups($user);
-        self::assertEquals(1, count($res));
+        self::assertEquals(2, count($res));
     }
 
 }

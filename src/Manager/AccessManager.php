@@ -144,6 +144,10 @@ class AccessManager implements EventSubscriberInterface
         foreach ($group->getRules() as $rule) {
             $this->dm->remove($rule);
         }
+        /** @var GroupInterface $child */
+        foreach ($group->getChildren() as $child) {
+            $child->removeParent($group);
+        }
 
         $this->dm->remove($group);
         $this->dm->flush();

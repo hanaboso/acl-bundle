@@ -2,14 +2,18 @@
 
 namespace Tests\Integration\Manager;
 
+use Exception;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\AclBundle\Dto\GroupDto;
+use Hanaboso\AclBundle\Entity\Group as ORMGroup;
 use Hanaboso\AclBundle\Exception\AclException;
+use Hanaboso\AclBundle\Manager\AccessManager;
 use Hanaboso\CommonsBundle\Exception\EnumException;
 use Hanaboso\CommonsBundle\FileStorage\Document\File;
 use Hanaboso\UserBundle\Document\User;
 use Tests\DatabaseTestCaseAbstract;
+use Tests\PrivateTrait;
 
 /**
  * Class AccessManagerTest
@@ -19,9 +23,13 @@ use Tests\DatabaseTestCaseAbstract;
 class AccessManagerTest extends DatabaseTestCaseAbstract
 {
 
+    use PrivateTrait;
+
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::throwPermissionException()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::throwPermissionException()
+     *
+     * @throws Exception
      */
     public function testWrongObjectArray(): void
     {
@@ -32,7 +40,9 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
+     * @covers AccessManager::isAllowed()
+     *
+     * @throws Exception
      */
     public function testWrongObjectBool(): void
     {
@@ -43,34 +53,40 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     *
+     * @throws Exception
      */
     public function testWrongResourceAction(): void
     {
         $user = $this->createUser('resource');
         $this->createRule($user);
-        $this->expect(EnumException::INVALID_CHOICE,EnumException::class);
+        $this->expect(EnumException::INVALID_CHOICE, EnumException::class);
         $this->container->get('hbpf.access.manager')->isAllowed('writdde', 'group', $user, NULL);
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     *
+     * @throws Exception
      */
     public function testWrongResourceResource(): void
     {
         $user = $this->createUser('resource');
         $this->createRule($user);
-        $this->expect(EnumException::INVALID_CHOICE,EnumException::class);
+        $this->expect(EnumException::INVALID_CHOICE, EnumException::class);
         $this->container->get('hbpf.access.manager')->isAllowed('write', 'grosdup', $user, NULL);
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     *
+     * @throws Exception
      */
     public function testReadPermission(): void
     {
@@ -80,10 +96,12 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     *
+     * @throws Exception
      */
     public function testReadPermissionNotAllowed(): void
     {
@@ -94,10 +112,12 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     *
+     * @throws Exception
      */
     public function testWritePermission(): void
     {
@@ -107,10 +127,12 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     *
+     * @throws Exception
      */
     public function testWritePermissionNotAllowed(): void
     {
@@ -121,10 +143,12 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     *
+     * @throws Exception
      */
     public function testDeletePermission(): void
     {
@@ -134,10 +158,12 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     *
+     * @throws Exception
      */
     public function testDeletePermissionNotAllowed(): void
     {
@@ -148,11 +174,13 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     * @covers AccessManager::checkObjectPermission()
+     *
+     * @throws Exception
      */
     public function testObjNonOwnerRight(): void
     {
@@ -167,12 +195,14 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::getObjectById()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     * @covers AccessManager::checkObjectPermission()
+     * @covers AccessManager::getObjectById()
+     *
+     * @throws Exception
      */
     public function testIdNonOwnerRight(): void
     {
@@ -187,12 +217,14 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::getObjectById()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     * @covers AccessManager::checkObjectPermission()
+     * @covers AccessManager::getObjectById()
+     *
+     * @throws Exception
      */
     public function testObjOwnerRight(): void
     {
@@ -207,12 +239,14 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::getObjectById()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     * @covers AccessManager::checkObjectPermission()
+     * @covers AccessManager::getObjectById()
+     *
+     * @throws Exception
      */
     public function testObjWithoutOwnerAllowed(): void
     {
@@ -227,11 +261,13 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     * @covers AccessManager::checkObjectPermission()
+     *
+     * @throws Exception
      */
     public function testObjWithoutOwnerNotAllowed(): void
     {
@@ -244,13 +280,15 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::getObjectById()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkGroupLvl()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     * @covers AccessManager::checkObjectPermission()
+     * @covers AccessManager::getObjectById()
+     * @covers AccessManager::checkGroupLvl()
+     *
+     * @throws Exception
      */
     public function testGroupAllowed(): void
     {
@@ -265,12 +303,14 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkGroupLvl()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     * @covers AccessManager::checkObjectPermission()
+     * @covers AccessManager::checkGroupLvl()
+     *
+     * @throws Exception
      */
     public function testGroupNotAllowed(): void
     {
@@ -283,12 +323,14 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRightForGroup()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     * @covers AccessManager::checkObjectPermission()
+     * @covers AccessManager::hasRightForGroup()
+     *
+     * @throws Exception
      */
     public function testGroupLvlAllowed(): void
     {
@@ -301,11 +343,13 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRightForGroup()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::selectRule()
+     * @covers AccessManager::checkObjectPermission()
+     * @covers AccessManager::hasRightForGroup()
+     *
+     * @throws Exception
      */
     public function testGroupLvlNotAllowed(): void
     {
@@ -318,11 +362,13 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRightForUser()
+     * @covers AccessManager::isAllowed
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::selectRule()
+     * @covers AccessManager::checkObjectPermission()
+     * @covers AccessManager::hasRightForUser()
+     *
+     * @throws Exception
      */
     public function testUserLvlAllowed(): void
     {
@@ -334,11 +380,13 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::hasRightForUser()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::selectRule()
+     * @covers AccessManager::checkObjectPermission()
+     * @covers AccessManager::hasRightForUser()
+     *
+     * @throws Exception
      */
     public function testUserLvlNotAllowed(): void
     {
@@ -350,10 +398,12 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::selectRule()
+     * @covers AccessManager::checkObjectPermission()
+     *
+     * @throws Exception
      */
     public function testClassPermision(): void
     {
@@ -364,8 +414,10 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::addGroup()
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::updateGroup()
+     * @covers AccessManager::addGroup()
+     * @covers AccessManager::updateGroup()
+     *
+     * @throws Exception
      */
     public function testAddAndUpdateGroup(): void
     {
@@ -419,15 +471,54 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers Hanaboso\AclBundle\Manager\AccessManager::removeGroup()
+     * @covers AccessManager::removeGroup()
+     *
+     * @throws Exception
      */
     public function testRemoveGroup(): void
     {
         $rule = $this->createRule();
-        $this->dm->clear($rule);
 
-        $this->container->get('hbpf.access.manager')->removeGroup($rule->getGroup());
+        $group = new Group(NULL);
+        $group->setName('gtest');
+        $this->dm->persist($group);
+        $group->addParent($rule->getGroup());
+        $this->dm->flush();
+        $this->dm->clear();
+
+        $this->container->get('hbpf.access.manager')->removeGroup(
+            $this->dm->find(Group::class, $rule->getGroup()->getId())
+        );
         self::assertEmpty($this->dm->getRepository(Rule::class)->findAll());
+    }
+
+    /**
+     * @covers AccessManager::removeGroup()
+     *
+     * @throws Exception
+     */
+    public function testRemoveGroupsMysql(): void
+    {
+        $this->clearMysql();
+
+        $group = new ORMGroup(NULL);
+        $group2 = new ORMGroup(NULL);
+        $group->setName('gtest');
+        $group2->setName('gtest2');
+        $this->em->persist($group);
+        $this->em->persist($group2);
+        $group->addParent($group2);
+        $this->em->flush();
+        $this->em->clear();
+
+        /** @var AccessManager $access */
+        $access = $this->container->get('hbpf.access.manager');
+        $this->setProperty($access, 'dm', $this->em);
+
+        $access->removeGroup(
+            $this->em->find(ORMGroup::class, $group2->getId())
+        );
+        self::assertEmpty($this->em->find(ORMGroup::class, $group->getId())->getParents());
     }
 
     /**

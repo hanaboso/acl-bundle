@@ -18,6 +18,7 @@ parameters:
                     file:       ['read', 'write', 'delete']
             admin:
                 level: 1
+                extends:        ['user']
                 users:
                 rules:
                     group:      ['read']

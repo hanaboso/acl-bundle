@@ -2,7 +2,9 @@
 
 namespace Tests;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -17,6 +19,11 @@ abstract class DatabaseTestCaseAbstract extends KernelTestCaseAbstract
      * @var DocumentManager
      */
     protected $dm;
+
+    /**
+     * @var EntityManager
+     */
+    protected $em;
 
     /**
      * @var Session
@@ -35,6 +42,7 @@ abstract class DatabaseTestCaseAbstract extends KernelTestCaseAbstract
         parent::__construct($name, $data, $dataName);
         self::bootKernel();
         $this->dm      = $this->container->get('doctrine_mongodb.odm.default_document_manager');
+        $this->em      = $this->container->get('doctrine.orm.default_entity_manager');
         $this->session = new Session();
     }
 
@@ -56,6 +64,20 @@ abstract class DatabaseTestCaseAbstract extends KernelTestCaseAbstract
     {
         $this->dm->persist($document);
         $this->dm->flush($document);
+    }
+
+    /**
+     * @throws DBALException
+     */
+    protected function clearMysql(): void
+    {
+        $query      = '';
+        $connection = $this->em->getConnection();
+        foreach ($connection->getSchemaManager()->listTableNames() as $table) {
+            $query .= 'TRUNCATE ' . $table . ';';
+        }
+
+        $connection->query('SET FOREIGN_KEY_CHECKS=0;' . $query . 'SET FOREIGN_KEY_CHECKS=1;');
     }
 
 }

@@ -20,6 +20,7 @@ parameters:
                     file:       ['read', 'write', 'delete']
             admin:
                 level: 1
+                extends:        ['user', 'test']
                 users:
                 rules:
                     group:      ['read']
@@ -31,8 +32,11 @@ parameters:
                     file:       ['read', 'write']
             user:
                 level: 5
+                extends:        ['test']
                 users:
                 rules:
                     topology:   ['read']
                     node:       ['read']
                     file:       ['read']
+
+            test:

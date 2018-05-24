@@ -107,4 +107,35 @@ interface GroupInterface extends EntityInterface
      */
     public function setTmpUsers($tmpUsers): GroupInterface;
 
+    /**
+     * @return iterable
+     */
+    public function getParents(): iterable;
+
+    /**
+     * @param GroupInterface $group
+     *
+     * @return GroupInterface
+     */
+    public function addParent(GroupInterface $group): GroupInterface;
+
+    /**
+     * @param GroupInterface $group
+     *
+     * @return GroupInterface
+     */
+    public function removeParent(GroupInterface $group): GroupInterface;
+
+    /**
+     * @return iterable
+     */
+    public function getChildren(): iterable;
+
+    /**
+     * @param GroupInterface $child
+     *
+     * @return GroupInterface
+     */
+    public function addChild(GroupInterface $child): GroupInterface;
+
 }

@@ -1,0 +1,5 @@
+services:
+    hbpf.orm_role.fixture:
+        class: Hanaboso\AclBundle\DataFixtures\ORM\RoleFixtures
+        tags:
+            - { name: doctrine.fixture.orm }
