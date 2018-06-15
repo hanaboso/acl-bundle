@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Factory;
 
+use Exception;
 use Hanaboso\AclBundle\Factory\MaskFactory;
 use Tests\KernelTestCaseAbstract;
 
@@ -10,11 +11,12 @@ use Tests\KernelTestCaseAbstract;
  *
  * @package Tests\Unit\Factory
  */
-class MaskFactoryTest extends KernelTestCaseAbstract
+final class MaskFactoryTest extends KernelTestCaseAbstract
 {
 
     /**
      * @covers MaskFactory::maskAction()
+     * @throws Exception
      */
     public function testMaskAction(): void
     {
@@ -29,6 +31,7 @@ class MaskFactoryTest extends KernelTestCaseAbstract
 
     /**
      * @covers MaskFactory::maskProperty()
+     * @throws Exception
      */
     public function testMaskProperty(): void
     {

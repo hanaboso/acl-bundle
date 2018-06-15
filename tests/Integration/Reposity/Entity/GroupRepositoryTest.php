@@ -12,7 +12,7 @@ use Tests\DatabaseTestCaseAbstract;
  *
  * @package Tests\Integration\Reposity\Entity
  */
-class GroupRepositoryTest extends DatabaseTestCaseAbstract
+final class GroupRepositoryTest extends DatabaseTestCaseAbstract
 {
 
     /**
@@ -22,7 +22,7 @@ class GroupRepositoryTest extends DatabaseTestCaseAbstract
      */
     public function testUserGroups(): void
     {
-        $em = $this->container->get('doctrine.orm.default_entity_manager');
+        $em = $this->c->get('doctrine.orm.default_entity_manager');
 
         $user  = (new User())->setPassword('pwd')->setEmail('a@a.com');
         $user2 = (new User())->setPassword('pwd2')->setEmail('a2@a.com');

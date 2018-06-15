@@ -12,7 +12,7 @@ use Tests\DatabaseTestCaseAbstract;
  *
  * @package Tests\Integration\Document
  */
-class DocumentTest extends DatabaseTestCaseAbstract
+final class DocumentTest extends DatabaseTestCaseAbstract
 {
 
     /**

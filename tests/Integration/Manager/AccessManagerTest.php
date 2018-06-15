@@ -20,7 +20,7 @@ use Tests\PrivateTrait;
  *
  * @package Tests\Integration\Manager
  */
-class AccessManagerTest extends DatabaseTestCaseAbstract
+final class AccessManagerTest extends DatabaseTestCaseAbstract
 {
 
     use PrivateTrait;
@@ -36,7 +36,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('wrongOne');
         $this->createRule($user);
         $this->expect();
-        $this->container->get('hbpf.access.manager')->isAllowed('write', 'group', $user, []);
+        $this->c->get('hbpf.access.manager')->isAllowed('write', 'group', $user, []);
     }
 
     /**
@@ -49,7 +49,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('wrongOne');
         $this->createRule($user);
         $this->expect();
-        $this->container->get('hbpf.access.manager')->isAllowed('read', 'group', $user, TRUE);
+        $this->c->get('hbpf.access.manager')->isAllowed('read', 'group', $user, TRUE);
     }
 
     /**
@@ -63,7 +63,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('resource');
         $this->createRule($user);
         $this->expect(EnumException::INVALID_CHOICE, EnumException::class);
-        $this->container->get('hbpf.access.manager')->isAllowed('writdde', 'group', $user, NULL);
+        $this->c->get('hbpf.access.manager')->isAllowed('writdde', 'group', $user, NULL);
     }
 
     /**
@@ -77,7 +77,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('resource');
         $this->createRule($user);
         $this->expect(EnumException::INVALID_CHOICE, EnumException::class);
-        $this->container->get('hbpf.access.manager')->isAllowed('write', 'grosdup', $user, NULL);
+        $this->c->get('hbpf.access.manager')->isAllowed('write', 'grosdup', $user, NULL);
     }
 
     /**
@@ -92,7 +92,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     {
         $user = $this->createUser('readPer');
         $this->createRule($user, 3, 'group', 2);
-        self::assertTrue($this->container->get('hbpf.access.manager')->isAllowed('read', 'group', $user, NULL));
+        self::assertTrue($this->c->get('hbpf.access.manager')->isAllowed('read', 'group', $user, NULL));
     }
 
     /**
@@ -108,7 +108,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('nullReadPer');
         $this->createRule($user, 3, 'group', 1);
         $this->expect();
-        $this->container->get('hbpf.access.manager')->isAllowed('read', 'group', $user, NULL);
+        $this->c->get('hbpf.access.manager')->isAllowed('read', 'group', $user, NULL);
     }
 
     /**
@@ -123,7 +123,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     {
         $user = $this->createUser('writePer');
         $this->createRule($user, 2, 'group', 1);
-        self::assertTrue($res = $this->container->get('hbpf.access.manager')->isAllowed('write', 'group', $user, NULL));
+        self::assertTrue($res = $this->c->get('hbpf.access.manager')->isAllowed('write', 'group', $user, NULL));
     }
 
     /**
@@ -139,7 +139,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('nullWritePer');
         $this->createRule($user, 1, 'group', 2);
         $this->expect();
-        $this->container->get('hbpf.access.manager')->isAllowed('write', 'group', $user, NULL);
+        $this->c->get('hbpf.access.manager')->isAllowed('write', 'group', $user, NULL);
     }
 
     /**
@@ -154,7 +154,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
     {
         $user = $this->createUser('deletePer');
         $this->createRule($user, 6, 'group', 2);
-        self::assertTrue($this->container->get('hbpf.access.manager')->isAllowed('delete', 'group', $user, NULL));
+        self::assertTrue($this->c->get('hbpf.access.manager')->isAllowed('delete', 'group', $user, NULL));
     }
 
     /**
@@ -170,7 +170,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('nullDeletePer');
         $this->createRule($user, 6, 'group', 1);
         $this->expect();
-        $this->container->get('hbpf.access.manager')->isAllowed('delete', 'group', $user, NULL);
+        $this->c->get('hbpf.access.manager')->isAllowed('delete', 'group', $user, NULL);
     }
 
     /**
@@ -191,7 +191,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
 
         $this->createRule($user, 7, 'group', 1);
         $this->expect();
-        $this->container->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group);
+        $this->c->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group);
     }
 
     /**
@@ -213,7 +213,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
 
         $this->createRule($user, 7, 'group', 1);
         $this->expect();
-        $this->container->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group->getId());
+        $this->c->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group->getId());
     }
 
     /**
@@ -232,9 +232,9 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $group = new Group($user);
         $this->persistAndFlush($group);
         $this->createRule($user, 7, 'group', 1);
-        $res = $this->container->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group);
+        $res = $this->c->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group);
         self::assertInstanceOf(Group::class, $res);
-        $res = $this->container->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group->getId());
+        $res = $this->c->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group->getId());
         self::assertInstanceOf(Group::class, $res);
     }
 
@@ -254,9 +254,9 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $this->createRule($user, 7, 'file', 1);
         $file = new File();
         $this->persistAndFlush($file);
-        $res = $this->container->get('hbpf.access.manager')->isAllowed('read', 'file', $user, $file);
+        $res = $this->c->get('hbpf.access.manager')->isAllowed('read', 'file', $user, $file);
         self::assertInstanceOf(File::class, $res);
-        $res = $this->container->get('hbpf.access.manager')->isAllowed('read', 'file', $user, $file->getId());
+        $res = $this->c->get('hbpf.access.manager')->isAllowed('read', 'file', $user, $file->getId());
         self::assertInstanceOf(File::class, $res);
     }
 
@@ -276,7 +276,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $file = new File();
         $this->persistAndFlush($file);
         $this->expect();
-        $this->container->get('hbpf.access.manager')->isAllowed('read', 'file', $user, $file->getId());
+        $this->c->get('hbpf.access.manager')->isAllowed('read', 'file', $user, $file->getId());
     }
 
     /**
@@ -296,9 +296,9 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $this->createRule($user, 1, 'group', 2);
         $group = new Group(NULL);
         $this->persistAndFlush($group);
-        $res = $this->container->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group);
+        $res = $this->c->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group);
         self::assertInstanceOf(Group::class, $res);
-        $res = $this->container->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group->getId());
+        $res = $this->c->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group->getId());
         self::assertInstanceOf(Group::class, $res);
     }
 
@@ -319,7 +319,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $group = new Group($user);
         $this->persistAndFlush($group);
         $this->expect();
-        $this->container->get('hbpf.access.manager')->isAllowed('write', 'group', $user, $group);
+        $this->c->get('hbpf.access.manager')->isAllowed('write', 'group', $user, $group);
     }
 
     /**
@@ -338,7 +338,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $this->createRule($user, 7, 'group', 2);
         $group = new Group($user);
         $this->persistAndFlush($group->setLevel(8));
-        $res = $this->container->get('hbpf.access.manager')->isAllowed('write', 'group', $user, $group);
+        $res = $this->c->get('hbpf.access.manager')->isAllowed('write', 'group', $user, $group);
         self::assertInstanceOf(Group::class, $res);
     }
 
@@ -358,7 +358,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $group = new Group($user);
         $this->persistAndFlush($group->setLevel(0));
         $this->expect();
-        $this->container->get('hbpf.access.manager')->isAllowed('write', 'group', $user, $group);
+        $this->c->get('hbpf.access.manager')->isAllowed('write', 'group', $user, $group);
     }
 
     /**
@@ -375,7 +375,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('userAllo');
         $this->createRule($user, 7, 'user', 2);
         $tser = $this->createUserLvl('tserAllo', 55);
-        $res  = $this->container->get('hbpf.access.manager')->isAllowed('write', 'user', $user, $tser);
+        $res  = $this->c->get('hbpf.access.manager')->isAllowed('write', 'user', $user, $tser);
         self::assertInstanceOf(User::class, $res);
     }
 
@@ -394,7 +394,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $this->createRule($user, 7, 'user', 2);
         $tser = $this->createUserLvl('tserNotAllo', 0);
         $this->expect();
-        $this->container->get('hbpf.access.manager')->isAllowed('write', 'user', $user, $tser);
+        $this->c->get('hbpf.access.manager')->isAllowed('write', 'user', $user, $tser);
     }
 
     /**
@@ -410,7 +410,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('class');
         $this->createRule($user, 7, 'group', 2);
         $this->expect();
-        $this->container->get('hbpf.access.manager')->isAllowed('write', 'group', $user, Group::class);
+        $this->c->get('hbpf.access.manager')->isAllowed('write', 'group', $user, Group::class);
     }
 
     /**
@@ -429,7 +429,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
 
         $this->createRule($user);
 
-        $access = $this->container->get('hbpf.access.manager');
+        $access = $this->c->get('hbpf.access.manager');
         $access->addGroup('newGroup');
         /** @var Group $group */
         $group = $this->dm->getRepository(Group::class)->findOneBy(['name' => 'newGroup']);
@@ -486,7 +486,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $this->dm->flush();
         $this->dm->clear();
 
-        $this->container->get('hbpf.access.manager')->removeGroup(
+        $this->c->get('hbpf.access.manager')->removeGroup(
             $this->dm->find(Group::class, $rule->getGroup()->getId())
         );
         self::assertEmpty($this->dm->getRepository(Rule::class)->findAll());
@@ -512,7 +512,7 @@ class AccessManagerTest extends DatabaseTestCaseAbstract
         $this->em->clear();
 
         /** @var AccessManager $access */
-        $access = $this->container->get('hbpf.access.manager');
+        $access = $this->c->get('hbpf.access.manager');
         $this->setProperty($access, 'dm', $this->em);
 
         $access->removeGroup(

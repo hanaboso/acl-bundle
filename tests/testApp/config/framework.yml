@@ -19,6 +19,7 @@ parameters:
     backend_host: 127.0.0.2
     secret: "secret: ThisTokenIsNotSoSecretChangeIt"
     locale: en
+    rabbit_host: rabbitmq
 
     # Swift mailer params
     mailer_transport: '%env(SMTP_TRANSPORT)%'

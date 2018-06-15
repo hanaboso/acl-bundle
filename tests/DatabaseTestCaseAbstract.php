@@ -41,8 +41,8 @@ abstract class DatabaseTestCaseAbstract extends KernelTestCaseAbstract
     {
         parent::__construct($name, $data, $dataName);
         self::bootKernel();
-        $this->dm      = $this->container->get('doctrine_mongodb.odm.default_document_manager');
-        $this->em      = $this->container->get('doctrine.orm.default_entity_manager');
+        $this->dm      = $this->c->get('doctrine_mongodb.odm.default_document_manager');
+        $this->em      = $this->c->get('doctrine.orm.default_entity_manager');
         $this->session = new Session();
     }
 
@@ -58,7 +58,7 @@ abstract class DatabaseTestCaseAbstract extends KernelTestCaseAbstract
     }
 
     /**
-     * @param object $document
+     * @param mixed $document
      */
     protected function persistAndFlush($document): void
     {

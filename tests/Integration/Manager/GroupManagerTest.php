@@ -40,7 +40,7 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
         $this->persistAndFlush($tmpUser);
 
         /** @var GroupManager $man */
-        $man = $this->container->get('hbpf.manager.group');
+        $man = $this->c->get('hbpf.manager.group');
 
         $man->addUserIntoGroup($tmpUser, NULL, 'a');
         $this->dm->clear();
@@ -66,7 +66,7 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
         $this->persistAndFlush($tmpUser);
 
         /** @var GroupManager $man */
-        $man = $this->container->get('hbpf.manager.group');
+        $man = $this->c->get('hbpf.manager.group');
 
         $man->addUserIntoGroup($tmpUser, $group->getId());
         $this->dm->clear();
@@ -92,7 +92,7 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
         $this->persistAndFlush($tmpUser);
 
         /** @var GroupManager $man */
-        $man = $this->container->get('hbpf.manager.group');
+        $man = $this->c->get('hbpf.manager.group');
 
         $this->expectException(AclException::class);
         $man->addUserIntoGroup($tmpUser);
@@ -125,7 +125,7 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
         $this->dm->clear();
 
         /** @var GroupManager $man */
-        $man = $this->container->get('hbpf.manager.group');
+        $man = $this->c->get('hbpf.manager.group');
 
         $man->removeUserFromGroup($tmpUser, $group->getId());
 
@@ -161,7 +161,7 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
         $this->dm->clear();
 
         /** @var GroupManager $man */
-        $man = $this->container->get('hbpf.manager.group');
+        $man = $this->c->get('hbpf.manager.group');
 
         $man->removeUserFromGroup($tmpUser, NULL, 'd');
 
@@ -197,7 +197,7 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
         $this->dm->clear();
 
         /** @var GroupManager $man */
-        $man = $this->container->get('hbpf.manager.group');
+        $man = $this->c->get('hbpf.manager.group');
 
         $this->expectException(AclException::class);
         $man->removeUserFromGroup($tmpUser);
@@ -235,7 +235,7 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
         self::assertCount(1, $gr->getTmpUsers());
 
         /** @var GroupManager $man */
-        $man = $this->container->get('hbpf.manager.group');
+        $man = $this->c->get('hbpf.manager.group');
 
         $res = $man->getUserGroups($u);
         self::assertNotEmpty($res);

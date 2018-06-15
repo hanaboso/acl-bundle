@@ -14,7 +14,7 @@ use Tests\DatabaseTestCaseAbstract;
  *
  * @package Tests\Integration\Reposity\Document
  */
-class GroupRepositoryTest extends DatabaseTestCaseAbstract
+final class GroupRepositoryTest extends DatabaseTestCaseAbstract
 {
 
     /**

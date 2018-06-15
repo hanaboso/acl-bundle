@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Provider;
 
+use Exception;
 use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use PHPUnit\Framework\TestCase;
@@ -12,11 +13,12 @@ use stdClass;
  *
  * @package Tests\Unit\Provider
  */
-class ResourceProviderTest extends TestCase
+final class ResourceProviderTest extends TestCase
 {
 
     /**
      * @covers ResourceProvider::getResources()
+     * @throws Exception
      */
     public function testGetResources(): void
     {
@@ -35,6 +37,7 @@ class ResourceProviderTest extends TestCase
 
     /**
      * @covers ResourceProvider::getResources()
+     * @throws Exception
      */
     public function testGetResourcesMissing(): void
     {
@@ -46,6 +49,7 @@ class ResourceProviderTest extends TestCase
 
     /**
      * @covers ResourceProvider::getResources()
+     * @throws Exception
      */
     public function testGetResourcesNotArray(): void
     {
@@ -57,6 +61,7 @@ class ResourceProviderTest extends TestCase
 
     /**
      * @covers ResourceProvider::hasResource()
+     * @throws Exception
      */
     public function testHasResource(): void
     {
@@ -72,6 +77,7 @@ class ResourceProviderTest extends TestCase
 
     /**
      * @covers ResourceProvider::getResource()
+     * @throws Exception
      */
     public function testGetResource(): void
     {
@@ -86,6 +92,7 @@ class ResourceProviderTest extends TestCase
 
     /**
      * @covers ResourceProvider::getResource()
+     * @throws Exception
      */
     public function testGetResourceMissing(): void
     {
