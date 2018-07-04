@@ -2,9 +2,15 @@
 
 namespace Hanaboso\AclBundle\Manager;
 
+use Doctrine\Common\Annotations\AnnotationException;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use Hanaboso\AclBundle\Enum\ActionEnum;
+use Hanaboso\AclBundle\Exception\AclException;
+use Hanaboso\CommonsBundle\Exception\EnumException;
 use Hanaboso\UserBundle\Enum\ResourceEnum;
+use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
+use ReflectionException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -42,6 +48,13 @@ class UserManager implements EventSubscriberInterface
 
     /**
      * @param UserEvent $userEvent
+     *
+     * @throws AclException
+     * @throws AnnotationException
+     * @throws MongoDBException
+     * @throws EnumException
+     * @throws UserException
+     * @throws ReflectionException
      */
     public function checkPermission(UserEvent $userEvent): void
     {

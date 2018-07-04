@@ -15,7 +15,6 @@
     "php": "^7.2",
     "friendsofsymfony/rest-bundle": "^2.3",
     "hanaboso/user-bundle": "^1.0",
-    "sensio/framework-extra-bundle": "^5.1",
     "symfony/monolog-bundle": "^3.3",
     "symfony/symfony": "^4.1"
   },

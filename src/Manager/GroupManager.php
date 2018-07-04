@@ -10,6 +10,7 @@
 namespace Hanaboso\AclBundle\Manager;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -80,7 +81,7 @@ class GroupManager
             throw new AclException('Insert [name] or [id] of Group!', AclException::GROUP_NOT_FOUND);
         }
 
-        /** @var GroupInterface $group */
+        /** @var GroupInterface|null $group */
         $group = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))->findOneBy($query);
 
         if (!$group) {
@@ -124,7 +125,7 @@ class GroupManager
             throw new AclException('Insert [name] or [id] of Group!', AclException::GROUP_NOT_FOUND);
         }
 
-        /** @var GroupInterface $group */
+        /** @var GroupInterface|null $group */
         $group = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))->findOneBy($query);
 
         if (!$group) {
@@ -147,7 +148,6 @@ class GroupManager
             $group->setUsers($users);
         }
 
-
         if (count($group->getTmpUsers()) == 0 && count($group->getUsers()) == 0 && $group->getOwner()) {
             $group->setOwner(NULL);
             foreach ($group->getRules() as $rule) {
@@ -165,7 +165,7 @@ class GroupManager
      *
      * @return array
      * @throws UserException
-     * @throws ORMException
+     * @throws MongoDBException
      */
     public function getUserGroups(UserInterface $user): array
     {

@@ -55,6 +55,7 @@ class GroupRepository extends DocumentRepository
      * @param UserInterface $user
      *
      * @return Group[]
+     * @throws MongoDBException
      */
     public function getTmpUserGroups(UserInterface $user): array
     {

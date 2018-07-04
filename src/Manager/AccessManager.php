@@ -5,7 +5,10 @@ namespace Hanaboso\AclBundle\Manager;
 use Doctrine\Common\Annotations\AnnotationException;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Hanaboso\AclBundle\Annotation\OwnerAnnotation;
 use Hanaboso\AclBundle\Dto\GroupDto;
 use Hanaboso\AclBundle\Entity\GroupInterface;
@@ -19,6 +22,7 @@ use Hanaboso\AclBundle\Provider\Impl\DatabaseProvider;
 use Hanaboso\AclBundle\Repository\Document\GroupRepository as DocumentGroupRepository;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository as EntityGroupRepository;
 use Hanaboso\CommonsBundle\DatabaseManager\DatabaseManagerLocator;
+use Hanaboso\CommonsBundle\Exception\EnumException;
 use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
@@ -90,6 +94,8 @@ class AccessManager implements EventSubscriberInterface
      *
      * @return GroupInterface
      * @throws UserException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function addGroup(string $name): GroupInterface
     {
@@ -107,19 +113,19 @@ class AccessManager implements EventSubscriberInterface
      * @param GroupDto $data
      *
      * @return GroupInterface
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function updateGroup(GroupDto $data): GroupInterface
     {
         $group = $data->getGroup();
 
-        if ($group->getRules()) {
-            foreach ($group->getRules() as $rule) {
-                $this->dm->remove($rule);
-            }
+        foreach ($group->getRules() as $rule) {
+            $this->dm->remove($rule);
         }
 
         if ($data->getName()) {
-            $group->setName($data->getName());
+            $group->setName((string) $data->getName());
         }
 
         $group->setUsers($data->getUsers());
@@ -138,6 +144,9 @@ class AccessManager implements EventSubscriberInterface
 
     /**
      * @param GroupInterface $group
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function removeGroup(GroupInterface $group): void
     {
@@ -157,6 +166,8 @@ class AccessManager implements EventSubscriberInterface
      * @param UserEvent $event
      *
      * @throws AclException
+     * @throws ORMException
+     * @throws OptimisticLockException
      * @throws UserException
      */
     public function createGroup(UserEvent $event): void
@@ -211,6 +222,11 @@ class AccessManager implements EventSubscriberInterface
      *
      * @return mixed
      * @throws AclException
+     * @throws AnnotationException
+     * @throws EnumException
+     * @throws ReflectionException
+     * @throws UserException
+     * @throws MongoDBException
      */
     public function isAllowed(string $act, string $res, UserInterface $user, $object = NULL)
     {
@@ -252,6 +268,8 @@ class AccessManager implements EventSubscriberInterface
      *
      * @return mixed
      * @throws AclException
+     * @throws UserException
+     * @throws MongoDBException
      */
     private function checkObjectPermission(
         RuleInterface $rule,
@@ -290,6 +308,7 @@ class AccessManager implements EventSubscriberInterface
      * @return RuleInterface
      * @throws AclException
      * @throws UserException
+     * @throws MongoDBException
      */
     private function selectRule(UserInterface $user, string $act, string $res, int &$userLvl): RuleInterface
     {
@@ -389,6 +408,7 @@ class AccessManager implements EventSubscriberInterface
      * @param string $res
      *
      * @throws AclException
+     * @throws EnumException
      */
     private function checkParams(string $act, string $res): void
     {
@@ -419,6 +439,7 @@ class AccessManager implements EventSubscriberInterface
      * @return UserInterface|null
      * @throws AclException
      * @throws UserException
+     * @throws MongoDBException
      */
     private function hasRightForUser(UserInterface $user, int $userLvl): ?UserInterface
     {

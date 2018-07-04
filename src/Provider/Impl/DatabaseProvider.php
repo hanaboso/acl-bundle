@@ -3,6 +3,7 @@
 namespace Hanaboso\AclBundle\Provider\Impl;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Provider\ProviderInterface;
@@ -55,6 +56,7 @@ class DatabaseProvider implements ProviderInterface
      *
      * @return RuleInterface[]
      * @throws UserException
+     * @throws MongoDBException
      */
     public function getRules(UserInterface $user): array
     {

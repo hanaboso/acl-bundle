@@ -4,6 +4,7 @@ namespace Hanaboso\AclBundle\Factory;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMException;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Exception\AclException;
@@ -106,6 +107,7 @@ class RuleFactory
      * @return array|RuleInterface[]
      * @throws AclException
      * @throws UserException
+     * @throws ORMException
      */
     public function getDefaultRules(GroupInterface $group): array
     {
