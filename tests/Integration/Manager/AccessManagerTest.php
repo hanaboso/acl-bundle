@@ -575,7 +575,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
      *
      * @return User
      */
-    private function createUserLvl(string $usr = 'test@test.com', int $lvl): User
+    private function createUserLvl(string $usr, int $lvl): User
     {
         $user = new User();
         $user

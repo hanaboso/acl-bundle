@@ -61,7 +61,7 @@ class DatabaseProvider implements ProviderInterface
     public function getRules(UserInterface $user): array
     {
         /** @var OrmRepo|OdmRepo $groupRepository */
-        $groupRepository = $this->dm->getRepository($this->provider->getResource(($this->resourceEnum)::GROUP));
+        $groupRepository = $this->dm->getRepository($this->provider->getResource($this->resourceEnum::GROUP));
 
         $rules = [];
         foreach ($groupRepository->getUserGroups($user) as $group) {

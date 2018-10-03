@@ -116,14 +116,14 @@ class RuleFactory
         // TODO ošetřit následnou změnu defaultních práv
         $rules = [];
         foreach ($this->rules as $key => $rule) {
-            if (!($this->resource)::isValid($key)) {
+            if (!$this->resource::isValid($key)) {
                 throw new AclException(
                     sprintf('[%s] is not a valid resource', $key),
                     AclException::INVALID_RESOURCE
                 );
             }
 
-            $ruleClass = $this->provider->getResource(($this->resource)::RULE);
+            $ruleClass = $this->provider->getResource($this->resource::RULE);
             $actMask = MaskFactory::maskActionFromYmlArray($rule);
             $rule    = self::createRule($key, $group, $actMask, 1, $ruleClass);
             $group->addRule($rule);

@@ -281,7 +281,7 @@ class AccessManager implements EventSubscriberInterface
     )
     {
         if (!$checkedGroup && $rule->getPropertyMask() === 1
-            && property_exists($object, 'owner')
+            && method_exists($object, 'getOwner')
         ) {
             if ($user->getId() !== (is_string($object->getOwner())
                     ? $object->getOwner() : $object->getOwner()->getId())
@@ -412,7 +412,7 @@ class AccessManager implements EventSubscriberInterface
      */
     private function checkParams(string $act, string $res): void
     {
-        if (!ActionEnum::isValid($act) || !($this->resEnum)::isValid($res)) {
+        if (!ActionEnum::isValid($act) || !$this->resEnum::isValid($res)) {
             throw new AclException(
                 'Invalid resource or action type.',
                 AclException::INVALID_RESOURCE
