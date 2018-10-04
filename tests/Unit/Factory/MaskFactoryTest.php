@@ -3,7 +3,6 @@
 namespace Tests\Unit\Factory;
 
 use Exception;
-use Hanaboso\AclBundle\Enum\ActionEnum;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Factory\MaskFactory;
 use Tests\KernelTestCaseAbstract;
@@ -24,7 +23,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     public function testMaskAction(): void
     {
         $factory = $this->c->get('hbpf.factory.mask');
-        $data = [
+        $data    = [
             'read'   => FALSE,
             'write'  => 1,
             'delete' => 'true',
@@ -54,7 +53,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
      */
     public function testAllowedList(): void
     {
-        $factory = $this->c->get('hbpf.factory.mask');
+        $factory  = $this->c->get('hbpf.factory.mask');
         $baseList = [
             ExtActionEnum::READ,
             ExtActionEnum::WRITE,
@@ -64,25 +63,25 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
 
         self::assertEquals([
             MaskFactory::DEFAULT_ACTIONS => $baseList,
-            MaskFactory::RESOURCE_LIST => [
+            MaskFactory::RESOURCE_LIST   => [
                 ResourceEnum::TOKEN => [
                     ExtActionEnum::TEST2,
-                ]
+                ],
             ],
         ], $factory->getAllowedList(FALSE));
 
         self::assertEquals([
-            ResourceEnum::TOKEN => [
+            ResourceEnum::TOKEN    => [
                 ExtActionEnum::READ,
                 ExtActionEnum::WRITE,
                 ExtActionEnum::DELETE,
                 ExtActionEnum::TEST,
                 ExtActionEnum::TEST2,
             ],
-            ResourceEnum::GROUP => $baseList,
-            ResourceEnum::USER => $baseList,
-            ResourceEnum::FILE => $baseList,
-            ResourceEnum::RULE => $baseList,
+            ResourceEnum::GROUP    => $baseList,
+            ResourceEnum::USER     => $baseList,
+            ResourceEnum::FILE     => $baseList,
+            ResourceEnum::RULE     => $baseList,
             ResourceEnum::TMP_USER => $baseList,
         ], $factory->getAllowedList());
     }

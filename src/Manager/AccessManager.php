@@ -78,7 +78,7 @@ class AccessManager implements EventSubscriberInterface
      * AccessManager constructor.
      *
      * @param DatabaseManagerLocator $userDml
-      * @param RuleFactory            $factory
+     * @param RuleFactory            $factory
      * @param MaskFactory            $maskFactory
      * @param DatabaseProvider       $dbProvider
      * @param ResourceProvider       $resProvider
@@ -385,9 +385,11 @@ class AccessManager implements EventSubscriberInterface
         if ((new ReflectionClass($class))->hasProperty('owner') && $rule->getPropertyMask() === 1) {
 
             $reader          = new AnnotationReader();
-            $params['owner'] = $reader->getPropertyAnnotation(
-                new ReflectionProperty($class, 'owner'), OwnerAnnotation::class)
-                ? $user : $user->getId();
+            $owner           = $reader->getPropertyAnnotation(
+                new ReflectionProperty($class, 'owner'),
+                OwnerAnnotation::class
+            );
+            $params['owner'] = $owner ? $user : $user->getId();
         }
 
         $res = $this->dm->getRepository($class)->findOneBy($params);
@@ -427,12 +429,9 @@ class AccessManager implements EventSubscriberInterface
      */
     private function checkParams(string $act, string $res): void
     {
-        if (!$this->actionEnum::isValid($act) || !$this->resEnum::isValid($res)) {
-            throw new AclException(
-                'Invalid resource or action type.',
-                AclException::INVALID_RESOURCE
-            );
-        }
+        $this->actionEnum::isValid($act);
+        $this->resEnum::isValid($res);
+
         if (!$this->maskFactory->isActionAllowed($act, $res)) {
             throw new AclException(
                 sprintf('Action [%s] is not allowed for resource [%s].', $act, $res),

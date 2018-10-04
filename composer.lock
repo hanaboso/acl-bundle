@@ -4680,16 +4680,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v4.1.5",
+            "version": "v4.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "818c91db58fb3257112fedb8547b7571aadbdb3c"
+                "reference": "e857cb4bb20ed755873fe2b889553ba3c7052dc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/818c91db58fb3257112fedb8547b7571aadbdb3c",
-                "reference": "818c91db58fb3257112fedb8547b7571aadbdb3c",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/e857cb4bb20ed755873fe2b889553ba3c7052dc9",
+                "reference": "e857cb4bb20ed755873fe2b889553ba3c7052dc9",
                 "shasum": ""
             },
             "require": {
@@ -4829,7 +4829,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2018-09-30T05:05:56+00:00"
+            "time": "2018-10-03T12:53:51+00:00"
         },
         {
             "name": "tracy/tracy",
@@ -6141,16 +6141,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "6.0.7",
+            "version": "6.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "865662550c384bc1db7e51d29aeda1c2c161d69a"
+                "reference": "848f78b3309780fef7ec8c4666b7ab4e6b09b22f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/865662550c384bc1db7e51d29aeda1c2c161d69a",
-                "reference": "865662550c384bc1db7e51d29aeda1c2c161d69a",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/848f78b3309780fef7ec8c4666b7ab4e6b09b22f",
+                "reference": "848f78b3309780fef7ec8c4666b7ab4e6b09b22f",
                 "shasum": ""
             },
             "require": {
@@ -6200,7 +6200,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-06-01T07:51:50+00:00"
+            "time": "2018-10-04T03:41:23+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",

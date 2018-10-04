@@ -13,7 +13,7 @@
   },
   "require": {
     "php": "^7.2",
-    "friendsofsymfony/rest-bundle": "^2.3",
+    "friendsofsymfony/rest-bundle": "^2.4",
     "hanaboso/user-bundle": "^1.0",
     "symfony/monolog-bundle": "^3.3",
     "symfony/symfony": "^4.1"
