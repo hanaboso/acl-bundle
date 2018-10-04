@@ -285,4 +285,50 @@ class Group extends DocumentAbstract implements GroupInterface
         return $this;
     }
 
+    /**
+     * @param array  $data
+     * @param string $ruleClass
+     * @param array  $rules
+     *
+     * @return GroupInterface
+     */
+    public function fromArrayAcl(array $data, string $ruleClass, array &$rules): GroupInterface
+    {
+        $this->id    = $data[self::ID];
+        $this->name  = $data[self::NAME];
+        $this->level = $data[self::LEVEL];
+        foreach ($data[self::RULES] as $ruleData) {
+            /** @var RuleInterface $rule */
+            $rule = new $ruleClass();
+            $rule->fromArrayAcl($ruleData);
+            $this->addRule($rule);
+            $rules[$rule->getId()] = $rule;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array $links
+     *
+     * @return array
+     */
+    public function toArrayAcl(&$links): array
+    {
+        $owner = $this->getOwner();
+        $rules = [];
+        foreach ($this->rules as $rule) {
+            $rules[] = $rule->toArrayAcl();
+            $links[$rule->getId()] = $rule->getGroup()->getId();
+        }
+
+        return [
+            self::ID    => $this->id,
+            self::LEVEL => $this->level,
+            self::NAME  => $this->name,
+            self::RULES => $rules,
+            self::OWNER => $owner ? $owner->getId() : NULL,
+        ];
+    }
+
 }

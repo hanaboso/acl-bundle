@@ -16,6 +16,7 @@ use Hanaboso\AclBundle\Manager\AccessManager;
 use Hanaboso\CommonsBundle\Exception\EnumException;
 use Hanaboso\CommonsBundle\FileStorage\Document\File;
 use Hanaboso\UserBundle\Document\User;
+use Predis\Client;
 use Tests\DatabaseTestCaseAbstract;
 use Tests\PrivateTrait;
 
@@ -28,6 +29,20 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
 {
 
     use PrivateTrait;
+
+    /**
+     *
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $redis = new Client([
+            'host' => $this->c->getParameter('redis_host'),
+            'port' => $this->c->getParameter('redis_port'),
+        ]);
+        $redis->connect();
+        $redis->flushall();
+    }
 
     /**
      * @covers AccessManager::isAllowed()

@@ -16,6 +16,12 @@ interface GroupInterface extends EntityInterface
     public const TYPE_ODM = 'odm';
     public const TYPE_ORM = 'orm';
 
+    public const ID    = 'id';
+    public const OWNER = 'owner';
+    public const LEVEL = 'level';
+    public const NAME  = 'name';
+    public const RULES = 'rules';
+
     /**
      * @return string
      */
@@ -137,5 +143,21 @@ interface GroupInterface extends EntityInterface
      * @return GroupInterface
      */
     public function addChild(GroupInterface $child): GroupInterface;
+
+    /**
+     * @param array  $data
+     * @param string $ruleClass
+     * @param array  $rules
+     *
+     * @return GroupInterface
+     */
+    public function fromArrayAcl(array $data, string $ruleClass, array &$rules): GroupInterface;
+
+    /**
+     * @param array $links
+     *
+     * @return array
+     */
+    public function toArrayAcl(array &$links): array;
 
 }

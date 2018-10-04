@@ -17,7 +17,7 @@ use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Factory\MaskFactory;
 use Hanaboso\AclBundle\Factory\RuleFactory;
-use Hanaboso\AclBundle\Provider\Impl\DatabaseProvider;
+use Hanaboso\AclBundle\Provider\Impl\AclProvider;
 use Hanaboso\AclBundle\Repository\Document\GroupRepository as DocumentGroupRepository;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository as EntityGroupRepository;
 use Hanaboso\CommonsBundle\DatabaseManager\DatabaseManagerLocator;
@@ -26,6 +26,7 @@ use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
+use LogicException;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
@@ -50,9 +51,9 @@ class AccessManager implements EventSubscriberInterface
     private $factory;
 
     /**
-     * @var DatabaseProvider
+     * @var AclProvider
      */
-    private $dbProvider;
+    private $aclProvider;
 
     /**
      * @var ResourceProvider
@@ -80,7 +81,7 @@ class AccessManager implements EventSubscriberInterface
      * @param DatabaseManagerLocator $userDml
      * @param RuleFactory            $factory
      * @param MaskFactory            $maskFactory
-     * @param DatabaseProvider       $dbProvider
+     * @param AclProvider            $aclProvider
      * @param ResourceProvider       $resProvider
      * @param string                 $resEnum
      * @param string                 $actionEnum
@@ -89,7 +90,7 @@ class AccessManager implements EventSubscriberInterface
         DatabaseManagerLocator $userDml,
         RuleFactory $factory,
         MaskFactory $maskFactory,
-        DatabaseProvider $dbProvider,
+        AclProvider $aclProvider,
         ResourceProvider $resProvider,
         string $resEnum,
         string $actionEnum
@@ -97,7 +98,7 @@ class AccessManager implements EventSubscriberInterface
     {
         $this->dm          = $userDml->get();
         $this->factory     = $factory;
-        $this->dbProvider  = $dbProvider;
+        $this->aclProvider = $aclProvider;
         $this->resProvider = $resProvider;
         $this->resEnum     = $resEnum;
         $this->actionEnum  = $actionEnum;
@@ -130,10 +131,11 @@ class AccessManager implements EventSubscriberInterface
      * @return GroupInterface
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws LogicException
      */
     public function updateGroup(GroupDto $data): GroupInterface
     {
-        $group = $data->getGroup();
+        $group   = $data->getGroup();
 
         foreach ($group->getRules() as $rule) {
             $this->dm->remove($rule);
@@ -142,6 +144,11 @@ class AccessManager implements EventSubscriberInterface
         if ($data->getName()) {
             $group->setName((string) $data->getName());
         }
+
+        $this->aclProvider->invalid(array_merge(
+            array_map([$this, 'userMap'], $group->getUsers()->toArray()),
+            array_map([$this, 'userMap'], $data->getUsers())
+        ));
 
         $group->setUsers($data->getUsers());
         $group->setRules($data->getRules());
@@ -162,9 +169,12 @@ class AccessManager implements EventSubscriberInterface
      *
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws LogicException
      */
     public function removeGroup(GroupInterface $group): void
     {
+        $this->aclProvider->invalid(array_map([$this, 'userMap'], $group->getUsers()->toArray()));
+
         foreach ($group->getRules() as $rule) {
             $this->dm->remove($rule);
         }
@@ -242,6 +252,7 @@ class AccessManager implements EventSubscriberInterface
      * @throws ReflectionException
      * @throws UserException
      * @throws MongoDBException
+     * @throws LogicException
      */
     public function isAllowed(string $act, string $res, UserInterface $user, $object = NULL)
     {
@@ -324,10 +335,11 @@ class AccessManager implements EventSubscriberInterface
      * @throws AclException
      * @throws UserException
      * @throws MongoDBException
+     * @throws LogicException
      */
     private function selectRule(UserInterface $user, string $act, string $res, int &$userLvl): RuleInterface
     {
-        $rules     = $this->dbProvider->getRules($user);
+        $rules     = $this->aclProvider->getRules($user);
         $bit       = $this->actionEnum::getActionBit($act);
         $rule      = NULL;
         $groupRule = FALSE;
@@ -490,6 +502,16 @@ class AccessManager implements EventSubscriberInterface
         }
 
         return $group;
+    }
+
+    /**
+     * @param UserInterface $user
+     *
+     * @return string
+     */
+    protected function userMap(UserInterface $user): string
+    {
+        return $user->getId();
     }
 
 }

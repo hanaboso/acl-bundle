@@ -11,6 +11,7 @@ use Hanaboso\AclBundle\HbPFAclBundle;
 use Hanaboso\CommonsBundle\HbPFCommonsBundle;
 use Hanaboso\UserBundle\HbPFUserBundle;
 use RabbitMqBundle\RabbitMqBundle;
+use Snc\RedisBundle\SncRedisBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\MonologBundle\MonologBundle;
@@ -68,6 +69,7 @@ class Kernel extends BaseKernel
             HbPFUserBundle::class         => ['all' => TRUE],
             HbPFAclBundle::class          => ['all' => TRUE],
             DoctrineFixturesBundle::class => ['all' => TRUE],
+            SncRedisBundle::class         => ['all' => TRUE],
 
         ];
         foreach ($contents as $class => $envs) {

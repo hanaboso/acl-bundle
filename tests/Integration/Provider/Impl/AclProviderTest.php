@@ -5,16 +5,16 @@ namespace Tests\Integration\Provider\Impl;
 use Exception;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
-use Hanaboso\AclBundle\Provider\Impl\DatabaseProvider;
+use Hanaboso\AclBundle\Provider\Impl\AclProvider;
 use Hanaboso\UserBundle\Document\User;
 use Tests\DatabaseTestCaseAbstract;
 
 /**
- * Class DatabaseProviderTest
+ * Class AclProviderTest
  *
  * @package Tests\Integration\Provider\Impl
  */
-final class DatabaseProviderTest extends DatabaseTestCaseAbstract
+final class AclProviderTest extends DatabaseTestCaseAbstract
 {
 
     /**
@@ -22,8 +22,8 @@ final class DatabaseProviderTest extends DatabaseTestCaseAbstract
      */
     public function testGetRules(): void
     {
-        /** @var DatabaseProvider $databaseProvider */
-        $databaseProvider = $this->c->get('hbpf.acl.provider.database');
+        /** @var AclProvider $databaseProvider */
+        $databaseProvider = $this->c->get('hbpf.acl.provider');
 
         $ruleOne = (new Rule())->setResource('R1');
         $this->persistAndFlush($ruleOne);

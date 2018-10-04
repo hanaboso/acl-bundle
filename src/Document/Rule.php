@@ -127,4 +127,32 @@ class Rule implements RuleInterface
         return $this;
     }
 
+    /**
+     * @param array $data
+     *
+     * @return RuleInterface
+     */
+    public function fromArrayAcl(array $data): RuleInterface
+    {
+        $this->id           = $data[self::ID];
+        $this->propertyMask = $data[self::PROPERTY_MASK];
+        $this->actionMask   = $data[self::ACTION_MASK];
+        $this->resource     = $data[self::RESOURCE];
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArrayAcl(): array
+    {
+        return [
+            self::ID            => $this->id,
+            self::PROPERTY_MASK => $this->propertyMask,
+            self::ACTION_MASK   => $this->actionMask,
+            self::RESOURCE      => $this->resource,
+        ];
+    }
+
 }

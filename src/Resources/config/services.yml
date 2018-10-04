@@ -1,13 +1,13 @@
+parameters:
+    env(REDIS_HOST): redis
+    env(REDIS_PORT): 6379
+    redis_host: '%env(REDIS_HOST)%'
+    redis_port: '%env(REDIS_PORT)%'
+    acl_use_cache: false
+
 services:
     _defaults:
         public: '%public.services%'
-
-    hbpf.acl.provider.database:
-        class: Hanaboso\AclBundle\Provider\Impl\DatabaseProvider
-        arguments:
-            - '@hbpf.database_manager_locator'
-            - '@hbpf.user.provider.resource'
-            - '%resource_enum%'
 
     hbpf.factory.rule:
         class: Hanaboso\AclBundle\Factory\RuleFactory
@@ -24,7 +24,7 @@ services:
             - '@hbpf.database_manager_locator'
             - '@hbpf.factory.rule'
             - '@hbpf.factory.mask'
-            - '@hbpf.acl.provider.database'
+            - '@hbpf.acl.provider'
             - '@hbpf.user.provider.resource'
             - '%resource_enum%'
             - '%action_enum%'

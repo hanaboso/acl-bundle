@@ -3,3 +3,13 @@ services:
         class: Hanaboso\AclBundle\DataFixtures\ORM\RoleFixtures
         tags:
             - { name: doctrine.fixture.orm }
+
+    hbpf.acl.provider:
+        class: Hanaboso\AclBundle\Provider\Impl\AclProvider
+        arguments:
+            - '@hbpf.database_manager_locator'
+            - '@hbpf.user.provider.resource'
+            - '%resource_enum%'
+            - '%acl_use_cache%'
+            - '%redis_host%'
+            - '%redis_port%'

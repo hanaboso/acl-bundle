@@ -10,6 +10,16 @@ namespace Hanaboso\AclBundle\Entity;
 interface RuleInterface
 {
 
+    public const ID            = 'id';
+    public const RESOURCE      = 'resource';
+    public const PROPERTY_MASK = 'property_mask';
+    public const ACTION_MASK   = 'action_mask';
+
+    /**
+     * @return string
+     */
+    public function getId(): string;
+
     /**
      * @return string
      */
@@ -57,5 +67,17 @@ interface RuleInterface
      * @return RuleInterface
      */
     public function setPropertyMask(int $propertyMask): RuleInterface;
+
+    /**
+     * @param array $data
+     *
+     * @return RuleInterface
+     */
+    public function fromArrayAcl(array $data): RuleInterface;
+
+    /**
+     * @return array
+     */
+    public function toArrayAcl(): array;
 
 }
