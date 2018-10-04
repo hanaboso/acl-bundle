@@ -4,7 +4,6 @@ namespace Hanaboso\AclBundle\Dto;
 
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Exception\AclException;
-use Hanaboso\AclBundle\Factory\MaskFactory;
 use Hanaboso\AclBundle\Factory\RuleFactory;
 use Hanaboso\UserBundle\Entity\UserInterface;
 
@@ -95,8 +94,8 @@ final class GroupDto
             $this->rules[] = RuleFactory::createRule(
                 $rule['resource'],
                 $this->group,
-                MaskFactory::maskAction($rule['action_mask']),
-                MaskFactory::maskProperty($rule['property_mask']),
+                $rule['action_mask'],
+                $rule['property_mask'],
                 $ruleClass
             );
         }

@@ -13,7 +13,6 @@ use Hanaboso\AclBundle\Annotation\OwnerAnnotation;
 use Hanaboso\AclBundle\Dto\GroupDto;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
-use Hanaboso\AclBundle\Enum\ActionEnum;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Factory\MaskFactory;
@@ -66,20 +65,34 @@ class AccessManager implements EventSubscriberInterface
     private $resEnum;
 
     /**
+     * @var string
+     */
+    private $actionEnum;
+
+    /**
+     * @var MaskFactory
+     */
+    private $maskFactory;
+
+    /**
      * AccessManager constructor.
      *
      * @param DatabaseManagerLocator $userDml
-     * @param RuleFactory            $factory
+      * @param RuleFactory            $factory
+     * @param MaskFactory            $maskFactory
      * @param DatabaseProvider       $dbProvider
      * @param ResourceProvider       $resProvider
      * @param string                 $resEnum
+     * @param string                 $actionEnum
      */
     function __construct(
         DatabaseManagerLocator $userDml,
         RuleFactory $factory,
+        MaskFactory $maskFactory,
         DatabaseProvider $dbProvider,
         ResourceProvider $resProvider,
-        string $resEnum
+        string $resEnum,
+        string $actionEnum
     )
     {
         $this->dm          = $userDml->get();
@@ -87,6 +100,8 @@ class AccessManager implements EventSubscriberInterface
         $this->dbProvider  = $dbProvider;
         $this->resProvider = $resProvider;
         $this->resEnum     = $resEnum;
+        $this->actionEnum  = $actionEnum;
+        $this->maskFactory = $maskFactory;
     }
 
     /**
@@ -245,8 +260,8 @@ class AccessManager implements EventSubscriberInterface
 
         } else if (is_null($object)) {
 
-            if ($act != ActionEnum::WRITE && $rule->getPropertyMask() !== 2) {
-                $this->throwPermissionException('For given action no group permission or non at all for write action.');
+            if (!in_array($act, $this->actionEnum::getGlobalActions()) && $rule->getPropertyMask() !== 2) {
+                $this->throwPermissionException('For given action no group permission or non at all for global actions.');
             }
 
             return TRUE;
@@ -313,7 +328,7 @@ class AccessManager implements EventSubscriberInterface
     private function selectRule(UserInterface $user, string $act, string $res, int &$userLvl): RuleInterface
     {
         $rules     = $this->dbProvider->getRules($user);
-        $bit       = MaskFactory::getActionByte($act);
+        $bit       = $this->actionEnum::getActionBit($act);
         $rule      = NULL;
         $groupRule = FALSE;
 
@@ -412,10 +427,16 @@ class AccessManager implements EventSubscriberInterface
      */
     private function checkParams(string $act, string $res): void
     {
-        if (!ActionEnum::isValid($act) || !$this->resEnum::isValid($res)) {
+        if (!$this->actionEnum::isValid($act) || !$this->resEnum::isValid($res)) {
             throw new AclException(
                 'Invalid resource or action type.',
                 AclException::INVALID_RESOURCE
+            );
+        }
+        if (!$this->maskFactory->isActionAllowed($act, $res)) {
+            throw new AclException(
+                sprintf('Action [%s] is not allowed for resource [%s].', $act, $res),
+                AclException::INVALID_ACTION
             );
         }
     }

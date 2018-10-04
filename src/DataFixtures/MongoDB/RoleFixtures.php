@@ -10,6 +10,7 @@ use Hanaboso\AclBundle\Factory\MaskFactory;
 use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
+use LogicException;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
@@ -28,11 +29,21 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
     private $container;
 
     /**
+     * @var MaskFactory
+     */
+    private $maskFactory;
+
+    /**
      * @param ContainerInterface|null $container
      */
     public function setContainer(?ContainerInterface $container = NULL): void
     {
+        /** @var ContainerInterface $cont */
+        $cont            = $container;
         $this->container = $container;
+        /** @var MaskFactory $factory */
+        $factory           = $cont->get('hbpf.factory.mask');
+        $this->maskFactory = $factory;
     }
 
     /**
@@ -46,6 +57,11 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
     {
         if (!$this->container) {
             return;
+        }
+
+        $actEnum = $this->container->getParameter('action_enum');
+        if (count($actEnum::getChoices()) > 32) {
+            throw new LogicException('Amount of actions exceeded allowed 32!');
         }
 
         $encoder    = new BCryptPasswordEncoder(12);
@@ -130,7 +146,7 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
         $rule = new $ruleClass();
         $rule
             ->setGroup($group)
-            ->setActionMask(MaskFactory::maskActionFromYmlArray($rights))
+            ->setActionMask($this->maskFactory->maskActionFromYmlArray($rights, $res))
             ->setResource($res)
             ->setPropertyMask(2);
         $manager->persist($rule);

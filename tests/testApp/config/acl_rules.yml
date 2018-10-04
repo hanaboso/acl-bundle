@@ -11,12 +11,8 @@ parameters:
                 users:
                     - {email: 'root@hanaboso.com', password: 'root'}
                 rules:
-                    group:      ['read', 'write', 'delete']
-                    user:       ['read', 'write', 'delete']
-                    tmp_user:   ['read', 'write', 'delete']
-                    token:      ['read', 'write', 'delete']
-                    topology:   ['read', 'write', 'delete']
-                    node:       ['read', 'write', 'delete']
+                    group:      ['write', 'delete']
+                    token:      ['delete']
                     file:       ['read', 'write', 'delete']
             admin:
                 level: 1

@@ -41,10 +41,16 @@ class RuleFactory
     private $provider;
 
     /**
+     * @var MaskFactory
+     */
+    private $maskFactory;
+
+    /**
      * RuleFactory constructor.
      *
      * @param DatabaseManagerLocator $userDml
      * @param ResourceProvider       $provider
+     * @param MaskFactory            $maskFactory
      * @param array                  $rules
      * @param mixed                  $resEnum
      *
@@ -53,6 +59,7 @@ class RuleFactory
     function __construct(
         DatabaseManagerLocator $userDml,
         ResourceProvider $provider,
+        MaskFactory $maskFactory,
         array $rules,
         $resEnum
     )
@@ -64,10 +71,11 @@ class RuleFactory
             );
         }
 
-        $this->dm       = $userDml->get();
-        $this->rules    = $rules['owner'];
-        $this->resource = $resEnum;
-        $this->provider = $provider;
+        $this->dm          = $userDml->get();
+        $this->rules       = $rules['owner'];
+        $this->resource    = $resEnum;
+        $this->provider    = $provider;
+        $this->maskFactory = $maskFactory;
     }
 
     /**
@@ -124,8 +132,8 @@ class RuleFactory
             }
 
             $ruleClass = $this->provider->getResource($this->resource::RULE);
-            $actMask = MaskFactory::maskActionFromYmlArray($rule);
-            $rule    = self::createRule($key, $group, $actMask, 1, $ruleClass);
+            $actMask   = $this->maskFactory->maskActionFromYmlArray($rule, $this->resource::RULE);
+            $rule      = self::createRule($key, $group, $actMask, 1, $ruleClass);
             $group->addRule($rule);
             $this->dm->persist($rule);
 

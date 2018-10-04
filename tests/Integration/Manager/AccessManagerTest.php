@@ -7,7 +7,11 @@ use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\AclBundle\Dto\GroupDto;
 use Hanaboso\AclBundle\Entity\Group as ORMGroup;
+use Hanaboso\AclBundle\Enum\ActionEnum;
+use Hanaboso\AclBundle\Enum\PropertyEnum;
+use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Exception\AclException;
+use Hanaboso\AclBundle\Factory\MaskFactory;
 use Hanaboso\AclBundle\Manager\AccessManager;
 use Hanaboso\CommonsBundle\Exception\EnumException;
 use Hanaboso\CommonsBundle\FileStorage\Document\File;
@@ -171,6 +175,79 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $this->createRule($user, 6, 'group', 1);
         $this->expect();
         $this->c->get('hbpf.access.manager')->isAllowed('delete', 'group', $user, NULL);
+    }
+
+    /**
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     *
+     * @throws Exception
+     */
+    public function testMissingResourceAction(): void
+    {
+        $user = $this->createUser('nullReadPer');
+        $this->createRule($user, 3, 'group', 2);
+        $this->expect(AclException::INVALID_ACTION);
+        $this->c->get('hbpf.access.manager')->isAllowed('test2', 'group', $user, NULL);
+    }
+
+    /**
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     *
+     * @throws Exception
+     */
+    public function testExtraDefaultResourceAction(): void
+    {
+        $user = $this->createUser('nullReadPer');
+        $this->createRule($user, 11, 'group', 2);
+        $this->c->get('hbpf.access.manager')->isAllowed('test', 'group', $user, NULL);
+    }
+
+    /**
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::hasRight()
+     * @covers AccessManager::selectRule()
+     *
+     * @throws Exception
+     */
+    public function testExtraResourceAction(): void
+    {
+        $user = $this->createUser('nullReadPer');
+        $this->createRule($user, 19, 'token', 2);
+        $this->c->get('hbpf.access.manager')->isAllowed('test2', 'token', $user, NULL);
+    }
+
+    /**
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     *
+     * @throws Exception
+     */
+    public function testGlobalActionExtended(): void
+    {
+        $user = $this->createUser('nullReadPer');
+        $this->createRule($user, 11, 'token', 1);
+        $this->c->get('hbpf.access.manager')->isAllowed('test', 'token', $user, NULL);
+    }
+
+    /**
+     * @covers AccessManager::isAllowed()
+     * @covers AccessManager::checkParams()
+     *
+     * @throws Exception
+     */
+    public function testGlobalActionRestriction(): void
+    {
+        $user = $this->createUser('nullReadPer');
+        $this->createRule($user, 19, 'token', 1);
+        $this->expect();
+        $this->c->get('hbpf.access.manager')->isAllowed('test2', 'token', $user, NULL);
     }
 
     /**
@@ -435,33 +512,36 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $group = $this->dm->getRepository(Group::class)->findOneBy(['name' => 'newGroup']);
         self::assertInstanceOf(Group::class, $group);
 
+        /** @var MaskFactory $maskFactory */
+        $maskFactory = $this->c->get('hbpf.factory.mask');
+
         $data = new GroupDto($group);
         $data
             ->addUser($user)
             ->addRule(Rule::class, [
                 [
-                    'resource'      => 'user',
-                    'action_mask'   => [
-                        'write'  => 1,
-                        'read'   => 1,
-                        'delete' => 1,
-                    ],
-                    'property_mask' => [
-                        'owner' => 1,
-                        'group' => 1,
-                    ],
+                    'resource'      => ResourceEnum::USER,
+                    'action_mask'   => $maskFactory->maskAction([
+                        ActionEnum::READ   => 1,
+                        ActionEnum::WRITE  => 1,
+                        ActionEnum::DELETE => 1,
+                    ], ResourceEnum::USER),
+                    'property_mask' => $maskFactory->maskProperty([
+                        PropertyEnum::OWNER => 1,
+                        PropertyEnum::GROUP => 1,
+                    ]),
                 ],
                 [
-                    'resource'      => 'group',
-                    'action_mask'   => [
-                        'write'  => 1,
-                        'read'   => 1,
-                        'delete' => 1,
-                    ],
-                    'property_mask' => [
-                        'owner' => 1,
-                        'group' => 1,
-                    ],
+                    'resource'      => ResourceEnum::GROUP,
+                    'action_mask'   => $maskFactory->maskAction([
+                        ActionEnum::READ   => 1,
+                        ActionEnum::WRITE  => 1,
+                        ActionEnum::DELETE => 1,
+                    ], ResourceEnum::GROUP),
+                    'property_mask' => $maskFactory->maskProperty([
+                        PropertyEnum::OWNER => 1,
+                        PropertyEnum::GROUP => 1,
+                    ]),
                 ],
             ]);
         $group = $access->updateGroup($data);
@@ -501,7 +581,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     {
         $this->clearMysql();
 
-        $group = new ORMGroup(NULL);
+        $group  = new ORMGroup(NULL);
         $group2 = new ORMGroup(NULL);
         $group->setName('gtest');
         $group2->setName('gtest2');

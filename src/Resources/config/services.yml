@@ -14,6 +14,7 @@ services:
         arguments:
             - '@hbpf.database_manager_locator'
             - '@hbpf.user.provider.resource'
+            - '@hbpf.factory.mask'
             - '%acl_rule%'
             - '%resource_enum%'
 
@@ -22,9 +23,11 @@ services:
         arguments:
             - '@hbpf.database_manager_locator'
             - '@hbpf.factory.rule'
+            - '@hbpf.factory.mask'
             - '@hbpf.acl.provider.database'
             - '@hbpf.user.provider.resource'
             - '%resource_enum%'
+            - '%action_enum%'
         tags:
             - { name: kernel.event_subscriber }
 
@@ -40,3 +43,10 @@ services:
         arguments:
             - '@hbpf.database_manager_locator'
             - '@hbpf.user.provider.resource'
+
+    hbpf.factory.mask:
+        class: Hanaboso\AclBundle\Factory\MaskFactory
+        arguments:
+            - '%action_enum%'
+            - '%resource_enum%'
+            - '%resource_actions%'

@@ -1,5 +1,6 @@
 parameters:
     resource_enum: Hanaboso\AclBundle\Enum\ResourceEnum
+    action_enum: Hanaboso\AclBundle\Enum\ActionEnum
 
     db_res:
         resources:
@@ -10,3 +11,11 @@ parameters:
             file: Hanaboso\CommonsBundle\FileStorage\Document\File
             group: Hanaboso\AclBundle\Document\Group
             rule: Hanaboso\AclBundle\Document\Rule
+
+    # Optionals - can be empty: ~
+    resource_actions:
+        # [read, write, delete] by default (set in MaskFactory)
+        default_actions: ['read', 'write', 'delete', 'test']
+        # specific actions on top of default ones
+        resources:
+            token: ['test2']
