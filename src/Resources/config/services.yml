@@ -43,6 +43,7 @@ services:
         arguments:
             - '@hbpf.database_manager_locator'
             - '@hbpf.user.provider.resource'
+            - '@hbpf.acl.provider'
 
     hbpf.factory.mask:
         class: Hanaboso\AclBundle\Factory\MaskFactory

@@ -17,6 +17,7 @@ use Doctrine\ORM\ORMException;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Exception\AclException;
+use Hanaboso\AclBundle\Provider\AclRuleProviderInterface;
 use Hanaboso\AclBundle\Repository\Document\GroupRepository as GroupRepositoryDocument;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository as GroupRepositoryEntity;
 use Hanaboso\CommonsBundle\DatabaseManager\DatabaseManagerLocator;
@@ -44,15 +45,26 @@ class GroupManager
     protected $resourceProvider;
 
     /**
+     * @var AclRuleProviderInterface
+     */
+    protected $aclProvider;
+
+    /**
      * GroupManager constructor.
      *
-     * @param DatabaseManagerLocator $dml
-     * @param ResourceProvider       $resourceProvider
+     * @param DatabaseManagerLocator   $dml
+     * @param ResourceProvider         $resourceProvider
+     * @param AclRuleProviderInterface $aclProvider
      */
-    public function __construct(DatabaseManagerLocator $dml, ResourceProvider $resourceProvider)
+    public function __construct(
+        DatabaseManagerLocator $dml,
+        ResourceProvider $resourceProvider,
+        AclRuleProviderInterface $aclProvider
+    )
     {
         $this->dm               = $dml->get();
         $this->resourceProvider = $resourceProvider;
+        $this->aclProvider      = $aclProvider;
     }
 
     /**
@@ -95,6 +107,8 @@ class GroupManager
         if ($user->getType() === UserTypeEnum::USER) {
             $group->addUser($user);
         }
+
+        $this->aclProvider->invalid([$user->getId()]);
 
         $this->dm->flush();
     }
@@ -156,6 +170,8 @@ class GroupManager
             $group->getRules()->clear();
             $this->dm->remove($group);
         }
+
+        $this->aclProvider->invalid([$user->getId()]);
 
         $this->dm->flush();
     }

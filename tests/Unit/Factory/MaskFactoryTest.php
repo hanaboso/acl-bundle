@@ -3,6 +3,7 @@
 namespace Tests\Unit\Factory;
 
 use Exception;
+use Hanaboso\AclBundle\Enum\PropertyEnum;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Factory\MaskFactory;
 use Tests\KernelTestCaseAbstract;
@@ -25,7 +26,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
         $factory = $this->c->get('hbpf.factory.mask');
         $data    = [
             'read'   => FALSE,
-            'write'  => 1,
+            'write',
             'delete' => 'true',
         ];
 
@@ -99,6 +100,28 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
         self::assertTrue($factory->isActionAllowed(ExtActionEnum::READ, ResourceEnum::TOKEN));
         self::assertTrue($factory->isActionAllowed(ExtActionEnum::TEST2, ResourceEnum::TOKEN));
         self::assertFalse($factory->isActionAllowed(ExtActionEnum::TEST2, ResourceEnum::USER));
+    }
+
+    /**
+     * @covers MaskFactory::getActionsFromMask()
+     * @covers MaskFactory::getActionsFromMaskStatic()
+     *
+     * @throws Exception
+     */
+    public function testPropertiesFromMask(): void
+    {
+        /** @var MaskFactory $factory */
+        $factory = $this->c->get('hbpf.factory.mask');
+
+        self::assertEquals(PropertyEnum::GROUP, $factory::getPropertyFromMask(2));
+        self::assertEquals(PropertyEnum::OWNER, $factory::getPropertyFromMask(1));
+
+        self::assertEquals(['read', 'delete', 'test2'], $factory->getActionsFromMask(21));
+        self::assertEquals(['read', 'delete', 'test2'], $factory->getActionsFromMask(
+            $factory->maskAction(['read', 'write' => FALSE, 'delete', 'test2'], ResourceEnum::TOKEN)
+        ));
+        self::assertEquals(['write', 'test', 'test2'],
+            $factory->getActionsFromMaskStatic(26, ExtActionEnum::getChoices()));
     }
 
 }

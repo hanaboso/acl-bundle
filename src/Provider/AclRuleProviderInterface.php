@@ -30,7 +30,7 @@ interface AclRuleProviderInterface
     public function getRules(UserInterface $user): array;
 
     /**
-     * @param UserInterface[] $users
+     * @param string[] $users
      */
     public function invalid(array $users): void;
 

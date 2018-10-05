@@ -24,37 +24,37 @@ use Predis\Client;
 class AclProvider implements AclRuleProviderInterface
 {
 
-    private const GROUPS = 'groups';
-    private const LINKS  = 'links';
+    protected const GROUPS = 'groups';
+    protected const LINKS  = 'links';
 
     /**
      * @var DocumentManager|EntityManager
      */
-    private $dm;
+    protected $dm;
 
     /**
      * @var ResourceProvider
      */
-    private $provider;
+    protected $provider;
 
     /**
      * @var string
      */
-    private $resourceEnum;
+    protected $resourceEnum;
     /**
      * @var bool
      */
-    private $useCache;
+    protected $useCache;
 
     /**
      * @var string
      */
-    private $redisHost;
+    protected $redisHost;
 
     /**
      * @var int
      */
-    private $redisPort;
+    protected $redisPort;
 
     /**
      * AclProvider constructor.

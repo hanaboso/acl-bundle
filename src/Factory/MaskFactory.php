@@ -4,6 +4,7 @@ namespace Hanaboso\AclBundle\Factory;
 
 use Hanaboso\AclBundle\Enum\PropertyEnum;
 use Hanaboso\AclBundle\Exception\AclException;
+use LogicException;
 
 /**
  * Class MaskFactory
@@ -40,7 +41,7 @@ class MaskFactory
      */
     public function __construct(string $actionEnum, string $resourceEnum, $allowedActions)
     {
-        $this->actionEnum = $actionEnum;
+        $this->actionEnum   = $actionEnum;
         $this->resourceEnum = $resourceEnum;
         if (!is_array($allowedActions)) {
             $allowedActions = [];
@@ -66,8 +67,18 @@ class MaskFactory
     {
         $mask = 0;
         foreach ($data as $name => $allow) {
-            if (boolval($allow) && $this->isActionAllowed($name, $resource)) {
-                $bit  = $this->actionEnum::getActionBit($name);
+            /** @var string $actName */
+            $actName   = $name;
+            $isAllowed = TRUE;
+
+            if (is_string($name)) {
+                $isAllowed = $allow;
+            } else {
+                $actName = $allow;
+            }
+
+            if (boolval($isAllowed) && $this->isActionAllowed($actName, $resource)) {
+                $bit  = $this->actionEnum::getActionBit($actName);
                 $mask |= (1 << $bit);
             }
         }
@@ -162,6 +173,55 @@ class MaskFactory
         }
 
         return $mask;
+    }
+
+    /**
+     * @param int $mask
+     *
+     * @return string[]
+     */
+    public function getActionsFromMask(int $mask): array
+    {
+        return $this->getActionsFromMaskStatic($mask, $this->actionEnum::getChoices());
+    }
+
+    /**
+     * @param int $mask
+     *
+     * @return string
+     */
+    public static function getPropertyFromMask(int $mask): string
+    {
+        if ($mask === 1) {
+            return PropertyEnum::OWNER;
+        } else if ($mask === 2) {
+            return PropertyEnum::GROUP;
+        }
+
+        throw new LogicException(
+            'Given mask must be either 1 or 2.'
+        );
+    }
+
+    /**
+     * @param int   $mask
+     * @param array $enum
+     *
+     * @return array
+     */
+    public static function getActionsFromMaskStatic(int $mask, array $enum): array
+    {
+        $choices = array_keys($enum);
+        $limit   = count($choices);
+        $res     = [];
+
+        for ($i = 0; $i < $limit; $i++) {
+            if (($mask >> $i) & 1) {
+                $res[] = $choices[$i];
+            }
+        }
+
+        return $res;
     }
 
 }
