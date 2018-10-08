@@ -150,7 +150,7 @@ class MaskFactory
     }
 
     /**
-     * @param string[] $data
+     * @param array $data
      *
      * @return int
      * @throws AclException
