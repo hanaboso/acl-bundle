@@ -339,7 +339,7 @@ class AccessManager implements EventSubscriberInterface
      */
     private function selectRule(UserInterface $user, string $act, string $res, int &$userLvl): RuleInterface
     {
-        $rules     = $this->aclProvider->getRules($user);
+        $rules     = $this->aclProvider->getRules($user, $userLvl);
         $bit       = $this->actionEnum::getActionBit($act);
         $rule      = NULL;
         $groupRule = FALSE;
@@ -349,9 +349,9 @@ class AccessManager implements EventSubscriberInterface
 
                 if ($val->getPropertyMask() === 2) {
                     $groupRule = TRUE;
-                    $this->checkGroupLvl($rule, $val, $userLvl);
+                    $this->checkGroupLvl($rule, $val);
                 } else if (!$groupRule) {
-                    $this->checkGroupLvl($rule, $val, $userLvl);
+                    $this->checkGroupLvl($rule, $val);
                 }
 
             }
@@ -367,13 +367,11 @@ class AccessManager implements EventSubscriberInterface
     /**
      * @param RuleInterface|null $old
      * @param RuleInterface      $new
-     * @param int                $userLvl
      */
-    private function checkGroupLvl(?RuleInterface &$old, RuleInterface $new, int &$userLvl): void
+    private function checkGroupLvl(?RuleInterface &$old, RuleInterface $new): void
     {
         if (is_null($old) || ($old->getGroup()->getLevel() > $new->getGroup()->getLevel())) {
-            $old     = $new;
-            $userLvl = $new->getGroup()->getLevel();
+            $old = $new;
         }
     }
 
