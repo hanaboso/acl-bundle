@@ -24,10 +24,11 @@ interface AclRuleProviderInterface
 
     /**
      * @param UserInterface $user
+     * @param int           $userLvl
      *
      * @return array
      */
-    public function getRules(UserInterface $user): array;
+    public function getRules(UserInterface $user, int &$userLvl): array;
 
     /**
      * @param string[] $users

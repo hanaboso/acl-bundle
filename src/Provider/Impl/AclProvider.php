@@ -85,16 +85,21 @@ class AclProvider implements AclRuleProviderInterface
 
     /**
      * @param UserInterface $user
+     * @param int           $userLvl
      *
      * @return RuleInterface[]
      * @throws UserException
      * @throws LogicException
      */
-    public function getRules(UserInterface $user): array
+    public function getRules(UserInterface $user, int &$userLvl): array
     {
         $rules  = [];
         $groups = $this->getGroups($user);
         foreach ($groups as $group) {
+            if ($group->getLevel() < $userLvl) {
+                $userLvl = $group->getLevel();
+            }
+
             foreach ($group->getRules() as $rule) {
                 $rules[] = $rule;
             }
