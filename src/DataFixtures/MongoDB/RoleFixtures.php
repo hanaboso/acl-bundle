@@ -7,6 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Factory\MaskFactory;
+use Hanaboso\AclBundle\Repository\Document\GroupRepository;
 use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
@@ -77,7 +78,14 @@ class RoleFixtures implements FixtureInterface, ContainerAwareInterface
 
         $parentMap = [];
 
+        /** @var GroupRepository $repo */
+        $repo = $manager->getRepository($groupClass);
+
         foreach ($rules as $key => $val) {
+            if ($repo->exists($key)) {
+                continue;
+            }
+
             /** @var GroupInterface $group */
             $group = new $groupClass(NULL);
             $group

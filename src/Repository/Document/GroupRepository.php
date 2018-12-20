@@ -69,4 +69,19 @@ class GroupRepository extends DocumentRepository
         return $query->toArray();
     }
 
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function exists(string $name): bool
+    {
+        $g = $this->createQueryBuilder()
+            ->field('name')->equals($name)
+            ->getQuery()
+            ->getSingleResult();
+
+        return !is_null($g);
+    }
+
 }

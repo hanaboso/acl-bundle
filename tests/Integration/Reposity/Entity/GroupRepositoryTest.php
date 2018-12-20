@@ -4,6 +4,7 @@ namespace Tests\Integration\Reposity\Entity;
 
 use Exception;
 use Hanaboso\AclBundle\Entity\Group;
+use Hanaboso\AclBundle\Repository\Entity\GroupRepository;
 use Hanaboso\UserBundle\Entity\User;
 use Tests\DatabaseTestCaseAbstract;
 
@@ -44,6 +45,11 @@ final class GroupRepositoryTest extends DatabaseTestCaseAbstract
         $user = $em->getRepository(User::class)->find($user->getId());
         $res  = $em->getRepository(Group::class)->getUserGroups($user);
         self::assertEquals(2, count($res));
+
+        /** @var GroupRepository $repo */
+        $repo = $em->getRepository(Group::class);
+        self::assertTrue($repo->exists('qwe'));
+        self::assertFalse($repo->exists('eee'));
     }
 
 }

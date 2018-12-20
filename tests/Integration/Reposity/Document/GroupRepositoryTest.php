@@ -30,7 +30,7 @@ final class GroupRepositoryTest extends DatabaseTestCaseAbstract
         $this->persistAndFlush($user2);
 
         $group4 = (new Group(NULL));
-        $group3 = (new Group(NULL))->addParent($group4);
+        $group3 = (new Group(NULL))->addParent($group4)->setName('qwe');
         $group  = (new Group($user))->addUser($user)->addParent($group3)->addParent($group4);
         $group2 = (new Group($user))->addUser($user2);
         $this->dm->persist($group);
@@ -48,6 +48,9 @@ final class GroupRepositoryTest extends DatabaseTestCaseAbstract
         $rep = $this->dm->getRepository(Group::class);
         $res = $rep->getUserGroups($user);
         self::assertEquals(3, count($res));
+
+        self::assertTrue($rep->exists('qwe'));
+        self::assertFalse($rep->exists('eee'));
     }
 
 }

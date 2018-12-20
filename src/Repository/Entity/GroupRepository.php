@@ -3,6 +3,7 @@
 namespace Hanaboso\AclBundle\Repository\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\UserBundle\Entity\UserInterface;
@@ -60,6 +61,24 @@ class GroupRepository extends EntityRepository
             ->setParameter('user', $user)
             ->getQuery()
             ->execute();
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     * @throws NonUniqueResultException
+     */
+    public function exists(string $name): bool
+    {
+        $c = (int) $this->createQueryBuilder('g')
+            ->select('COUNT(g.id) as count')
+            ->where('g.name = :name')
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $c > 0;
     }
 
 }
