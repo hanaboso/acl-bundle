@@ -3,6 +3,7 @@
 namespace Hanaboso\AclBundle\Provider\Impl;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
@@ -90,6 +91,7 @@ class AclProvider implements AclRuleProviderInterface
      * @return RuleInterface[]
      * @throws UserException
      * @throws LogicException
+     * @throws MongoDBException
      */
     public function getRules(UserInterface $user, int &$userLvl): array
     {
@@ -114,6 +116,7 @@ class AclProvider implements AclRuleProviderInterface
      * @return GroupInterface[]
      * @throws UserException
      * @throws LogicException
+     * @throws MongoDBException
      */
     public function getGroups(UserInterface $user): array
     {

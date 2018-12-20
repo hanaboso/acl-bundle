@@ -13,6 +13,7 @@
   },
   "require": {
     "php": "^7.2",
+    "ext-json": "*",
     "friendsofsymfony/rest-bundle": "^2.4",
     "hanaboso/user-bundle": "^1.0",
     "snc/redis-bundle": "^2.1",
