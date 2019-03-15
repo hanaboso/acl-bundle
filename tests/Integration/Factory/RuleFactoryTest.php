@@ -2,6 +2,7 @@
 
 namespace Tests\Integration\Factory;
 
+use Exception;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\UserBundle\Document\User;
@@ -37,6 +38,7 @@ final class RuleFactoryTest extends DatabaseTestCaseAbstract
 
     /**
      * @covers ::getDefaultRules()
+     * @throws Exception
      */
     public function testSetDefaultRules(): void
     {

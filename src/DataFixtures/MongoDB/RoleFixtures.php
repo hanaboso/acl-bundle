@@ -7,7 +7,7 @@ use Hanaboso\AclBundle\DataFixtures\RoleFixtureAbstract;
 /**
  * Class RoleFixtures
  *
- * @package Hanaboso\AclBundle\DataFixtures
+ * @package Hanaboso\AclBundle\DataFixtures\MongoDB
  */
 class RoleFixtures extends RoleFixtureAbstract
 {

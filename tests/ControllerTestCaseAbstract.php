@@ -3,6 +3,8 @@
 namespace Tests;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Exception;
+use Hanaboso\CommonsBundle\Exception\DateTimeException;
 use Hanaboso\UserBundle\Document\User;
 use Hanaboso\UserBundle\Model\Security\SecurityManager;
 use Hanaboso\UserBundle\Model\Token;
@@ -54,7 +56,7 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
     protected $encoder;
 
     /**
-     * DatabaseTestCase constructor.
+     * ControllerTestCaseAbstract constructor.
      *
      * @param null   $name
      * @param array  $data
@@ -74,6 +76,7 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
      * @param string $password
      *
      * @return User
+     * @throws DateTimeException
      */
     protected function loginUser(string $username, string $password): User
     {
@@ -102,7 +105,7 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
     }
 
     /**
-     *
+     * @throws Exception
      */
     protected function setUp(): void
     {

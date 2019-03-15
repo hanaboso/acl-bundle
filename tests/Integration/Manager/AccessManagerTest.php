@@ -652,6 +652,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
      * @param string $usr
      *
      * @return User
+     * @throws Exception
      */
     private function createUser(string $usr = 'test@test.com'): User
     {
@@ -669,6 +670,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
      * @param int    $lvl
      *
      * @return User
+     * @throws Exception
      */
     private function createUserLvl(string $usr, int $lvl): User
     {

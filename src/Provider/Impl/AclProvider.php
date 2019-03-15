@@ -89,9 +89,8 @@ class AclProvider implements AclRuleProviderInterface
      * @param int           $userLvl
      *
      * @return RuleInterface[]
-     * @throws UserException
-     * @throws LogicException
      * @throws MongoDBException
+     * @throws UserException
      */
     public function getRules(UserInterface $user, int &$userLvl): array
     {

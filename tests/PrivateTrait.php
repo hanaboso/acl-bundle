@@ -3,6 +3,7 @@
 namespace Tests;
 
 use ReflectionClass;
+use ReflectionException;
 use ReflectionObject;
 
 /**
@@ -17,6 +18,8 @@ trait PrivateTrait
      * @param object $object
      * @param string $propertyName
      * @param mixed  $value
+     *
+     * @throws ReflectionException
      */
     protected function setProperty($object, $propertyName, $value): void
     {
@@ -31,6 +34,7 @@ trait PrivateTrait
      * @param string $propertyName
      *
      * @return mixed
+     * @throws ReflectionException
      */
     protected function getProperty($object, $propertyName)
     {
@@ -47,6 +51,7 @@ trait PrivateTrait
      * @param array  $parameters
      *
      * @return mixed
+     * @throws ReflectionException
      */
     protected function invokeMethod($object, $methodName, array $parameters = [])
     {

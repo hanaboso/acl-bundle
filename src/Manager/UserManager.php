@@ -6,7 +6,6 @@ use Doctrine\Common\Annotations\AnnotationException;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Hanaboso\AclBundle\Enum\ActionEnum;
 use Hanaboso\AclBundle\Exception\AclException;
-use Hanaboso\CommonsBundle\Exception\EnumException;
 use Hanaboso\UserBundle\Enum\ResourceEnum;
 use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
@@ -52,7 +51,6 @@ class UserManager implements EventSubscriberInterface
      * @throws AclException
      * @throws AnnotationException
      * @throws MongoDBException
-     * @throws EnumException
      * @throws UserException
      * @throws ReflectionException
      */

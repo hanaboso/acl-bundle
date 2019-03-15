@@ -12,7 +12,6 @@ namespace Hanaboso\AclBundle\Manager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
@@ -74,7 +73,6 @@ class GroupManager
      *
      * @throws AclException
      * @throws ORMException
-     * @throws OptimisticLockException
      * @throws UserException
      */
     public function addUserIntoGroup(UserInterface $user, ?string $id = NULL, ?string $groupName = NULL): void
@@ -120,7 +118,6 @@ class GroupManager
      *
      * @throws AclException
      * @throws ORMException
-     * @throws OptimisticLockException
      * @throws UserException
      */
     public function removeUserFromGroup(UserInterface $user, ?string $id = NULL, ?string $groupName = NULL): void

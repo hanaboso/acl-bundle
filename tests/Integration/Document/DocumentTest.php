@@ -2,6 +2,7 @@
 
 namespace Tests\Integration\Document;
 
+use Exception;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\UserBundle\Document\User;
@@ -16,7 +17,7 @@ final class DocumentTest extends DatabaseTestCaseAbstract
 {
 
     /**
-     *
+     * @throws Exception
      */
     public function testReferences(): void
     {

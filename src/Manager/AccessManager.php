@@ -7,7 +7,6 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Hanaboso\AclBundle\Annotation\OwnerAnnotation;
 use Hanaboso\AclBundle\Dto\GroupDto;
@@ -21,7 +20,6 @@ use Hanaboso\AclBundle\Provider\Impl\AclProvider;
 use Hanaboso\AclBundle\Repository\Document\GroupRepository as DocumentGroupRepository;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository as EntityGroupRepository;
 use Hanaboso\CommonsBundle\DatabaseManager\DatabaseManagerLocator;
-use Hanaboso\CommonsBundle\Exception\EnumException;
 use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
@@ -111,7 +109,6 @@ class AccessManager implements EventSubscriberInterface
      * @return GroupInterface
      * @throws UserException
      * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function addGroup(string $name): GroupInterface
     {
@@ -130,7 +127,6 @@ class AccessManager implements EventSubscriberInterface
      *
      * @return GroupInterface
      * @throws ORMException
-     * @throws OptimisticLockException
      * @throws LogicException
      */
     public function updateGroup(GroupDto $data): GroupInterface
@@ -168,7 +164,6 @@ class AccessManager implements EventSubscriberInterface
      * @param GroupInterface $group
      *
      * @throws ORMException
-     * @throws OptimisticLockException
      * @throws LogicException
      */
     public function removeGroup(GroupInterface $group): void
@@ -192,7 +187,6 @@ class AccessManager implements EventSubscriberInterface
      *
      * @throws AclException
      * @throws ORMException
-     * @throws OptimisticLockException
      * @throws UserException
      */
     public function createGroup(UserEvent $event): void
@@ -248,7 +242,6 @@ class AccessManager implements EventSubscriberInterface
      * @return mixed
      * @throws AclException
      * @throws AnnotationException
-     * @throws EnumException
      * @throws ReflectionException
      * @throws UserException
      * @throws MongoDBException
@@ -435,7 +428,6 @@ class AccessManager implements EventSubscriberInterface
      * @param string $res
      *
      * @throws AclException
-     * @throws EnumException
      */
     private function checkParams(string $act, string $res): void
     {

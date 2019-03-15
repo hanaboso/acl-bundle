@@ -137,7 +137,7 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
             $group = $data['pointer'];
             foreach ($data['parents'] as $parentName) {
                 if (isset($parentMap[$parentName]['pointer'])) {
-                    /** @var GroupInterface $parent */
+                    /** @var GroupInterface|null $parent */
                     $parent = $parentMap[$parentName]['pointer'];
                 } else {
                     /** @var GroupInterface|null $parent */
