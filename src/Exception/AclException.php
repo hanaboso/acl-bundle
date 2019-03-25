@@ -2,14 +2,14 @@
 
 namespace Hanaboso\AclBundle\Exception;
 
-use Hanaboso\CommonsBundle\Exception\PipesFrameworkException;
+use Hanaboso\CommonsBundle\Exception\PipesFrameworkExceptionAbstract;
 
 /**
  * Class AclException
  *
  * @package Hanaboso\AclBundle\Exception
  */
-final class AclException extends PipesFrameworkException
+final class AclException extends PipesFrameworkExceptionAbstract
 {
 
     protected const OFFSET = 2100;
