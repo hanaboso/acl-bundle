@@ -129,16 +129,16 @@
         },
         {
             "name": "clue/buzz-react",
-            "version": "v2.5.0",
+            "version": "v2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/clue/reactphp-buzz.git",
-                "reference": "758a731c626eac2b88bad5359431650ef7384a55"
+                "reference": "83cc87d19fdc031cff3ddf3629d52ca95cbfbc92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/clue/reactphp-buzz/zipball/758a731c626eac2b88bad5359431650ef7384a55",
-                "reference": "758a731c626eac2b88bad5359431650ef7384a55",
+                "url": "https://api.github.com/repos/clue/reactphp-buzz/zipball/83cc87d19fdc031cff3ddf3629d52ca95cbfbc92",
+                "reference": "83cc87d19fdc031cff3ddf3629d52ca95cbfbc92",
                 "shasum": ""
             },
             "require": {
@@ -156,7 +156,8 @@
             "require-dev": {
                 "clue/block-react": "^1.0",
                 "clue/http-proxy-react": "^1.3",
-                "clue/socks-react": "^0.8",
+                "clue/reactphp-ssh-proxy": "^1.0",
+                "clue/socks-react": "^1.0",
                 "phpunit/phpunit": "^7.0 || ^6.4 || ^5.7 || ^4.8.35",
                 "react/http": "^0.8"
             },
@@ -185,7 +186,7 @@
                 "psr-7",
                 "reactphp"
             ],
-            "time": "2018-10-24T07:47:33+00:00"
+            "time": "2019-04-03T13:58:40+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -2418,16 +2419,16 @@
         },
         {
             "name": "jms/serializer-bundle",
-            "version": "2.4.3",
+            "version": "2.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSSerializerBundle.git",
-                "reference": "e5231652ce24b8673b2ac70bc76b0cabaf35deea"
+                "reference": "92ee808c64c1c180775a0e57d00e3be0674668fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/e5231652ce24b8673b2ac70bc76b0cabaf35deea",
-                "reference": "e5231652ce24b8673b2ac70bc76b0cabaf35deea",
+                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/92ee808c64c1c180775a0e57d00e3be0674668fb",
+                "reference": "92ee808c64c1c180775a0e57d00e3be0674668fb",
                 "shasum": ""
             },
             "require": {
@@ -2488,7 +2489,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2018-12-09T07:52:19+00:00"
+            "time": "2019-03-30T10:26:09+00:00"
         },
         {
             "name": "kdyby/monolog",
@@ -3645,21 +3646,21 @@
         },
         {
             "name": "react/dns",
-            "version": "v0.4.16",
+            "version": "v0.4.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/dns.git",
-                "reference": "0a0bedfec72b38406413c6ea01e1c015bd0bf72b"
+                "reference": "0f30c6ceb71504d359d51132a97e1703051f1589"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/dns/zipball/0a0bedfec72b38406413c6ea01e1c015bd0bf72b",
-                "reference": "0a0bedfec72b38406413c6ea01e1c015bd0bf72b",
+                "url": "https://api.github.com/repos/reactphp/dns/zipball/0f30c6ceb71504d359d51132a97e1703051f1589",
+                "reference": "0f30c6ceb71504d359d51132a97e1703051f1589",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
-                "react/cache": "^0.5 || ^0.4 || ^0.3",
+                "react/cache": "^1.0 || ^0.6 || ^0.5 || ^0.4 || ^0.3",
                 "react/event-loop": "^1.0 || ^0.5 || ^0.4 || ^0.3.5",
                 "react/promise": "^2.1 || ^1.2.1",
                 "react/promise-timer": "^1.2",
@@ -3667,7 +3668,7 @@
             },
             "require-dev": {
                 "clue/block-react": "^1.2",
-                "phpunit/phpunit": "^6.4 || ^5.7 || ^4.8.35"
+                "phpunit/phpunit": "^7.0 || ^6.4 || ^5.7 || ^4.8.35"
             },
             "type": "library",
             "autoload": {
@@ -3686,7 +3687,7 @@
                 "dns-resolver",
                 "reactphp"
             ],
-            "time": "2018-11-11T11:21:13+00:00"
+            "time": "2019-04-01T07:31:55+00:00"
         },
         {
             "name": "react/event-loop",
@@ -3878,16 +3879,16 @@
         },
         {
             "name": "react/promise-timer",
-            "version": "v1.5.0",
+            "version": "v1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/promise-timer.git",
-                "reference": "a11206938ca2394dc7bb368f5da25cd4533fa603"
+                "reference": "35fb910604fd86b00023fc5cda477c8074ad0abc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/promise-timer/zipball/a11206938ca2394dc7bb368f5da25cd4533fa603",
-                "reference": "a11206938ca2394dc7bb368f5da25cd4533fa603",
+                "url": "https://api.github.com/repos/reactphp/promise-timer/zipball/35fb910604fd86b00023fc5cda477c8074ad0abc",
+                "reference": "35fb910604fd86b00023fc5cda477c8074ad0abc",
                 "shasum": ""
             },
             "require": {
@@ -3904,7 +3905,7 @@
                     "React\\Promise\\Timer\\": "src/"
                 },
                 "files": [
-                    "src/functions.php"
+                    "src/functions_include.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3927,7 +3928,7 @@
                 "timeout",
                 "timer"
             ],
-            "time": "2018-06-13T16:45:37+00:00"
+            "time": "2019-03-27T18:10:32+00:00"
         },
         {
             "name": "react/socket",
@@ -4754,16 +4755,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v4.2.4",
+            "version": "v4.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "7998cfb802cd3b91719a9b428f0f97ea5bbabe10"
+                "reference": "5365a36a024503583a9841c177802ab1211cb5b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/7998cfb802cd3b91719a9b428f0f97ea5bbabe10",
-                "reference": "7998cfb802cd3b91719a9b428f0f97ea5bbabe10",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/5365a36a024503583a9841c177802ab1211cb5b8",
+                "reference": "5365a36a024503583a9841c177802ab1211cb5b8",
                 "shasum": ""
             },
             "require": {
@@ -4911,7 +4912,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2019-03-03T19:38:27+00:00"
+            "time": "2019-04-02T19:04:13+00:00"
         },
         {
             "name": "tracy/tracy",
@@ -5140,7 +5141,7 @@
         },
         {
             "name": "windwalker/crypt",
-            "version": "3.5.1",
+            "version": "3.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ventoviro/windwalker-crypt.git",
@@ -5404,16 +5405,16 @@
         },
         {
             "name": "hanaboso/php-check-utils",
-            "version": "1.0.19",
+            "version": "1.0.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hanaboso/php-check-utils.git",
-                "reference": "c2296f1d2411d24874b682c7d2633ec273c06813"
+                "reference": "65f488fa482066f398058d670da66798821ddae3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hanaboso/php-check-utils/zipball/c2296f1d2411d24874b682c7d2633ec273c06813",
-                "reference": "c2296f1d2411d24874b682c7d2633ec273c06813",
+                "url": "https://api.github.com/repos/hanaboso/php-check-utils/zipball/65f488fa482066f398058d670da66798821ddae3",
+                "reference": "65f488fa482066f398058d670da66798821ddae3",
                 "shasum": ""
             },
             "require": {
@@ -5439,7 +5440,7 @@
                 }
             ],
             "description": "Utils for php development - CodeSniffer, PhpStan, PhpStorm",
-            "time": "2019-03-08T12:30:17+00:00"
+            "time": "2019-04-03T14:30:27+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -6391,16 +6392,16 @@
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "0.11.2",
+            "version": "0.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "6b4d9f1719a67b733f0c0e9ae55f7612ccd2f17b"
+                "reference": "9c7e936759b284f710e77fbb18ca1da1257dcdd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/6b4d9f1719a67b733f0c0e9ae55f7612ccd2f17b",
-                "reference": "6b4d9f1719a67b733f0c0e9ae55f7612ccd2f17b",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/9c7e936759b284f710e77fbb18ca1da1257dcdd6",
+                "reference": "9c7e936759b284f710e77fbb18ca1da1257dcdd6",
                 "shasum": ""
             },
             "require": {
@@ -6423,6 +6424,7 @@
                 "slevomat/coding-standard": "^4.5.2",
                 "squizlabs/php_codesniffer": "^3.3.2",
                 "symfony/framework-bundle": "^3.0 || ^4.0",
+                "symfony/messenger": "^4.2",
                 "symfony/serializer": "^3|^4"
             },
             "type": "library",
@@ -6448,7 +6450,7 @@
                 }
             ],
             "description": "Symfony Framework extensions and rules for PHPStan",
-            "time": "2019-03-03T21:38:03+00:00"
+            "time": "2019-04-01T08:02:03+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -6704,16 +6706,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.0.5",
+            "version": "8.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "19cbed2120839772c4a00e8b28456b0c77d1a7b4"
+                "reference": "925109f8bbe6dae28fbc7bb07446a53abd3b1c25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/19cbed2120839772c4a00e8b28456b0c77d1a7b4",
-                "reference": "19cbed2120839772c4a00e8b28456b0c77d1a7b4",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/925109f8bbe6dae28fbc7bb07446a53abd3b1c25",
+                "reference": "925109f8bbe6dae28fbc7bb07446a53abd3b1c25",
                 "shasum": ""
             },
             "require": {
@@ -6782,7 +6784,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-03-16T07:33:46+00:00"
+            "time": "2019-03-26T14:00:24+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -7446,16 +7448,16 @@
         },
         {
             "name": "theseer/tokenizer",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theseer/tokenizer.git",
-                "reference": "cb2f008f3f05af2893a87208fe6a6c4985483f8b"
+                "reference": "06b6ce404ee574e9c1787fb67bb9980ca4387c34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/cb2f008f3f05af2893a87208fe6a6c4985483f8b",
-                "reference": "cb2f008f3f05af2893a87208fe6a6c4985483f8b",
+                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/06b6ce404ee574e9c1787fb67bb9980ca4387c34",
+                "reference": "06b6ce404ee574e9c1787fb67bb9980ca4387c34",
                 "shasum": ""
             },
             "require": {
@@ -7482,7 +7484,7 @@
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
-            "time": "2017-04-07T12:08:54+00:00"
+            "time": "2019-04-03T18:37:40+00:00"
         },
         {
             "name": "webmozart/assert",

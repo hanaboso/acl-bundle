@@ -14,6 +14,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
+use Hanaboso\AclBundle\Enum\PropertyEnum;
 use Hanaboso\AclBundle\Factory\MaskFactory;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository;
 use Hanaboso\UserBundle\Entity\UserInterface;
@@ -114,12 +115,18 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
             }
             if (is_array($val['rules'] ?? NULL)) {
                 foreach ($val['rules'] as $res => $rights) {
-                    $this->createRule($manager, $group, $rights, $res, $ruleClass);
+                    $this->createRule($manager, $group, $rights, $res, $ruleClass, MaskFactory::maskProperty([
+                        PropertyEnum::GROUP => TRUE,
+                        PropertyEnum::OWNER => TRUE,
+                    ]));
                 }
             }
             if (is_array($ownerRules)) {
                 foreach ($ownerRules as $res => $rights) {
-                    $this->createRule($manager, $group, $rights, $res, $ruleClass);
+                    $this->createRule($manager, $group, $rights, $res, $ruleClass, MaskFactory::maskProperty([
+                        PropertyEnum::GROUP => FALSE,
+                        PropertyEnum::OWNER => TRUE,
+                    ]));
                 }
             }
 
@@ -159,13 +166,15 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
      * @param array          $rights
      * @param string         $res
      * @param string         $ruleClass
+     * @param int            $propertyMask
      */
     private function createRule(
         ObjectManager $manager,
         GroupInterface $group,
         array $rights,
         string $res,
-        string $ruleClass
+        string $ruleClass,
+        int $propertyMask
     ): void
     {
         /** @var RuleInterface $rule */
@@ -174,7 +183,7 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
             ->setGroup($group)
             ->setActionMask($this->maskFactory->maskActionFromYmlArray($rights, $res))
             ->setResource($res)
-            ->setPropertyMask(2);
+            ->setPropertyMask($propertyMask);
         $manager->persist($rule);
         $group->addRule($rule);
     }

@@ -341,8 +341,12 @@ class AccessManager implements EventSubscriberInterface
             if ($this->hasRight($val, $res, $bit)) {
 
                 if ($val->getPropertyMask() === 2) {
+                    if ($groupRule) {
+                        $this->checkGroupLvl($rule, $val);
+                    } else {
+                        $rule = $val;
+                    }
                     $groupRule = TRUE;
-                    $this->checkGroupLvl($rule, $val);
                 } else if (!$groupRule) {
                     $this->checkGroupLvl($rule, $val);
                 }
