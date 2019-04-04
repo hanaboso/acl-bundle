@@ -472,6 +472,38 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
+     * @covers AccessManager::isAllowed
+     * @covers AccessManager::checkParams()
+     * @covers AccessManager::selectRule()
+     * @covers AccessManager::checkObjectPermission()
+     * @covers AccessManager::hasRightForUser()
+     *
+     * @throws Exception
+     */
+    public function testAllowedGroupLvlUnderOwnerLvl(): void
+    {
+        $user = $this->createUser('usr01');
+        $rule = $this->createRule($user, 7, ResourceEnum::USER, 1);
+
+        $group = new Group(NULL);
+        $group->setLevel(55)
+            ->addChild($rule->getGroup()->addParent($group));
+        $this->dm->persist($group);
+
+        $rule = new Rule();
+        $rule->setActionMask(7)
+            ->setGroup($group)
+            ->setPropertyMask(2)
+            ->setResource(ResourceEnum::USER);
+        $this->dm->persist($rule);
+        $group->addRule($rule);
+        $this->dm->flush();
+
+        $res = $this->c->get('hbpf.access.manager')->isAllowed(ActionEnum::READ, 'user', $user);
+        self::assertTrue($res);
+    }
+
+    /**
      * @covers AccessManager::isAllowed()
      * @covers AccessManager::checkParams()
      * @covers AccessManager::selectRule()
