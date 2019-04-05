@@ -74,10 +74,10 @@ abstract class DatabaseTestCaseAbstract extends KernelTestCaseAbstract
         $query      = '';
         $connection = $this->em->getConnection();
         foreach ($connection->getSchemaManager()->listTableNames() as $table) {
-            $query .= 'TRUNCATE ' . $table . ';';
+            $query .= sprintf('TRUNCATE %s;', $table);
         }
 
-        $connection->query('SET FOREIGN_KEY_CHECKS=0;' . $query . 'SET FOREIGN_KEY_CHECKS=1;');
+        $connection->query(sprintf('SET FOREIGN_KEY_CHECKS=0;%sSET FOREIGN_KEY_CHECKS=1;', $query));
     }
 
 }

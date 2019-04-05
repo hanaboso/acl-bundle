@@ -72,6 +72,141 @@
             "time": "2019-02-08T07:16:38+00:00"
         },
         {
+            "name": "aws/aws-sdk-php",
+            "version": "3.91.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aws/aws-sdk-php.git",
+                "reference": "89b07f24f4fab3ea00b1579037ff417ba61b17c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/89b07f24f4fab3ea00b1579037ff417ba61b17c9",
+                "reference": "89b07f24f4fab3ea00b1579037ff417ba61b17c9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-pcre": "*",
+                "ext-simplexml": "*",
+                "guzzlehttp/guzzle": "^5.3.3|^6.2.1",
+                "guzzlehttp/promises": "~1.0",
+                "guzzlehttp/psr7": "^1.4.1",
+                "mtdowling/jmespath.php": "~2.2",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "andrewsville/php-token-reflection": "^1.4",
+                "aws/aws-php-sns-message-validator": "~1.0",
+                "behat/behat": "~3.0",
+                "doctrine/cache": "~1.4",
+                "ext-dom": "*",
+                "ext-openssl": "*",
+                "ext-pcntl": "*",
+                "ext-sockets": "*",
+                "nette/neon": "^2.3",
+                "phpunit/phpunit": "^4.8.35|^5.4.3",
+                "psr/cache": "^1.0"
+            },
+            "suggest": {
+                "aws/aws-php-sns-message-validator": "To validate incoming SNS notifications",
+                "doctrine/cache": "To use the DoctrineCacheAdapter",
+                "ext-curl": "To send requests using cURL",
+                "ext-openssl": "Allows working with CloudFront private distributions and verifying received SNS messages",
+                "ext-sockets": "To use client-side monitoring"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Aws\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Amazon Web Services",
+                    "homepage": "http://aws.amazon.com"
+                }
+            ],
+            "description": "AWS SDK for PHP - Use Amazon Web Services in your PHP project",
+            "homepage": "http://aws.amazon.com/sdkforphp",
+            "keywords": [
+                "amazon",
+                "aws",
+                "cloud",
+                "dynamodb",
+                "ec2",
+                "glacier",
+                "s3",
+                "sdk"
+            ],
+            "time": "2019-04-04T18:38:33+00:00"
+        },
+        {
+            "name": "aws/aws-sdk-php-symfony",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aws/aws-sdk-php-symfony.git",
+                "reference": "6a6eda7df2c72c033c5c15594ee85db7d0107784"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php-symfony/zipball/6a6eda7df2c72c033c5c15594ee85db7d0107784",
+                "reference": "6a6eda7df2c72c033c5c15594ee85db7d0107784",
+                "shasum": ""
+            },
+            "require": {
+                "aws/aws-sdk-php": "^3.2.6",
+                "php": ">=5.5",
+                "symfony/config": "~2.3|~3.0|~4.0",
+                "symfony/dependency-injection": "~2.3|~3.0|~4.0",
+                "symfony/http-kernel": "~2.3|~3.0|~4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35|^5.4.0|^6.0.0",
+                "symfony/framework-bundle": "~2.3|~3.0|~4.0",
+                "symfony/yaml": "~2.3|~3.0|~4.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Aws\\Symfony\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Amazon Web Services",
+                    "homepage": "http://aws.amazon.com"
+                }
+            ],
+            "description": "A Symfony bundle for v3 of the AWS SDK for PHP",
+            "keywords": [
+                "Symfony2",
+                "amazon",
+                "aws",
+                "sdk",
+                "symfony",
+                "symfony3"
+            ],
+            "time": "2019-02-27T00:49:24+00:00"
+        },
+        {
             "name": "bunny/bunny",
             "version": "v0.4.1",
             "source": {
@@ -2031,14 +2166,15 @@
         },
         {
             "name": "hanaboso/commons-bundle",
-            "version": "1.1.8",
+            "version": "1.1.9",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.hanaboso.net:hanaboso/commons-bundle.git",
-                "reference": "5f3bbc0351cb0876602104b6dde774a0d6fe10eb"
+                "reference": "fa961297f7709c8ad1eb5646df09a166f96d537e"
             },
             "require": {
                 "alcaeus/mongo-php-adapter": "^1.1",
+                "aws/aws-sdk-php-symfony": "^2.0",
                 "clue/buzz-react": "^2.5",
                 "doctrine/doctrine-bundle": "^1.10",
                 "doctrine/doctrine-fixtures-bundle": "^3.1",
@@ -2080,7 +2216,7 @@
             "license": [
                 "proprietary"
             ],
-            "time": "2019-03-25T09:33:23+00:00"
+            "time": "2019-04-05T12:10:44+00:00"
         },
         {
             "name": "hanaboso/email-service-bundle",
@@ -2156,11 +2292,11 @@
         },
         {
             "name": "hanaboso/user-bundle",
-            "version": "1.0.28",
+            "version": "1.0.29",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.hanaboso.net:hanaboso/user-bundle.git",
-                "reference": "25cae1190731ec6fec03b0e11b02e4884bbd17f4"
+                "reference": "406b6be68b755092ba214b074dbb63c90bc2533e"
             },
             "require": {
                 "doctrine/orm": "^2.6",
@@ -2191,7 +2327,7 @@
             "license": [
                 "proprietary"
             ],
-            "time": "2019-03-25T10:44:49+00:00"
+            "time": "2019-04-05T12:57:49+00:00"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -2763,6 +2899,61 @@
                 "psr-3"
             ],
             "time": "2018-11-05T09:00:11+00:00"
+        },
+        {
+            "name": "mtdowling/jmespath.php",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jmespath/jmespath.php.git",
+                "reference": "adcc9531682cf87dfda21e1fd5d0e7a41d292fac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jmespath/jmespath.php/zipball/adcc9531682cf87dfda21e1fd5d0e7a41d292fac",
+                "reference": "adcc9531682cf87dfda21e1fd5d0e7a41d292fac",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "bin": [
+                "bin/jp.php"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JmesPath\\": "src/"
+                },
+                "files": [
+                    "src/JmesPath.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Declaratively specify how to extract elements from a JSON document",
+            "keywords": [
+                "json",
+                "jsonpath"
+            ],
+            "time": "2016-12-03T22:08:25+00:00"
         },
         {
             "name": "nette/di",
@@ -5405,16 +5596,16 @@
         },
         {
             "name": "hanaboso/php-check-utils",
-            "version": "1.0.21",
+            "version": "1.0.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hanaboso/php-check-utils.git",
-                "reference": "65f488fa482066f398058d670da66798821ddae3"
+                "reference": "5381cb9cefbca89e09522342a232b2874eb037b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hanaboso/php-check-utils/zipball/65f488fa482066f398058d670da66798821ddae3",
-                "reference": "65f488fa482066f398058d670da66798821ddae3",
+                "url": "https://api.github.com/repos/hanaboso/php-check-utils/zipball/5381cb9cefbca89e09522342a232b2874eb037b6",
+                "reference": "5381cb9cefbca89e09522342a232b2874eb037b6",
                 "shasum": ""
             },
             "require": {
@@ -5440,7 +5631,7 @@
                 }
             ],
             "description": "Utils for php development - CodeSniffer, PhpStan, PhpStorm",
-            "time": "2019-04-03T14:30:27+00:00"
+            "time": "2019-04-04T16:53:24+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -6706,16 +6897,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.0.6",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "925109f8bbe6dae28fbc7bb07446a53abd3b1c25"
+                "reference": "37cfab19fdda1554f2830be83a566ade4e2ae098"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/925109f8bbe6dae28fbc7bb07446a53abd3b1c25",
-                "reference": "925109f8bbe6dae28fbc7bb07446a53abd3b1c25",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/37cfab19fdda1554f2830be83a566ade4e2ae098",
+                "reference": "37cfab19fdda1554f2830be83a566ade4e2ae098",
                 "shasum": ""
             },
             "require": {
@@ -6758,7 +6949,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "8.0-dev"
+                    "dev-master": "8.1-dev"
                 }
             },
             "autoload": {
@@ -6784,7 +6975,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-03-26T14:00:24+00:00"
+            "time": "2019-04-05T05:27:33+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -7448,16 +7639,16 @@
         },
         {
             "name": "theseer/tokenizer",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theseer/tokenizer.git",
-                "reference": "06b6ce404ee574e9c1787fb67bb9980ca4387c34"
+                "reference": "1c42705be2b6c1de5904f8afacef5895cab44bf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/06b6ce404ee574e9c1787fb67bb9980ca4387c34",
-                "reference": "06b6ce404ee574e9c1787fb67bb9980ca4387c34",
+                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/1c42705be2b6c1de5904f8afacef5895cab44bf8",
+                "reference": "1c42705be2b6c1de5904f8afacef5895cab44bf8",
                 "shasum": ""
             },
             "require": {
@@ -7484,7 +7675,7 @@
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
-            "time": "2019-04-03T18:37:40+00:00"
+            "time": "2019-04-04T09:56:43+00:00"
         },
         {
             "name": "webmozart/assert",

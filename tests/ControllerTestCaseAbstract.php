@@ -95,7 +95,9 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
         $token = new Token($user, $password, SecurityManager::SECURED_AREA, ['test']);
         $this->tokenStorage->setToken($token);
 
-        $this->session->set(SecurityManager::SECURITY_KEY . SecurityManager::SECURED_AREA, serialize($token));
+        $this->session->set(
+            sprintf('%s%s', SecurityManager::SECURITY_KEY, SecurityManager::SECURED_AREA), serialize($token)
+        );
         $this->session->save();
 
         $cookie = new Cookie($this->session->getName(), $this->session->getId());
