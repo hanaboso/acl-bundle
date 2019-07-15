@@ -8,6 +8,7 @@ use Hanaboso\AclBundle\Enum\ActionEnum;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\UserBundle\Enum\ResourceEnum;
 use Hanaboso\UserBundle\Exception\UserException;
+use Hanaboso\UserBundle\Model\User\Event\DeleteBeforeUserEvent;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
 use ReflectionException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -41,7 +42,7 @@ class UserManager implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            UserEvent::USER_DELETE_BEFORE => 'checkPermission',
+            DeleteBeforeUserEvent::class => 'checkPermission',
         ];
     }
 

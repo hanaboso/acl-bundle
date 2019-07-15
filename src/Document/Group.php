@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
-use Hanaboso\CommonsBundle\Traits\Document\IdTrait;
+use Hanaboso\CommonsBundle\Database\Traits\Document\IdTrait;
 use Hanaboso\UserBundle\Entity\UserInterface;
 
 /**
@@ -318,7 +318,7 @@ class Group extends DocumentAbstract implements GroupInterface
         $owner = $this->getOwner();
         $rules = [];
         foreach ($this->rules as $rule) {
-            $rules[] = $rule->toArrayAcl();
+            $rules[]               = $rule->toArrayAcl();
             $links[$rule->getId()] = $rule->getGroup()->getId();
         }
 

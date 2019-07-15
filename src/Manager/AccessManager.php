@@ -19,9 +19,10 @@ use Hanaboso\AclBundle\Factory\RuleFactory;
 use Hanaboso\AclBundle\Provider\Impl\AclProvider;
 use Hanaboso\AclBundle\Repository\Document\GroupRepository as DocumentGroupRepository;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository as EntityGroupRepository;
-use Hanaboso\CommonsBundle\DatabaseManager\DatabaseManagerLocator;
+use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Exception\UserException;
+use Hanaboso\UserBundle\Model\User\Event\ActivateUserEvent;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use LogicException;
@@ -131,7 +132,7 @@ class AccessManager implements EventSubscriberInterface
      */
     public function updateGroup(GroupDto $data): GroupInterface
     {
-        $group   = $data->getGroup();
+        $group = $data->getGroup();
 
         foreach ($group->getRules() as $rule) {
             $this->dm->remove($rule);
@@ -209,7 +210,7 @@ class AccessManager implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            UserEvent::USER_ACTIVATE => 'createGroup',
+            ActivateUserEvent::class => 'createGroup',
         ];
     }
 

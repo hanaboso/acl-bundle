@@ -15,7 +15,7 @@ use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
+use Symfony\Component\Security\Core\Encoder\NativePasswordEncoder;
 
 /**
  * Class ControllerTestCaseAbstract
@@ -51,7 +51,7 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
     protected $tokenStorage;
 
     /**
-     * @var BCryptPasswordEncoder
+     * @var NativePasswordEncoder
      */
     protected $encoder;
 
@@ -67,8 +67,8 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
         parent::__construct($name, $data, $dataName);
         self::bootKernel();
         $this->c       = self::$kernel->getContainer();
-        $this->dm      = $this->c->get('doctrine_mongodb.odm.default_document_manager');
-        $this->encoder = new BCryptPasswordEncoder(12);
+        $this->dm      = self::$container->get('doctrine_mongodb.odm.default_document_manager');
+        $this->encoder = new NativePasswordEncoder(12);
     }
 
     /**
@@ -80,7 +80,7 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
      */
     protected function loginUser(string $username, string $password): User
     {
-        $this->session      = $this->c->get('session');
+        $this->session      = self::$container->get('session');
         $this->tokenStorage = $this->client->getContainer()->get('security.token_storage');
         $this->session->invalidate();
         $this->session->start();

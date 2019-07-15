@@ -1,29 +1,21 @@
 <?php declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: radek.jirsa
- * Date: 2.1.19
- * Time: 16:48
- */
-
 namespace Hanaboso\AclBundle\DataFixtures;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\NonUniqueResultException;
+use Exception;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Enum\PropertyEnum;
 use Hanaboso\AclBundle\Factory\MaskFactory;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository;
 use Hanaboso\UserBundle\Entity\UserInterface;
-use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use LogicException;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
+use Symfony\Component\Security\Core\Encoder\NativePasswordEncoder;
 
 /**
  * Class RoleFixtureAbstract
@@ -61,8 +53,7 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
      *
      * @param ObjectManager $manager
      *
-     * @throws UserException
-     * @throws NonUniqueResultException
+     * @throws Exception
      */
     public function load(ObjectManager $manager): void
     {
@@ -75,7 +66,7 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
             throw new LogicException('Amount of actions exceeded allowed 32!');
         }
 
-        $encoder    = new BCryptPasswordEncoder(12);
+        $encoder    = new NativePasswordEncoder(12);
         $rules      = $this->container->getParameter('acl_rule')['fixture_groups'];
         $ownerRules = $this->container->getParameter('acl_rule')['owner'];
         $config     = $this->container->getParameter('db_res');

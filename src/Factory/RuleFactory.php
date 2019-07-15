@@ -8,7 +8,7 @@ use Doctrine\ORM\ORMException;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Exception\AclException;
-use Hanaboso\CommonsBundle\DatabaseManager\DatabaseManagerLocator;
+use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 

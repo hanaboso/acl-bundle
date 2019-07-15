@@ -5,7 +5,7 @@ namespace Hanaboso\AclBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Hanaboso\CommonsBundle\Traits\Entity\IdTrait;
+use Hanaboso\CommonsBundle\Database\Traits\Entity\IdTrait;
 use Hanaboso\UserBundle\Entity\UserInterface;
 
 /**
@@ -332,7 +332,7 @@ class Group extends EntityAbstract implements GroupInterface
         $owner = $this->getOwner();
         $rules = [];
         foreach ($this->rules as $rule) {
-            $rules[] = $rule->toArrayAcl();
+            $rules[]               = $rule->toArrayAcl();
             $links[$rule->getId()] = $rule->getGroup()->getId();
         }
 

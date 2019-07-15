@@ -23,7 +23,7 @@ final class GroupRepositoryTest extends DatabaseTestCaseAbstract
      */
     public function testUserGroups(): void
     {
-        $em = $this->c->get('doctrine.orm.default_entity_manager');
+        $em = self::$container->get('doctrine.orm.default_entity_manager');
 
         $user  = (new User())->setPassword('pwd')->setEmail('a@a.com');
         $user2 = (new User())->setPassword('pwd2')->setEmail('a2@a.com');

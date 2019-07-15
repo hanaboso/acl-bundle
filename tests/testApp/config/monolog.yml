@@ -37,7 +37,7 @@ services:
         class: Hanaboso\CommonsBundle\Monolog\LogstashFormatter
 
     udp_sender:
-        class: Hanaboso\CommonsBundle\Metrics\UDPSender
+        class: Hanaboso\CommonsBundle\Metrics\Impl\UDPSender
         arguments:
             - 'logstash'
             - '5120'

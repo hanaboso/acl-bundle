@@ -6,7 +6,7 @@ use Exception;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\UserBundle\Document\User;
-use Hanaboso\UserBundle\Model\User\Event\UserEvent;
+use Hanaboso\UserBundle\Model\User\Event\ActivateUserEvent;
 use Tests\DatabaseTestCaseAbstract;
 
 /**
@@ -19,6 +19,7 @@ final class RuleFactoryTest extends DatabaseTestCaseAbstract
 
     /**
      * @covers ::createRule()
+     * @throws Exception
      */
     public function testRuleFactory(): void
     {
@@ -26,7 +27,7 @@ final class RuleFactoryTest extends DatabaseTestCaseAbstract
         $group->setName('group');
         $this->persistAndFlush($group);
 
-        $fac = $this->c->get('hbpf.factory.rule');
+        $fac = self::$container->get('hbpf.factory.rule');
         /** @var Rule $rule */
         $rule = $fac->createRule('user', $group, 3, 2, Rule::class);
 
@@ -47,7 +48,8 @@ final class RuleFactoryTest extends DatabaseTestCaseAbstract
             ->setEmail('test@test.com')
             ->setPassword('pass');
         $this->persistAndFlush($user);
-        $this->c->get('event_dispatcher')->dispatch(UserEvent::USER_ACTIVATE, new UserEvent($user));
+        $a = self::$container->get('event_dispatcher');
+        $a->dispatch(new ActivateUserEvent($user));
 
         $res = $this->dm->getRepository(Rule::class)->findBy([
             'group' => $this->dm->getRepository(Group::class)->findOneBy([

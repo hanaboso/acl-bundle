@@ -23,7 +23,7 @@ final class AclProviderTest extends DatabaseTestCaseAbstract
     public function testGetRules(): void
     {
         /** @var AclProvider $databaseProvider */
-        $databaseProvider = $this->c->get('hbpf.acl.provider');
+        $databaseProvider = self::$container->get('hbpf.acl.provider');
 
         $ruleOne = (new Rule())->setResource('R1');
         $this->persistAndFlush($ruleOne);

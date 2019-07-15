@@ -5,7 +5,7 @@ namespace Hanaboso\AclBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
-use Hanaboso\CommonsBundle\Traits\Document\IdTrait;
+use Hanaboso\CommonsBundle\Database\Traits\Document\IdTrait;
 
 /**
  * Class Rule

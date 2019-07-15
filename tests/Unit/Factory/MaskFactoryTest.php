@@ -23,7 +23,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
      */
     public function testMaskAction(): void
     {
-        $factory = $this->c->get('hbpf.factory.mask');
+        $factory = self::$container->get('hbpf.factory.mask');
         $data    = [
             'read'   => FALSE,
             'write',
@@ -54,7 +54,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
      */
     public function testAllowedList(): void
     {
-        $factory  = $this->c->get('hbpf.factory.mask');
+        $factory  = self::$container->get('hbpf.factory.mask');
         $baseList = [
             ExtActionEnum::READ,
             ExtActionEnum::WRITE,
@@ -95,7 +95,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     public function testAllowedActions(): void
     {
         /** @var MaskFactory $factory */
-        $factory = $this->c->get('hbpf.factory.mask');
+        $factory = self::$container->get('hbpf.factory.mask');
         self::assertTrue($factory->isActionAllowed(ExtActionEnum::TEST, ResourceEnum::FILE));
         self::assertTrue($factory->isActionAllowed(ExtActionEnum::READ, ResourceEnum::TOKEN));
         self::assertTrue($factory->isActionAllowed(ExtActionEnum::TEST2, ResourceEnum::TOKEN));
@@ -111,7 +111,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     public function testPropertiesFromMask(): void
     {
         /** @var MaskFactory $factory */
-        $factory = $this->c->get('hbpf.factory.mask');
+        $factory = self::$container->get('hbpf.factory.mask');
 
         self::assertEquals(PropertyEnum::GROUP, $factory::getPropertyFromMask(2));
         self::assertEquals(PropertyEnum::OWNER, $factory::getPropertyFromMask(1));

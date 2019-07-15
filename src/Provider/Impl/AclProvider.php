@@ -10,7 +10,7 @@ use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Provider\AclRuleProviderInterface;
 use Hanaboso\AclBundle\Repository\Document\GroupRepository as OdmRepo;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository as OrmRepo;
-use Hanaboso\CommonsBundle\DatabaseManager\DatabaseManagerLocator;
+use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Provider\ResourceProvider;

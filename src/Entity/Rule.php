@@ -3,7 +3,7 @@
 namespace Hanaboso\AclBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Hanaboso\CommonsBundle\Traits\Entity\IdTrait;
+use Hanaboso\CommonsBundle\Database\Traits\Entity\IdTrait;
 
 /**
  * Class Rule

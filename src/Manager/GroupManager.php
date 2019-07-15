@@ -1,12 +1,5 @@
 <?php declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: radek.jirsa
- * Date: 11.5.18
- * Time: 17:00
- */
-
 namespace Hanaboso\AclBundle\Manager;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -19,7 +12,7 @@ use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Provider\AclRuleProviderInterface;
 use Hanaboso\AclBundle\Repository\Document\GroupRepository as GroupRepositoryDocument;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository as GroupRepositoryEntity;
-use Hanaboso\CommonsBundle\DatabaseManager\DatabaseManagerLocator;
+use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Enum\UserTypeEnum;
 use Hanaboso\UserBundle\Exception\UserException;

@@ -20,7 +20,7 @@ services:
         public: '%public.services%'
 
     udp_metrics_sender:
-        class: Hanaboso\CommonsBundle\Metrics\UDPSender
+        class: Hanaboso\CommonsBundle\Metrics\Impl\UDPSender
         arguments:
             - '%influx.host%'
             - '%influx.udp_port%'
