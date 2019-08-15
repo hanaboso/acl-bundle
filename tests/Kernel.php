@@ -18,7 +18,6 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle;
-use Symfony\Component\Config\Exception\LoaderLoadException;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
@@ -64,12 +63,11 @@ class Kernel extends BaseKernel
             HbPFAclBundle::class          => ['all' => TRUE],
             DoctrineFixturesBundle::class => ['all' => TRUE],
             SncRedisBundle::class         => ['all' => TRUE],
-
         ];
+
         foreach ($contents as $class => $envs) {
-            if (isset($envs['all']) || isset($envs[$this->environment])) {
-                yield new $class();
-            }
+            $envs;
+            yield new $class();
         }
     }
 
@@ -88,13 +86,10 @@ class Kernel extends BaseKernel
 
     /**
      * @param RouteCollectionBuilder $routes
-     *
-     * @throws LoaderLoadException
      */
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
-        $confDir = sprintf('%s/tests/testApp/routing', $this->getProjectDir());
-        $routes->import(sprintf('%s/*%s', $confDir, self::CONFIG_EXTS), '/', 'glob');
+        $routes;
     }
 
 }

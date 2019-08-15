@@ -43,7 +43,9 @@ final class GroupRepositoryTest extends DatabaseTestCaseAbstract
         $em->clear();
         /** @var User $user */
         $user = $em->getRepository(User::class)->find($user->getId());
-        $res  = $em->getRepository(Group::class)->getUserGroups($user);
+        /** @var GroupRepository $repo */
+        $repo = $em->getRepository(Group::class);
+        $res  = $repo->getUserGroups($user);
         self::assertEquals(2, count($res));
 
         /** @var GroupRepository $repo */

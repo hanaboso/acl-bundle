@@ -58,7 +58,7 @@ final class AclProviderTest extends DatabaseTestCaseAbstract
 
         $this->dm->flush();
 
-        $int = 9999;
+        $int   = 9999;
         $rules = $databaseProvider->getRules($user, $int);
         self::assertLessThanOrEqual(9999, $int);
 

@@ -9,10 +9,9 @@ use Hanaboso\UserBundle\Document\User;
 use Hanaboso\UserBundle\Model\Security\SecurityManager;
 use Hanaboso\UserBundle\Model\Token;
 use stdClass;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Encoder\NativePasswordEncoder;
@@ -26,14 +25,9 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
 {
 
     /**
-     * @var Client
+     * @var KernelBrowser
      */
     protected $client;
-
-    /**
-     * @var ContainerInterface
-     */
-    protected $c;
 
     /**
      * @var DocumentManager
@@ -66,7 +60,6 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
     {
         parent::__construct($name, $data, $dataName);
         self::bootKernel();
-        $this->c       = self::$kernel->getContainer();
         $this->dm      = self::$container->get('doctrine_mongodb.odm.default_document_manager');
         $this->encoder = new NativePasswordEncoder(12);
     }
@@ -81,7 +74,7 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
     protected function loginUser(string $username, string $password): User
     {
         $this->session      = self::$container->get('session');
-        $this->tokenStorage = $this->client->getContainer()->get('security.token_storage');
+        $this->tokenStorage = self::$container->get('security.token_storage');
         $this->session->invalidate();
         $this->session->start();
 
@@ -151,7 +144,7 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
      */
     protected function sendPost(string $url, array $parameters, ?array $content = NULL): stdClass
     {
-        $this->client->request('POST', $url, $parameters, [], [], $content ? json_encode($content) : '');
+        $this->client->request('POST', $url, $parameters, [], [], $content ? (string) json_encode($content) : '');
         $response = $this->client->getResponse();
 
         return (object) [
@@ -169,7 +162,7 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
      */
     protected function sendPut(string $url, array $parameters, ?array $content = NULL): stdClass
     {
-        $this->client->request('PUT', $url, $parameters, [], [], $content ? json_encode($content) : '');
+        $this->client->request('PUT', $url, $parameters, [], [], $content ? (string) json_encode($content) : '');
         $response = $this->client->getResponse();
 
         return (object) [

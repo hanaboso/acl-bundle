@@ -27,7 +27,7 @@ final class ActionEnumTest extends KernelTestCaseAbstract
     {
         $arr = [];
         for ($i = 0; $i < 33; $i++) {
-            $str = (string) $i;
+            $str   = (string) $i;
             $arr[] = $str;
         }
 

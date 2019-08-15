@@ -1,3 +1,0 @@
-commons:
-    resource: '../../../src/Controller'
-    type:     annotation

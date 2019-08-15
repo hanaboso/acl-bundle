@@ -7,6 +7,7 @@ use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\AclBundle\Dto\GroupDto;
 use Hanaboso\AclBundle\Entity\Group as ORMGroup;
+use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Enum\ActionEnum;
 use Hanaboso\AclBundle\Enum\PropertyEnum;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
@@ -220,7 +221,8 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     {
         $user = $this->createUser('nullReadPer');
         $this->createRule($user, 11, 'group', 2);
-        self::$container->get('hbpf.access.manager')->isAllowed('test', 'group', $user, NULL);
+        $r = self::$container->get('hbpf.access.manager')->isAllowed('test', 'group', $user, NULL);
+        self::assertNotEmpty($r);
     }
 
     /**
@@ -235,7 +237,8 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     {
         $user = $this->createUser('nullReadPer');
         $this->createRule($user, 19, 'token', 2);
-        self::$container->get('hbpf.access.manager')->isAllowed('test2', 'token', $user, NULL);
+        $r = self::$container->get('hbpf.access.manager')->isAllowed('test2', 'token', $user, NULL);
+        self::assertNotEmpty($r);
     }
 
     /**
@@ -248,7 +251,8 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     {
         $user = $this->createUser('nullReadPer');
         $this->createRule($user, 11, 'token', 1);
-        self::$container->get('hbpf.access.manager')->isAllowed('test', 'token', $user, NULL);
+        $r = self::$container->get('hbpf.access.manager')->isAllowed('test', 'token', $user, NULL);
+        self::assertNotEmpty($r);
     }
 
     /**
@@ -613,9 +617,9 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $this->dm->flush();
         $this->dm->clear();
 
-        self::$container->get('hbpf.access.manager')->removeGroup(
-            $this->dm->find(Group::class, $rule->getGroup()->getId())
-        );
+        /** @var GroupInterface $gp */
+        $gp = $this->dm->find(Group::class, $rule->getGroup()->getId());
+        self::$container->get('hbpf.access.manager')->removeGroup($gp);
         self::assertEmpty($this->dm->getRepository(Rule::class)->findAll());
     }
 
@@ -642,10 +646,13 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $access = self::$container->get('hbpf.access.manager');
         $this->setProperty($access, 'dm', $this->em);
 
-        $access->removeGroup(
-            $this->em->find(ORMGroup::class, $group2->getId())
-        );
-        self::assertEmpty($this->em->find(ORMGroup::class, $group->getId())->getParents());
+        /** @var GroupInterface $gp */
+        $gp = $this->em->find(ORMGroup::class, $group2->getId());
+        $access->removeGroup($gp);
+
+        /** @var GroupInterface $gp2 */
+        $gp2 = $this->em->find(ORMGroup::class, $group->getId());
+        self::assertEmpty($gp2->getParents());
     }
 
     /**
