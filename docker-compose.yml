@@ -37,7 +37,7 @@ services:
       - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}
 
   mariadb:
-    image: mariadb:10.3
+    image: mariadb:latest
     command: "mysqld --innodb_flush_method=nosync"
     environment:
      MYSQL_ROOT_PASSWORD: root
@@ -47,7 +47,7 @@ services:
      - mariadb:/var/lib/mysql
 
   redis:
-    image: redis:3.2-alpine
+    image: redis:alpine
     ports:
       - ${DEV_IP}:6379:6379
 
