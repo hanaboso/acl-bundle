@@ -1,8 +1,8 @@
 .PHONY: .env init-dev test
 
 DC=docker-compose
-DE=docker-compose exec app
-DEC=docker-compose exec app composer
+DE=docker-compose exec -T app
+DEC=docker-compose exec -T  app composer
 
 .env:
 	@if ! [ -f .env ]; then \

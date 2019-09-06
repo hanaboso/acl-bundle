@@ -14,30 +14,9 @@
   "require": {
     "php": "^7.3",
     "ext-json": "*",
-    "hanaboso/user-bundle": "^1.1",
-    "snc/redis-bundle": "^3.1",
-    "symfony/monolog-bundle": "^3.4",
-    "symfony/symfony": "^4.3"
+    "hanaboso/user-bundle": "^1.1"
   },
   "require-dev": {
     "hanaboso/php-check-utils": "^1.0"
-  },
-  "repositories": [
-    {
-      "type": "git",
-      "url": "git@gitlab.hanaboso.net:hanaboso/commons-bundle.git"
-    },
-    {
-      "type": "git",
-      "url": "git@gitlab.hanaboso.net:hanaboso/email-service-bundle.git"
-    },
-    {
-      "type": "git",
-      "url": "git@gitlab.hanaboso.net:hanaboso/rabbit-mq-bundle.git"
-    },
-    {
-      "type": "git",
-      "url": "git@gitlab.hanaboso.net:hanaboso/user-bundle.git"
-    }
-  ]
+  }
 }

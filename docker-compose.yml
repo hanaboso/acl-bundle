@@ -1,57 +1,48 @@
-version: '3'
+version: '3.3'
 services:
-  app:
-    image: dkr.hanaboso.net/pipes/pipes/php-dev:dev
-    user: ${DEV_UID}:${DEV_GID}
-    volumes:
-      - ./:/var/www
-      - ${SSH_AUTH_SOCK}:/tmp/bound-ssh-agent
-      - ${HOME}/.composer:/srv/.composer
-    environment:
-      - APP_ENV=dev
-      - DEV_UID=${DEV_UID}
-      - DEV_GID=${DEV_GID}
-      - SMTP_TRANSPORT=${SMTP_TRANSPORT}
-      - SMTP_HOST=${SMTP_HOST}
-      - SMTP_PORT=${SMTP_PORT}
-      - SMTP_USER=${SMTP_USER}
-      - SMTP_PASSWORD=${SMTP_PASSWORD}
+    app:
+        image: dkr.hanaboso.net/pipes/pipes/php-dev:dev
+        user: ${DEV_UID}:${DEV_GID}
+        volumes:
+            - ./:/var/www
+            - ${SSH_AUTH_SOCK}:/tmp/bound-ssh-agent
+            - ${HOME}/.composer:/srv/.composer
+        environment:
+            - APP_ENV=dev
+            - DEV_UID=${DEV_UID}
+            - DEV_GID=${DEV_GID}
+            - SMTP_TRANSPORT=${SMTP_TRANSPORT}
+            - SMTP_HOST=${SMTP_HOST}
+            - SMTP_PORT=${SMTP_PORT}
+            - SMTP_USER=${SMTP_USER}
+            - SMTP_PASSWORD=${SMTP_PASSWORD}
 
-  mongo:
-    image: mongo:latest
-    ports:
-      - ${DEV_IP}:27017:27017
-    volumes:
-      - mongo:/data/db
+    mongo:
+        image: mongo:latest
+        volumes:
+            - mongo:/data/db
 
-  rabbitmq:
-    image: rabbitmq:management-alpine
-    volumes:
-      - rabbit-mq:/var/lib/rabbitmq
-    ports:
-      - ${DEV_IP}:15672:15672
-      - ${DEV_IP}:5672:5672
-    environment:
-      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
-      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}
+    rabbitmq:
+        image: rabbitmq:management-alpine
+        volumes:
+            - rabbit-mq:/var/lib/rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+            - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+            - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}
 
-  mariadb:
-    image: mariadb:latest
-    command: "mysqld --innodb_flush_method=nosync"
-    environment:
-     MYSQL_ROOT_PASSWORD: root
-    ports:
-     - ${DEV_IP}:3306:3306
-    volumes:
-     - mariadb:/var/lib/mysql
+    mariadb:
+        image: mariadb:latest
+        command: "mysqld --innodb_flush_method=nosync"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+        volumes:
+            - mariadb:/var/lib/mysql
 
-  redis:
-    image: redis:alpine
-    ports:
-      - ${DEV_IP}:6379:6379
+    redis:
+        image: redis:alpine
 
 volumes:
-  mongo: {}
-  rabbit-mq: {}
-  mariadb: {}
+    mongo: {}
+    rabbit-mq: {}
+    mariadb: {}

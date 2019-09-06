@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6dcfec51ff4e9fc5470a66b08f69dbda",
+    "content-hash": "b4b7b12ffa76a0dc78ca8f88260779c4",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -74,16 +74,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.110.7",
+            "version": "3.110.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "57d9dd171a5afe0b48ce44f05be2d8875c2f7b34"
+                "reference": "705fc1ffe05747e6789b19480764ebcd06995911"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/57d9dd171a5afe0b48ce44f05be2d8875c2f7b34",
-                "reference": "57d9dd171a5afe0b48ce44f05be2d8875c2f7b34",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/705fc1ffe05747e6789b19480764ebcd06995911",
+                "reference": "705fc1ffe05747e6789b19480764ebcd06995911",
                 "shasum": ""
             },
             "require": {
@@ -153,7 +153,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-08-30T18:07:59+00:00"
+            "time": "2019-09-05T18:11:21+00:00"
         },
         {
             "name": "aws/aws-sdk-php-symfony",
@@ -2186,11 +2186,17 @@
         },
         {
             "name": "hanaboso/commons-bundle",
-            "version": "1.1.24",
+            "version": "1.1.26",
             "source": {
                 "type": "git",
-                "url": "git@gitlab.hanaboso.net:hanaboso/commons-bundle.git",
-                "reference": "d36e9cd415231f3e038235854bb1d71f4e5778d7"
+                "url": "https://github.com/hanaboso/commons-bundle.git",
+                "reference": "230fb506763ab23bf8da6684fc5d31f9b4bfd06d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hanaboso/commons-bundle/zipball/230fb506763ab23bf8da6684fc5d31f9b4bfd06d",
+                "reference": "230fb506763ab23bf8da6684fc5d31f9b4bfd06d",
+                "shasum": ""
             },
             "require": {
                 "alcaeus/mongo-php-adapter": "^1.1",
@@ -2228,30 +2234,32 @@
                     "Hanaboso\\CommonsBundle\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
-            "time": "2019-09-02T14:20:29+00:00"
+            "time": "2019-09-06T10:05:37+00:00"
         },
         {
             "name": "hanaboso/email-service-bundle",
-            "version": "1.0.5",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
-                "url": "git@gitlab.hanaboso.net:hanaboso/email-service-bundle.git",
-                "reference": "5e58c9a45a73fbbb70050265daa495f2d10c47ba"
+                "url": "https://github.com/hanaboso/email-service-bundle.git",
+                "reference": "0a12d9acc5bdb0b3545aadf8d0ee5a5c07a48db8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hanaboso/email-service-bundle/zipball/0a12d9acc5bdb0b3545aadf8d0ee5a5c07a48db8",
+                "reference": "0a12d9acc5bdb0b3545aadf8d0ee5a5c07a48db8",
+                "shasum": ""
             },
             "require": {
                 "ext-json": "*",
+                "hanaboso/commons-bundle": "^1.1",
                 "php": "^7.3",
                 "symfony/monolog-bundle": "^3.4",
-                "symfony/swiftmailer-bundle": "^3.2",
-                "symfony/symfony": "^4.3"
+                "symfony/swiftmailer-bundle": "^3.2"
             },
             "require-dev": {
                 "hanaboso/php-check-utils": "^1.0"
@@ -2262,23 +2270,25 @@
                     "EmailServiceBundle\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
-            "time": "2019-08-14T13:54:14+00:00"
+            "time": "2019-09-06T13:07:19+00:00"
         },
         {
             "name": "hanaboso/rabbit-mq-bundle",
-            "version": "1.1.4",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
-                "url": "git@gitlab.hanaboso.net:hanaboso/rabbit-mq-bundle.git",
-                "reference": "2f9a2003916f5edd3e245f0425503d8ec84803f9"
+                "url": "https://github.com/hanaboso/rabbit-mq-bundle.git",
+                "reference": "5557fe6c118f9111262a1690ebf1060b74d0b070"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hanaboso/rabbit-mq-bundle/zipball/5557fe6c118f9111262a1690ebf1060b74d0b070",
+                "reference": "5557fe6c118f9111262a1690ebf1060b74d0b070",
+                "shasum": ""
             },
             "require": {
                 "bunny/bunny": "^0.4",
@@ -2297,23 +2307,25 @@
                     "RabbitMqBundle\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
-            "time": "2019-08-14T15:00:00+00:00"
+            "time": "2019-09-06T11:06:30+00:00"
         },
         {
             "name": "hanaboso/user-bundle",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
-                "url": "git@gitlab.hanaboso.net:hanaboso/user-bundle.git",
-                "reference": "126181dffed030cf2c658780ba739790b65a7972"
+                "url": "https://github.com/hanaboso/user-bundle.git",
+                "reference": "de0d31568a528857e98b0d903bbfbf71b87475d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hanaboso/user-bundle/zipball/de0d31568a528857e98b0d903bbfbf71b87475d7",
+                "reference": "de0d31568a528857e98b0d903bbfbf71b87475d7",
+                "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^2.6",
@@ -2336,15 +2348,11 @@
                     "Hanaboso\\UserBundle\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
-            "time": "2019-08-14T15:56:19+00:00"
+            "time": "2019-09-06T15:15:02+00:00"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -2458,16 +2466,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.24.0",
+            "version": "1.25.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266"
+                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266",
-                "reference": "bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
+                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
                 "shasum": ""
             },
             "require": {
@@ -2532,7 +2540,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2018-11-05T09:00:11+00:00"
+            "time": "2019-09-06T13:49:17+00:00"
         },
         {
             "name": "mtdowling/jmespath.php",
@@ -2591,16 +2599,16 @@
         },
         {
             "name": "php-imap/php-imap",
-            "version": "3.0.28",
+            "version": "3.0.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barbushin/php-imap.git",
-                "reference": "1abe83bdca77e3270400d6d73bf27638a7733865"
+                "reference": "df0798f7214b3ca57b7cdba328c5ea0754ec9d0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/1abe83bdca77e3270400d6d73bf27638a7733865",
-                "reference": "1abe83bdca77e3270400d6d73bf27638a7733865",
+                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/df0798f7214b3ca57b7cdba328c5ea0754ec9d0b",
+                "reference": "df0798f7214b3ca57b7cdba328c5ea0754ec9d0b",
                 "shasum": ""
             },
             "require": {
@@ -2640,7 +2648,7 @@
                 "pop3",
                 "receive emails"
             ],
-            "time": "2019-07-23T09:25:42+00:00"
+            "time": "2019-09-04T13:11:26+00:00"
         },
         {
             "name": "phpseclib/phpseclib",
