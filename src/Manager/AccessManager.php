@@ -108,100 +108,123 @@ class AccessManager implements EventSubscriberInterface
      * @param string $name
      *
      * @return GroupInterface
-     * @throws UserException
-     * @throws ORMException
+     * @throws AclException
      */
     public function addGroup(string $name): GroupInterface
     {
-        $class = $this->resProvider->getResource(ResourceEnum::GROUP);
-        /** @var GroupInterface $group */
-        $group = new $class(NULL);
-        $group->setName($name);
-        $this->dm->persist($group);
-        $this->dm->flush($group);
+        try {
+            $class = $this->resProvider->getResource(ResourceEnum::GROUP);
+            /** @var GroupInterface $group */
+            $group = new $class(NULL);
+            $group->setName($name);
+            $this->dm->persist($group);
+            $this->dm->flush($group);
 
-        return $group;
+            return $group;
+        } catch (ORMException | UserException $e) {
+            throw new AclException(
+                $e->getMessage(),
+                $e->getCode()
+            );
+        }
     }
 
     /**
      * @param GroupDto $data
      *
      * @return GroupInterface
-     * @throws ORMException
-     * @throws LogicException
+     * @throws AclException
      */
     public function updateGroup(GroupDto $data): GroupInterface
     {
-        $group = $data->getGroup();
+        try {
+            $group = $data->getGroup();
 
-        foreach ($group->getRules() as $rule) {
-            $this->dm->remove($rule);
-        }
-
-        if ($data->getName()) {
-            $group->setName((string) $data->getName());
-        }
-
-        $this->aclProvider->invalid(array_merge(
-            array_map([$this, 'userMap'], $group->getUsers()->toArray()),
-            array_map([$this, 'userMap'], $data->getUsers())
-        ));
-
-        $group->setUsers($data->getUsers());
-        $group->setRules($data->getRules());
-
-        if ($data->getRules()) {
-            foreach ($data->getRules() as $rule) {
-                $this->dm->persist($rule);
+            foreach ($group->getRules() as $rule) {
+                $this->dm->remove($rule);
             }
+
+            if ($data->getName()) {
+                $group->setName((string) $data->getName());
+            }
+
+            $this->aclProvider->invalid(array_merge(
+                array_map([$this, 'userMap'], $group->getUsers()->toArray()),
+                array_map([$this, 'userMap'], $data->getUsers())
+            ));
+
+            $group->setUsers($data->getUsers());
+            $group->setRules($data->getRules());
+
+            if ($data->getRules()) {
+                foreach ($data->getRules() as $rule) {
+                    $this->dm->persist($rule);
+                }
+            }
+
+            $this->dm->flush();
+
+            return $group;
+        } catch (ORMException | LogicException $e) {
+            throw new AclException(
+                $e->getMessage(),
+                $e->getCode()
+            );
         }
-
-        $this->dm->flush();
-
-        return $group;
     }
 
     /**
      * @param GroupInterface $group
      *
-     * @throws ORMException
-     * @throws LogicException
+     * @throws AclException
      */
     public function removeGroup(GroupInterface $group): void
     {
-        $this->aclProvider->invalid(array_map([$this, 'userMap'], $group->getUsers()->toArray()));
+        try {
+            $this->aclProvider->invalid(array_map([$this, 'userMap'], $group->getUsers()->toArray()));
 
-        foreach ($group->getRules() as $rule) {
-            $this->dm->remove($rule);
-        }
-        /** @var GroupInterface $child */
-        foreach ($group->getChildren() as $child) {
-            $child->removeParent($group);
-        }
+            foreach ($group->getRules() as $rule) {
+                $this->dm->remove($rule);
+            }
+            /** @var GroupInterface $child */
+            foreach ($group->getChildren() as $child) {
+                $child->removeParent($group);
+            }
 
-        $this->dm->remove($group);
-        $this->dm->flush();
+            $this->dm->remove($group);
+            $this->dm->flush();
+        } catch (LogicException | ORMException $e) {
+            throw new AclException(
+                $e->getMessage(),
+                $e->getCode()
+            );
+        }
     }
 
     /**
      * @param UserEvent $event
      *
      * @throws AclException
-     * @throws ORMException
-     * @throws UserException
      */
     public function createGroup(UserEvent $event): void
     {
-        $user  = $event->getUser();
-        $class = $this->resProvider->getResource(ResourceEnum::GROUP);
-        /** @var GroupInterface $group */
-        $group = new $class($user);
-        $group
-            ->setName($user->getEmail())
-            ->addUser($user);
+        try {
+            $user  = $event->getUser();
+            $class = $this->resProvider->getResource(ResourceEnum::GROUP);
+            /** @var GroupInterface $group */
+            $group = new $class($user);
+            $group
+                ->setName($user->getEmail())
+                ->addUser($user);
 
-        $this->factory->getDefaultRules($group);
-        $this->dm->flush();
+            $this->factory->getDefaultRules($group);
+            $this->dm->flush();
+        } catch (UserException | ORMException $e) {
+            throw new AclException(
+                $e->getMessage(),
+                $e->getCode()
+            );
+        }
     }
 
     /**
@@ -242,37 +265,39 @@ class AccessManager implements EventSubscriberInterface
      *
      * @return mixed
      * @throws AclException
-     * @throws AnnotationException
-     * @throws ReflectionException
-     * @throws UserException
-     * @throws MongoDBException
-     * @throws LogicException
      */
     public function isAllowed(string $act, string $res, UserInterface $user, $object = NULL)
     {
-        $this->checkParams($act, $res);
-        $userLvl = 999;
-        $rule    = $this->selectRule($user, $act, $res, $userLvl);
+        try {
+            $this->checkParams($act, $res);
+            $userLvl = 999;
+            $rule    = $this->selectRule($user, $act, $res, $userLvl);
 
-        if (is_string($object)) {
+            if (is_string($object)) {
 
-            return $this->checkObjectPermission($rule, $this->getObjectById($rule, $user, $res, $object),
-                $user, $userLvl, $res, TRUE);
+                return $this->checkObjectPermission($rule, $this->getObjectById($rule, $user, $res, $object),
+                    $user, $userLvl, $res, TRUE);
 
-        } else if (is_object($object)) {
+            } else if (is_object($object)) {
 
-            return $this->checkObjectPermission($rule, $object, $user, $userLvl, $res);
+                return $this->checkObjectPermission($rule, $object, $user, $userLvl, $res);
 
-        } else if (is_null($object)) {
+            } else if (is_null($object)) {
 
-            if (!in_array($act, $this->actionEnum::getGlobalActions()) && $rule->getPropertyMask() !== 2) {
-                $this->throwPermissionException('For given action no group permission or non at all for global actions.');
+                if (!in_array($act, $this->actionEnum::getGlobalActions()) && $rule->getPropertyMask() !== 2) {
+                    $this->throwPermissionException('For given action no group permission or non at all for global actions.');
+                }
+
+                return TRUE;
+
+            } else {
+                $this->throwPermissionException('Given object should be entity or it\'s id or null in case of write permission.');
             }
-
-            return TRUE;
-
-        } else {
-            $this->throwPermissionException('Given object should be entity or it\'s id or null in case of write permission.');
+        } catch (AnnotationException | MongoDBException | ReflectionException | UserException $e) {
+            throw new AclException(
+                $e->getMessage(),
+                $e->getCode()
+            );
         }
 
         return NULL;
