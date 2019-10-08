@@ -268,36 +268,29 @@ class AccessManager implements EventSubscriberInterface
      */
     public function isAllowed(string $act, string $res, UserInterface $user, $object = NULL)
     {
-        try {
-            $this->checkParams($act, $res);
-            $userLvl = 999;
-            $rule    = $this->selectRule($user, $act, $res, $userLvl);
+        $this->checkParams($act, $res);
+        $userLvl = 999;
+        $rule    = $this->selectRule($user, $act, $res, $userLvl);
 
-            if (is_string($object)) {
+        if (is_string($object)) {
 
-                return $this->checkObjectPermission($rule, $this->getObjectById($rule, $user, $res, $object),
-                    $user, $userLvl, $res, TRUE);
+            return $this->checkObjectPermission($rule, $this->getObjectById($rule, $user, $res, $object),
+                $user, $userLvl, $res, TRUE);
 
-            } else if (is_object($object)) {
+        } else if (is_object($object)) {
 
-                return $this->checkObjectPermission($rule, $object, $user, $userLvl, $res);
+            return $this->checkObjectPermission($rule, $object, $user, $userLvl, $res);
 
-            } else if (is_null($object)) {
+        } else if (is_null($object)) {
 
-                if (!in_array($act, $this->actionEnum::getGlobalActions()) && $rule->getPropertyMask() !== 2) {
-                    $this->throwPermissionException('For given action no group permission or non at all for global actions.');
-                }
-
-                return TRUE;
-
-            } else {
-                $this->throwPermissionException('Given object should be entity or it\'s id or null in case of write permission.');
+            if (!in_array($act, $this->actionEnum::getGlobalActions()) && $rule->getPropertyMask() !== 2) {
+                $this->throwPermissionException('For given action no group permission or non at all for global actions.');
             }
-        } catch (AnnotationException | MongoDBException | ReflectionException | UserException $e) {
-            throw new AclException(
-                $e->getMessage(),
-                $e->getCode()
-            );
+
+            return TRUE;
+
+        } else {
+            $this->throwPermissionException('Given object should be entity or it\'s id or null in case of write permission.');
         }
 
         return NULL;
@@ -313,8 +306,6 @@ class AccessManager implements EventSubscriberInterface
      *
      * @return mixed
      * @throws AclException
-     * @throws UserException
-     * @throws MongoDBException
      */
     private function checkObjectPermission(
         RuleInterface $rule,
@@ -352,39 +343,43 @@ class AccessManager implements EventSubscriberInterface
      *
      * @return RuleInterface
      * @throws AclException
-     * @throws UserException
-     * @throws MongoDBException
-     * @throws LogicException
      */
     private function selectRule(UserInterface $user, string $act, string $res, int &$userLvl): RuleInterface
     {
-        $rules     = $this->aclProvider->getRules($user, $userLvl);
-        $bit       = $this->actionEnum::getActionBit($act);
-        $rule      = NULL;
-        $groupRule = FALSE;
+        try {
+            $rules     = $this->aclProvider->getRules($user, $userLvl);
+            $bit       = $this->actionEnum::getActionBit($act);
+            $rule      = NULL;
+            $groupRule = FALSE;
 
-        foreach ($rules as $val) {
-            if ($this->hasRight($val, $res, $bit)) {
+            foreach ($rules as $val) {
+                if ($this->hasRight($val, $res, $bit)) {
 
-                if ($val->getPropertyMask() === 2) {
-                    if ($groupRule) {
+                    if ($val->getPropertyMask() === 2) {
+                        if ($groupRule) {
+                            $this->checkGroupLvl($rule, $val);
+                        } else {
+                            $rule = $val;
+                        }
+                        $groupRule = TRUE;
+                    } else if (!$groupRule) {
                         $this->checkGroupLvl($rule, $val);
-                    } else {
-                        $rule = $val;
                     }
-                    $groupRule = TRUE;
-                } else if (!$groupRule) {
-                    $this->checkGroupLvl($rule, $val);
+
                 }
-
             }
-        }
 
-        if (!$rule) {
-            $this->throwPermissionException('User has no permission on [%s] resource for desired action.', $res);
-        }
+            if (!$rule) {
+                $this->throwPermissionException('User has no permission on [%s] resource for desired action.', $res);
+            }
 
-        return $rule;
+            return $rule;
+        } catch (UserException | MongoDBException | LogicException $e) {
+            throw new AclException(
+                $e->getMessage(),
+                $e->getCode()
+            );
+        }
     }
 
     /**
@@ -406,35 +401,39 @@ class AccessManager implements EventSubscriberInterface
      *
      * @return mixed
      * @throws AclException
-     * @throws UserException
-     * @throws AnnotationException
-     * @throws ReflectionException
      */
     private function getObjectById(RuleInterface $rule, UserInterface $user, string $res, string $id)
     {
-        $params = ['id' => $id];
+        try {
+            $params = ['id' => $id];
 
-        $class = $this->resProvider->getResource($res);
-        if ((new ReflectionClass($class))->hasProperty('owner') && $rule->getPropertyMask() === 1) {
+            $class = $this->resProvider->getResource($res);
+            if ((new ReflectionClass($class))->hasProperty('owner') && $rule->getPropertyMask() === 1) {
 
-            $reader          = new AnnotationReader();
-            $owner           = $reader->getPropertyAnnotation(
-                new ReflectionProperty($class, 'owner'),
-                OwnerAnnotation::class
+                $reader          = new AnnotationReader();
+                $owner           = $reader->getPropertyAnnotation(
+                    new ReflectionProperty($class, 'owner'),
+                    OwnerAnnotation::class
+                );
+                $params['owner'] = $owner ? $user : $user->getId();
+            }
+
+            $res = $this->dm->getRepository($class)->findOneBy($params);
+
+            if (!$res) {
+                $this->throwPermissionException(sprintf(
+                    'User has no permission on entity with [%s] id or it doesn\'t exist.',
+                    $id
+                ));
+            }
+
+            return $res;
+        } catch (UserException | AnnotationException | ReflectionException $e) {
+            throw new AclException(
+                $e->getMessage(),
+                $e->getCode()
             );
-            $params['owner'] = $owner ? $user : $user->getId();
         }
-
-        $res = $this->dm->getRepository($class)->findOneBy($params);
-
-        if (!$res) {
-            $this->throwPermissionException(sprintf(
-                'User has no permission on entity with [%s] id or it doesn\'t exist.',
-                $id
-            ));
-        }
-
-        return $res;
     }
 
     /**
@@ -490,22 +489,27 @@ class AccessManager implements EventSubscriberInterface
      *
      * @return UserInterface|null
      * @throws AclException
-     * @throws UserException
-     * @throws MongoDBException
      */
     private function hasRightForUser(UserInterface $user, int $userLvl): ?UserInterface
     {
-        /** @var EntityGroupRepository|DocumentGroupRepository $repo */
-        $repo   = $this->dm->getRepository($this->resProvider->getResource(ResourceEnum::GROUP));
-        $groups = $repo->getUserGroups($user);
+        try {
+            /** @var EntityGroupRepository|DocumentGroupRepository $repo */
+            $repo   = $this->dm->getRepository($this->resProvider->getResource(ResourceEnum::GROUP));
+            $groups = $repo->getUserGroups($user);
 
-        foreach ($groups as $group) {
-            if ($group->getLevel() < $userLvl) {
-                $this->throwPermissionException('User has lower permission than [%s] user.', $group->getId());
+            foreach ($groups as $group) {
+                if ($group->getLevel() < $userLvl) {
+                    $this->throwPermissionException('User has lower permission than [%s] user.', $group->getId());
+                }
             }
-        }
 
-        return $user;
+            return $user;
+        } catch (UserException | MongoDBException $e) {
+            throw new AclException(
+                $e->getMessage(),
+                $e->getCode()
+            );
+        }
     }
 
     /**

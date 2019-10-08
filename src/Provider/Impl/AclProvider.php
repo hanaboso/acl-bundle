@@ -7,6 +7,7 @@ use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
+use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Provider\AclRuleProviderInterface;
 use Hanaboso\AclBundle\Repository\Document\GroupRepository as OdmRepo;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository as OrmRepo;
@@ -89,8 +90,7 @@ class AclProvider implements AclRuleProviderInterface
      * @param int           $userLvl
      *
      * @return RuleInterface[]
-     * @throws MongoDBException
-     * @throws UserException
+     * @throws AclException
      */
     public function getRules(UserInterface $user, int &$userLvl): array
     {
@@ -113,28 +113,33 @@ class AclProvider implements AclRuleProviderInterface
      * @param UserInterface $user
      *
      * @return GroupInterface[]
-     * @throws UserException
-     * @throws LogicException
-     * @throws MongoDBException
+     * @throws AclException
      */
     public function getGroups(UserInterface $user): array
     {
-        if ($this->useCache) {
-            $res = $this->load($user);
-            if ($res !== NULL) {
-                return $res;
+        try {
+            if ($this->useCache) {
+                $res = $this->load($user);
+                if ($res !== NULL) {
+                    return $res;
+                }
             }
+
+            /** @var OrmRepo|OdmRepo $repo */
+            $repo   = $this->dm->getRepository($this->provider->getResource($this->resourceEnum::GROUP));
+            $groups = $repo->getUserGroups($user);
+
+            if ($this->useCache) {
+                $this->store($user, $groups);
+            }
+
+            return $groups;
+        } catch (UserException | LogicException | MongoDBException $e) {
+            throw new AclException(
+                $e->getMessage(),
+                $e->getCode()
+            );
         }
-
-        /** @var OrmRepo|OdmRepo $repo */
-        $repo   = $this->dm->getRepository($this->provider->getResource($this->resourceEnum::GROUP));
-        $groups = $repo->getUserGroups($user);
-
-        if ($this->useCache) {
-            $this->store($user, $groups);
-        }
-
-        return $groups;
     }
 
     /**
@@ -177,38 +182,44 @@ class AclProvider implements AclRuleProviderInterface
      * @param UserInterface $user
      *
      * @return GroupInterface[]|null
-     * @throws UserException
-     * @throws LogicException
+     * @throws AclException
      */
     protected function load(UserInterface $user): ?array
     {
-        $redis = $this->getClient();
-        $key   = $this->getKey($user);
-        if (!$redis->exists($key)) {
-            return NULL;
+        try {
+            $redis = $this->getClient();
+            $key   = $this->getKey($user);
+            if (!$redis->exists($key)) {
+                return NULL;
+            }
+
+            $json   = $redis->get($key);
+            $arr    = json_decode($json, TRUE);
+            $groups = [];
+
+            $groupClass = $this->provider->getResource($this->resourceEnum::GROUP);
+            $ruleClass  = $this->provider->getResource($this->resourceEnum::RULE);
+            /** @var RuleInterface[] $rulesList */
+            $rulesList = [];
+
+            foreach ($arr[self::GROUPS] as $groupData) {
+                $owner = $groupData[GroupInterface::OWNER] === $user->getId() ? $user : NULL;
+                /** @var GroupInterface $g */
+                $g = new $groupClass($owner);
+                $g->fromArrayAcl($groupData, $ruleClass, $rulesList);
+                $groups[$g->getId()] = $g;
+            }
+            foreach ($arr[self::LINKS] as $ruleId => $groupId) {
+                $rulesList[$ruleId]->setGroup($groups[$groupId]);
+            }
+
+            return $groups;
+        } catch (LogicException | UserException $e) {
+            throw new AclException(
+                $e->getMessage(),
+                $e->getCode()
+            );
         }
-
-        $json   = $redis->get($key);
-        $arr    = json_decode($json, TRUE);
-        $groups = [];
-
-        $groupClass = $this->provider->getResource($this->resourceEnum::GROUP);
-        $ruleClass  = $this->provider->getResource($this->resourceEnum::RULE);
-        /** @var RuleInterface[] $rulesList */
-        $rulesList = [];
-
-        foreach ($arr[self::GROUPS] as $groupData) {
-            $owner = $groupData[GroupInterface::OWNER] === $user->getId() ? $user : NULL;
-            /** @var GroupInterface $g */
-            $g = new $groupClass($owner);
-            $g->fromArrayAcl($groupData, $ruleClass, $rulesList);
-            $groups[$g->getId()] = $g;
-        }
-        foreach ($arr[self::LINKS] as $ruleId => $groupId) {
-            $rulesList[$ruleId]->setGroup($groups[$groupId]);
-        }
-
-        return $groups;
     }
 
     /**

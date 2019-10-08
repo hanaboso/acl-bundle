@@ -66,7 +66,6 @@ class GroupManager
      *
      * @throws AclException
      * @throws ORMException
-     * @throws UserException
      */
     public function addUserIntoGroup(UserInterface $user, ?string $id = NULL, ?string $groupName = NULL): void
     {
@@ -84,8 +83,16 @@ class GroupManager
             throw new AclException('Insert [name] or [id] of Group!', AclException::GROUP_NOT_FOUND);
         }
 
-        /** @var GroupInterface|null $group */
-        $group = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))->findOneBy($query);
+        try {
+            /** @var GroupInterface|null $group */
+            $group = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))
+                ->findOneBy($query);
+        } catch (UserException $e) {
+            throw new AclException(
+                $e->getMessage(),
+                $e->getCode()
+            );
+        }
 
         if (!$group) {
             throw new AclException(sprintf('Group [%s] was not found!', $groupName), AclException::GROUP_NOT_FOUND);
@@ -111,7 +118,6 @@ class GroupManager
      *
      * @throws AclException
      * @throws ORMException
-     * @throws UserException
      */
     public function removeUserFromGroup(UserInterface $user, ?string $id = NULL, ?string $groupName = NULL): void
     {
@@ -129,8 +135,17 @@ class GroupManager
             throw new AclException('Insert [name] or [id] of Group!', AclException::GROUP_NOT_FOUND);
         }
 
-        /** @var GroupInterface|null $group */
-        $group = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))->findOneBy($query);
+        try {
+            /** @var GroupInterface|null $group */
+            $group = $this->dm
+                ->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))
+                ->findOneBy($query);
+        } catch (UserException $e) {
+            throw new AclException(
+                $e->getMessage(),
+                $e->getCode()
+            );
+        }
 
         if (!$group) {
             throw new AclException(sprintf('Group [%s] was not found!', $groupName), AclException::GROUP_NOT_FOUND);
@@ -170,13 +185,20 @@ class GroupManager
      * @param UserInterface $user
      *
      * @return array
-     * @throws UserException
      * @throws MongoDBException
+     * @throws AclException
      */
     public function getUserGroups(UserInterface $user): array
     {
-        /** @var GroupRepositoryEntity|GroupRepositoryDocument $repo */
-        $repo = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP));
+        try {
+            /** @var GroupRepositoryEntity|GroupRepositoryDocument $repo */
+            $repo = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP));
+        } catch (UserException $e) {
+            throw new AclException(
+                $e->getMessage(),
+                $e->getCode()
+            );
+        }
 
         if ($user->getType() === UserTypeEnum::USER) {
             $groups = $repo->getUserGroups($user) ?? [];

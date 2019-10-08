@@ -114,33 +114,38 @@ class RuleFactory
      *
      * @return array|RuleInterface[]
      * @throws AclException
-     * @throws UserException
-     * @throws ORMException
      */
     public function getDefaultRules(GroupInterface $group): array
     {
-        $this->dm->persist($group);
+        try {
+            $this->dm->persist($group);
 
-        // TODO ošetřit následnou změnu defaultních práv
-        $rules = [];
-        foreach ($this->rules as $key => $rule) {
-            if (!$this->resource::isValid($key)) {
-                throw new AclException(
-                    sprintf('[%s] is not a valid resource', $key),
-                    AclException::INVALID_RESOURCE
-                );
+            // TODO ošetřit následnou změnu defaultních práv
+            $rules = [];
+            foreach ($this->rules as $key => $rule) {
+                if (!$this->resource::isValid($key)) {
+                    throw new AclException(
+                        sprintf('[%s] is not a valid resource', $key),
+                        AclException::INVALID_RESOURCE
+                    );
+                }
+
+                $ruleClass = $this->provider->getResource($this->resource::RULE);
+                $actMask   = $this->maskFactory->maskActionFromYmlArray($rule, $this->resource::RULE);
+                $rule      = self::createRule($key, $group, $actMask, 1, $ruleClass);
+                $group->addRule($rule);
+                $this->dm->persist($rule);
+
+                $rules[] = $rule;
             }
 
-            $ruleClass = $this->provider->getResource($this->resource::RULE);
-            $actMask   = $this->maskFactory->maskActionFromYmlArray($rule, $this->resource::RULE);
-            $rule      = self::createRule($key, $group, $actMask, 1, $ruleClass);
-            $group->addRule($rule);
-            $this->dm->persist($rule);
-
-            $rules[] = $rule;
+            return $rules;
+        } catch (UserException | ORMException $e) {
+            throw new AclException(
+                $e->getMessage(),
+                $e->getCode()
+            );
         }
-
-        return $rules;
     }
 
 }
