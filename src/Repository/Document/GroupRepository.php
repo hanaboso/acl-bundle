@@ -2,9 +2,9 @@
 
 namespace Hanaboso\AclBundle\Repository\Document;
 
-use Doctrine\ODM\MongoDB\DocumentRepository;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Query\Query;
+use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\UserBundle\Entity\UserInterface;

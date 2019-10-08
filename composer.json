@@ -17,6 +17,8 @@
     "hanaboso/user-bundle": "^1.1"
   },
   "require-dev": {
-    "hanaboso/php-check-utils": "^1.0"
+    "hanaboso/php-check-utils": "^1.0",
+    "symfony/browser-kit": "^4.3",
+    "symfony/security-bundle": "^4.3"
   }
 }

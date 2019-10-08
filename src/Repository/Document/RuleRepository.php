@@ -2,7 +2,7 @@
 
 namespace Hanaboso\AclBundle\Repository\Document;
 
-use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 
 /**
  * Class RuleRepository
