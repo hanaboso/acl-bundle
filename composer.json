@@ -8,17 +8,16 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/"
+      "AclBundleTests\\": "tests/"
     }
   },
   "require": {
     "php": "^7.3",
     "ext-json": "*",
-    "hanaboso/user-bundle": "^1.1"
+    "hanaboso/user-bundle": "^1.2"
   },
   "require-dev": {
     "hanaboso/php-check-utils": "^1.0",
-    "symfony/browser-kit": "^4.3",
     "symfony/security-bundle": "^4.3"
   }
 }

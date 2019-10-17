@@ -1,20 +1,30 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Integration\Reposity\Entity;
+namespace AclBundleTests\Integration\Reposity\Entity;
 
+use AclBundleTests\DatabaseTestCaseAbstract;
 use Exception;
 use Hanaboso\AclBundle\Entity\Group;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository;
 use Hanaboso\UserBundle\Entity\User;
-use Tests\DatabaseTestCaseAbstract;
 
 /**
  * Class GroupRepositoryTest
  *
- * @package Tests\Integration\Reposity\Entity
+ * @package AclBundleTests\Integration\Reposity\Entity
  */
 final class GroupRepositoryTest extends DatabaseTestCaseAbstract
 {
+
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->em = self::$container->get('doctrine.orm.default_entity_manager');
+        $this->clearMysql();
+    }
 
     /**
      * @covers GroupRepository::getUserGroups()

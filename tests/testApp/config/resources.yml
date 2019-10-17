@@ -1,6 +1,6 @@
 parameters:
     resource_enum: Hanaboso\AclBundle\Enum\ResourceEnum
-    action_enum: Tests\testApp\ExtActionEnum
+    action_enum: AclBundleTests\testApp\ExtActionEnum
     acl_use_cache: true
 
     db_res:

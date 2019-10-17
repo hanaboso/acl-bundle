@@ -1,18 +1,18 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Factory;
+namespace AclBundleTests\Unit\Factory;
 
+use AclBundleTests\KernelTestCaseAbstract;
+use AclBundleTests\testApp\ExtActionEnum;
 use Exception;
 use Hanaboso\AclBundle\Enum\PropertyEnum;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Factory\MaskFactory;
-use Tests\KernelTestCaseAbstract;
-use Tests\testApp\ExtActionEnum;
 
 /**
  * Class MaskFactoryTest
  *
- * @package Tests\Unit\Factory
+ * @package AclBundleTests\Unit\Factory
  */
 final class MaskFactoryTest extends KernelTestCaseAbstract
 {

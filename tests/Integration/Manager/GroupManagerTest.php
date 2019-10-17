@@ -1,18 +1,18 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Integration\Manager;
+namespace AclBundleTests\Integration\Manager;
 
+use AclBundleTests\DatabaseTestCaseAbstract;
 use Exception;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Manager\GroupManager;
 use Hanaboso\UserBundle\Document\TmpUser;
-use Tests\DatabaseTestCaseAbstract;
 
 /**
  * Class GroupManagerTest
  *
- * @package Tests\Integration\Manager
+ * @package AclBundleTests\Integration\Manager
  */
 final class GroupManagerTest extends DatabaseTestCaseAbstract
 {
@@ -24,13 +24,13 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
     {
         $group = new Group(NULL);
         $group->setName('a');
-        $this->persistAndFlush($group);
+        $this->pfd($group);
 
         $this->dm->clear();
 
         $tmpUser = new TmpUser();
         $tmpUser->setEmail('a@b.c');
-        $this->persistAndFlush($tmpUser);
+        $this->pfd($tmpUser);
 
         /** @var GroupManager $man */
         $man = self::$container->get('hbpf.manager.group');
@@ -50,13 +50,13 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
     {
         $group = new Group(NULL);
         $group->setName('b');
-        $this->persistAndFlush($group);
+        $this->pfd($group);
 
         $this->dm->clear();
 
         $tmpUser = new TmpUser();
         $tmpUser->setEmail('a@b.c');
-        $this->persistAndFlush($tmpUser);
+        $this->pfd($tmpUser);
 
         /** @var GroupManager $man */
         $man = self::$container->get('hbpf.manager.group');
@@ -76,13 +76,13 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
     {
         $group = new Group(NULL);
         $group->setName('b');
-        $this->persistAndFlush($group);
+        $this->pfd($group);
 
         $this->dm->clear();
 
         $tmpUser = new TmpUser();
         $tmpUser->setEmail('a@b.c');
-        $this->persistAndFlush($tmpUser);
+        $this->pfd($tmpUser);
 
         /** @var GroupManager $man */
         $man = self::$container->get('hbpf.manager.group');
@@ -98,17 +98,17 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
     {
         $group = new Group(NULL);
         $group->setName('c');
-        $this->persistAndFlush($group);
+        $this->pfd($group);
 
         $tmpUser = new TmpUser();
         $tmpUser->setEmail('a@b.c');
-        $this->persistAndFlush($tmpUser);
+        $this->pfd($tmpUser);
 
         $group->addTmpUser($tmpUser);
 
         $tmpUser = new TmpUser();
         $tmpUser->setEmail('aa@b.c');
-        $this->persistAndFlush($tmpUser);
+        $this->pfd($tmpUser);
 
         $group->addTmpUser($tmpUser);
         $this->dm->flush();
@@ -134,17 +134,17 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
     {
         $group = new Group(NULL);
         $group->setName('d');
-        $this->persistAndFlush($group);
+        $this->pfd($group);
 
         $tmpUser = new TmpUser();
         $tmpUser->setEmail('a@b.c');
-        $this->persistAndFlush($tmpUser);
+        $this->pfd($tmpUser);
 
         $group->addTmpUser($tmpUser);
 
         $tmpUser = new TmpUser();
         $tmpUser->setEmail('aa@b.c');
-        $this->persistAndFlush($tmpUser);
+        $this->pfd($tmpUser);
 
         $group->addTmpUser($tmpUser);
         $this->dm->flush();
@@ -170,17 +170,17 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
     {
         $group = new Group(NULL);
         $group->setName('c');
-        $this->persistAndFlush($group);
+        $this->pfd($group);
 
         $tmpUser = new TmpUser();
         $tmpUser->setEmail('a@b.c');
-        $this->persistAndFlush($tmpUser);
+        $this->pfd($tmpUser);
 
         $group->addTmpUser($tmpUser);
 
         $tmpUser = new TmpUser();
         $tmpUser->setEmail('aa@b.c');
-        $this->persistAndFlush($tmpUser);
+        $this->pfd($tmpUser);
 
         $group->addTmpUser($tmpUser);
         $this->dm->flush();
@@ -203,15 +203,15 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
     {
         $group = new Group(NULL);
         $group->setName('a');
-        $this->persistAndFlush($group);
+        $this->pfd($group);
 
         $group2 = new Group(NULL);
         $group2->setName('b')->setLevel(1);
-        $this->persistAndFlush($group2);
+        $this->pfd($group2);
 
         $tmpUser = new TmpUser();
         $tmpUser->setEmail('a@b.c');
-        $this->persistAndFlush($tmpUser);
+        $this->pfd($tmpUser);
 
         $group->addTmpUser($tmpUser);
         $group2->addTmpUser($tmpUser);

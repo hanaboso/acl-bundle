@@ -1,22 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Enum;
+namespace AclBundleTests\Unit\Enum;
 
+use AclBundleTests\KernelTestCaseAbstract;
 use Exception;
 use Hanaboso\AclBundle\Enum\ActionEnum;
 use LogicException;
-use Tests\KernelTestCaseAbstract;
-use Tests\PrivateTrait;
 
 /**
  * Class ActionEnumTest
  *
- * @package Tests\Unit\Enum
+ * @package AclBundleTests\Unit\Enum
  */
 final class ActionEnumTest extends KernelTestCaseAbstract
 {
-
-    use PrivateTrait;
 
     /**
      * @covers ActionEnum::getActionBit()

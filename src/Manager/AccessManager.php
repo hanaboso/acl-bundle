@@ -21,10 +21,10 @@ use Hanaboso\AclBundle\Repository\Document\GroupRepository as DocumentGroupRepos
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository as EntityGroupRepository;
 use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Entity\UserInterface;
-use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Model\User\Event\ActivateUserEvent;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
+use Hanaboso\UserBundle\Provider\ResourceProviderException;
 use LogicException;
 use ReflectionClass;
 use ReflectionException;
@@ -121,7 +121,7 @@ class AccessManager implements EventSubscriberInterface
             $this->dm->flush($group);
 
             return $group;
-        } catch (ORMException | UserException $e) {
+        } catch (ORMException | ResourceProviderException $e) {
             throw new AclException(
                 $e->getMessage(),
                 $e->getCode()
@@ -219,7 +219,7 @@ class AccessManager implements EventSubscriberInterface
 
             $this->factory->getDefaultRules($group);
             $this->dm->flush();
-        } catch (UserException | ORMException $e) {
+        } catch (ResourceProviderException | ORMException $e) {
             throw new AclException(
                 $e->getMessage(),
                 $e->getCode()
@@ -374,7 +374,7 @@ class AccessManager implements EventSubscriberInterface
             }
 
             return $rule;
-        } catch (UserException | MongoDBException | LogicException $e) {
+        } catch (ResourceProviderException | MongoDBException | LogicException $e) {
             throw new AclException(
                 $e->getMessage(),
                 $e->getCode()
@@ -428,7 +428,7 @@ class AccessManager implements EventSubscriberInterface
             }
 
             return $res;
-        } catch (UserException | AnnotationException | ReflectionException $e) {
+        } catch (ResourceProviderException | AnnotationException | ReflectionException $e) {
             throw new AclException(
                 $e->getMessage(),
                 $e->getCode()
@@ -504,7 +504,7 @@ class AccessManager implements EventSubscriberInterface
             }
 
             return $user;
-        } catch (UserException | MongoDBException $e) {
+        } catch (ResourceProviderException | MongoDBException $e) {
             throw new AclException(
                 $e->getMessage(),
                 $e->getCode()

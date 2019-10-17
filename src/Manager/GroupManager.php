@@ -15,8 +15,8 @@ use Hanaboso\AclBundle\Repository\Entity\GroupRepository as GroupRepositoryEntit
 use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Enum\UserTypeEnum;
-use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
+use Hanaboso\UserBundle\Provider\ResourceProviderException;
 
 /**
  * Class GroupManager
@@ -87,7 +87,7 @@ class GroupManager
             /** @var GroupInterface|null $group */
             $group = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))
                 ->findOneBy($query);
-        } catch (UserException $e) {
+        } catch (ResourceProviderException $e) {
             throw new AclException(
                 $e->getMessage(),
                 $e->getCode()
@@ -140,7 +140,7 @@ class GroupManager
             $group = $this->dm
                 ->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))
                 ->findOneBy($query);
-        } catch (UserException $e) {
+        } catch (ResourceProviderException $e) {
             throw new AclException(
                 $e->getMessage(),
                 $e->getCode()
@@ -193,7 +193,7 @@ class GroupManager
         try {
             /** @var GroupRepositoryEntity|GroupRepositoryDocument $repo */
             $repo = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP));
-        } catch (UserException $e) {
+        } catch (ResourceProviderException $e) {
             throw new AclException(
                 $e->getMessage(),
                 $e->getCode()

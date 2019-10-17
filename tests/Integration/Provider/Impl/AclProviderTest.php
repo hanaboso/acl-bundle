@@ -1,18 +1,18 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Integration\Provider\Impl;
+namespace AclBundleTests\Integration\Provider\Impl;
 
+use AclBundleTests\DatabaseTestCaseAbstract;
 use Exception;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\AclBundle\Provider\Impl\AclProvider;
 use Hanaboso\UserBundle\Document\User;
-use Tests\DatabaseTestCaseAbstract;
 
 /**
  * Class AclProviderTest
  *
- * @package Tests\Integration\Provider\Impl
+ * @package AclBundleTests\Integration\Provider\Impl
  */
 final class AclProviderTest extends DatabaseTestCaseAbstract
 {
@@ -26,13 +26,13 @@ final class AclProviderTest extends DatabaseTestCaseAbstract
         $databaseProvider = self::$container->get('hbpf.acl.provider');
 
         $ruleOne = (new Rule())->setResource('R1');
-        $this->persistAndFlush($ruleOne);
+        $this->pfd($ruleOne);
         $ruleTwo = (new Rule())->setResource('R2');
-        $this->persistAndFlush($ruleTwo);
+        $this->pfd($ruleTwo);
         $ruleThree = (new Rule())->setResource('R3');
-        $this->persistAndFlush($ruleThree);
+        $this->pfd($ruleThree);
         $ruleFour = (new Rule())->setResource('R4');
-        $this->persistAndFlush($ruleFour);
+        $this->pfd($ruleFour);
 
         $groupOne = (new Group(NULL))
             ->setName('G1')
@@ -40,7 +40,7 @@ final class AclProviderTest extends DatabaseTestCaseAbstract
             ->addRule($ruleThree);
         $ruleOne->setGroup($groupOne);
         $ruleThree->setGroup($groupOne);
-        $this->persistAndFlush($groupOne);
+        $this->pfd($groupOne);
 
         $groupTwo = (new Group(NULL))
             ->setName('G1')
@@ -48,10 +48,10 @@ final class AclProviderTest extends DatabaseTestCaseAbstract
             ->addRule($ruleFour);
         $ruleTwo->setGroup($groupTwo);
         $ruleFour->setGroup($groupTwo);
-        $this->persistAndFlush($groupTwo);
+        $this->pfd($groupTwo);
 
         $user = (new User())->setEmail('user@example.com');
-        $this->persistAndFlush($user);
+        $this->pfd($user);
 
         $groupOne->addUser($user);
         $groupTwo->addUser($user);

@@ -1,18 +1,18 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Integration\Factory;
+namespace AclBundleTests\Integration\Factory;
 
+use AclBundleTests\DatabaseTestCaseAbstract;
 use Exception;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\UserBundle\Document\User;
 use Hanaboso\UserBundle\Model\User\Event\ActivateUserEvent;
-use Tests\DatabaseTestCaseAbstract;
 
 /**
  * Class RuleFactoryTest
  *
- * @package Tests\Integration\Factory
+ * @package AclBundleTests\Integration\Factory
  */
 final class RuleFactoryTest extends DatabaseTestCaseAbstract
 {
@@ -25,7 +25,7 @@ final class RuleFactoryTest extends DatabaseTestCaseAbstract
     {
         $group = new Group(NULL);
         $group->setName('group');
-        $this->persistAndFlush($group);
+        $this->pfd($group);
 
         $fac = self::$container->get('hbpf.factory.rule');
         /** @var Rule $rule */
@@ -47,7 +47,7 @@ final class RuleFactoryTest extends DatabaseTestCaseAbstract
         $user
             ->setEmail('test@test.com')
             ->setPassword('pass');
-        $this->persistAndFlush($user);
+        $this->pfd($user);
         $a = self::$container->get('event_dispatcher');
         $a->dispatch(new ActivateUserEvent($user));
 

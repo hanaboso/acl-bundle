@@ -1,35 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace Tests;
+namespace AclBundleTests;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Hanaboso\PhpCheckUtils\PhpUnit\Traits\PrivateTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * Class KernelTestCaseAbstract
  *
- * @package Tests
+ * @package AclBundleTests
  */
 abstract class KernelTestCaseAbstract extends KernelTestCase
 {
 
-    /**
-     * @var DocumentManager
-     */
-    protected $dm;
-
-    /**
-     * KernelTestCaseAbstract constructor.
-     *
-     * @param null   $name
-     * @param array  $data
-     * @param string $dataName
-     */
-    public function __construct($name = NULL, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-        self::bootKernel();
-    }
+    use PrivateTrait;
 
     /**
      *
@@ -38,7 +22,6 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
     {
         parent::setUp();
         self::bootKernel();
-        $this->dm = self::$container->get('doctrine_mongodb.odm.default_document_manager');
     }
 
 }

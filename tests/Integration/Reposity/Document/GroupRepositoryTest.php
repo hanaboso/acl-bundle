@@ -1,18 +1,18 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Integration\Reposity\Document;
+namespace AclBundleTests\Integration\Reposity\Document;
 
+use AclBundleTests\DatabaseTestCaseAbstract;
 use Exception;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Repository\Document\GroupRepository;
 use Hanaboso\UserBundle\Document\User;
 use Hanaboso\UserBundle\Repository\Document\UserRepository;
-use Tests\DatabaseTestCaseAbstract;
 
 /**
  * Class GroupRepositoryTest
  *
- * @package Tests\Integration\Reposity\Document
+ * @package AclBundleTests\Integration\Reposity\Document
  */
 final class GroupRepositoryTest extends DatabaseTestCaseAbstract
 {
@@ -26,8 +26,8 @@ final class GroupRepositoryTest extends DatabaseTestCaseAbstract
     {
         $user  = new User();
         $user2 = new User();
-        $this->persistAndFlush($user);
-        $this->persistAndFlush($user2);
+        $this->pfd($user);
+        $this->pfd($user2);
 
         $group4 = (new Group(NULL));
         $group3 = (new Group(NULL))->addParent($group4)->setName('qwe');

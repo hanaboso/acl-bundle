@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Integration\Manager;
+namespace AclBundleTests\Integration\Manager;
 
+use AclBundleTests\DatabaseTestCaseAbstract;
 use Exception;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
@@ -18,25 +19,25 @@ use Hanaboso\CommonsBundle\Exception\EnumException;
 use Hanaboso\CommonsBundle\FileStorage\Document\File;
 use Hanaboso\UserBundle\Document\User;
 use Predis\Client;
-use Tests\DatabaseTestCaseAbstract;
-use Tests\PrivateTrait;
 
 /**
  * Class AccessManagerTest
  *
- * @package Tests\Integration\Manager
+ * @package AclBundleTests\Integration\Manager
  */
 final class AccessManagerTest extends DatabaseTestCaseAbstract
 {
 
-    use PrivateTrait;
-
     /**
-     *
+     * @throws Exception
      */
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->em = self::$container->get('doctrine.orm.default_entity_manager');
+        $this->clearMysql();
+
         $redis = new Client([
             'host' => self::$container->getParameter('redis_host'),
             'port' => self::$container->getParameter('redis_port'),
@@ -282,7 +283,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     {
         $tser  = $this->createUser('objTwner');
         $group = new Group($tser);
-        $this->persistAndFlush($group);
+        $this->pfd($group);
         $user = $this->createUser('objOwner');
 
         $this->createRule($user, 7, 'group', 1);
@@ -304,7 +305,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     {
         $tser  = $this->createUser('objTidner');
         $group = new Group($tser);
-        $this->persistAndFlush($group);
+        $this->pfd($group);
         $user = $this->createUser('objOwner');
 
         $this->createRule($user, 7, 'group', 1);
@@ -326,7 +327,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     {
         $user  = $this->createUser('objOwner');
         $group = new Group($user);
-        $this->persistAndFlush($group);
+        $this->pfd($group);
         $this->createRule($user, 7, 'group', 1);
         $res = self::$container->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group);
         self::assertInstanceOf(Group::class, $res);
@@ -349,7 +350,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('noOwnerAllow');
         $this->createRule($user, 7, 'file', 1);
         $file = new File();
-        $this->persistAndFlush($file);
+        $this->pfd($file);
         $res = self::$container->get('hbpf.access.manager')->isAllowed('read', 'file', $user, $file);
         self::assertInstanceOf(File::class, $res);
         $res = self::$container->get('hbpf.access.manager')->isAllowed('read', 'file', $user, $file->getId());
@@ -370,7 +371,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('noOwnerAllow');
         $this->createRule($user, 2, 'file', 2);
         $file = new File();
-        $this->persistAndFlush($file);
+        $this->pfd($file);
         $this->expect();
         self::$container->get('hbpf.access.manager')->isAllowed('read', 'file', $user, $file->getId());
     }
@@ -391,7 +392,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('groupAllowed');
         $this->createRule($user, 1, 'group', 2);
         $group = new Group(NULL);
-        $this->persistAndFlush($group);
+        $this->pfd($group);
         $res = self::$container->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group);
         self::assertInstanceOf(Group::class, $res);
         $res = self::$container->get('hbpf.access.manager')->isAllowed('read', 'group', $user, $group->getId());
@@ -413,7 +414,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('groupAllowed');
         $this->createRule($user, 1, 'group', 2);
         $group = new Group($user);
-        $this->persistAndFlush($group);
+        $this->pfd($group);
         $this->expect();
         self::$container->get('hbpf.access.manager')->isAllowed('write', 'group', $user, $group);
     }
@@ -433,7 +434,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('groupAllowed');
         $this->createRule($user, 7, 'group', 2);
         $group = new Group($user);
-        $this->persistAndFlush($group->setLevel(8));
+        $this->pfd($group->setLevel(8));
         $res = self::$container->get('hbpf.access.manager')->isAllowed('write', 'group', $user, $group);
         self::assertInstanceOf(Group::class, $res);
     }
@@ -452,7 +453,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('groupNotAllowed');
         $this->createRule($user, 7, 'group', 2);
         $group = new Group($user);
-        $this->persistAndFlush($group->setLevel(0));
+        $this->pfd($group->setLevel(0));
         $this->expect();
         self::$container->get('hbpf.access.manager')->isAllowed('write', 'group', $user, $group);
     }
@@ -553,7 +554,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $user
             ->setEmail('test@test.com')
             ->setPassword('pwd');
-        $this->persistAndFlush($user);
+        $this->pfd($user);
 
         $this->createRule($user);
 
@@ -630,8 +631,6 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
      */
     public function testRemoveGroupsMysql(): void
     {
-        $this->clearMysql();
-
         $group  = new ORMGroup(NULL);
         $group2 = new ORMGroup(NULL);
         $group->setName('gtest');
@@ -699,7 +698,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $user
             ->setEmail($usr)
             ->setPassword('pwd');
-        $this->persistAndFlush($user);
+        $this->pfd($user);
 
         return $user;
     }
@@ -717,12 +716,12 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $user
             ->setEmail($usr)
             ->setPassword('pwd');
-        $this->persistAndFlush($user);
+        $this->pfd($user);
 
         $group = new Group($user);
         $group->setLevel($lvl)->addUser($user);
 
-        $this->persistAndFlush($group);
+        $this->pfd($group);
 
         return $user;
     }

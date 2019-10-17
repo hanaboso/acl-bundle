@@ -9,8 +9,8 @@ use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
-use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
+use Hanaboso\UserBundle\Provider\ResourceProviderException;
 
 /**
  * Class RuleFactory
@@ -140,7 +140,7 @@ class RuleFactory
             }
 
             return $rules;
-        } catch (UserException | ORMException $e) {
+        } catch (ResourceProviderException | ORMException $e) {
             throw new AclException(
                 $e->getMessage(),
                 $e->getCode()

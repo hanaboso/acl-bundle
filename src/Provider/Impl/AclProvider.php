@@ -13,8 +13,8 @@ use Hanaboso\AclBundle\Repository\Document\GroupRepository as OdmRepo;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository as OrmRepo;
 use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Entity\UserInterface;
-use Hanaboso\UserBundle\Exception\UserException;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
+use Hanaboso\UserBundle\Provider\ResourceProviderException;
 use LogicException;
 use Predis\Client;
 
@@ -134,7 +134,7 @@ class AclProvider implements AclRuleProviderInterface
             }
 
             return $groups;
-        } catch (UserException | LogicException | MongoDBException $e) {
+        } catch (ResourceProviderException | LogicException | MongoDBException $e) {
             throw new AclException(
                 $e->getMessage(),
                 $e->getCode()
@@ -214,7 +214,7 @@ class AclProvider implements AclRuleProviderInterface
             }
 
             return $groups;
-        } catch (LogicException | UserException $e) {
+        } catch (LogicException | ResourceProviderException $e) {
             throw new AclException(
                 $e->getMessage(),
                 $e->getCode()

@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Tests\testApp;
+namespace AclBundleTests\testApp;
 
 use Hanaboso\AclBundle\Enum\ActionEnum;
 
 /**
  * Class ExtActionEnum
  *
- * @package Tests\testApp
+ * @package AclBundleTests\testApp
  */
 class ExtActionEnum extends ActionEnum
 {

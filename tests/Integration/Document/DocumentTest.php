@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Integration\Document;
+namespace AclBundleTests\Integration\Document;
 
+use AclBundleTests\DatabaseTestCaseAbstract;
 use Exception;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\UserBundle\Document\User;
-use Tests\DatabaseTestCaseAbstract;
 
 /**
  * Class DocumentTest
  *
- * @package Tests\Integration\Document
+ * @package AclBundleTests\Integration\Document
  */
 final class DocumentTest extends DatabaseTestCaseAbstract
 {
@@ -22,17 +22,17 @@ final class DocumentTest extends DatabaseTestCaseAbstract
     public function testReferences(): void
     {
         $user = (new User())->setEmail('email@example.com');
-        $this->persistAndFlush($user);
+        $this->pfd($user);
 
         $group = (new Group($user))
             ->setName('Group')
             ->addUser($user);
-        $this->persistAndFlush($group);
+        $this->pfd($group);
 
         $rule = (new Rule())
             ->setResource('R1')
             ->setGroup($group);
-        $this->persistAndFlush($rule);
+        $this->pfd($rule);
 
         $group->addRule($rule);
         $this->dm->flush();
