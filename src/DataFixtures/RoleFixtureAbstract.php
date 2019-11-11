@@ -106,18 +106,36 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
             }
             if (is_array($val['rules'] ?? NULL)) {
                 foreach ($val['rules'] as $res => $rights) {
-                    $this->createRule($manager, $group, $rights, $res, $ruleClass, MaskFactory::maskProperty([
-                        PropertyEnum::GROUP => TRUE,
-                        PropertyEnum::OWNER => TRUE,
-                    ]));
+                    $this->createRule(
+                        $manager,
+                        $group,
+                        $rights,
+                        $res,
+                        $ruleClass,
+                        MaskFactory::maskProperty(
+                            [
+                                PropertyEnum::GROUP => TRUE,
+                                PropertyEnum::OWNER => TRUE,
+                            ]
+                        )
+                    );
                 }
             }
             if (is_array($ownerRules)) {
                 foreach ($ownerRules as $res => $rights) {
-                    $this->createRule($manager, $group, $rights, $res, $ruleClass, MaskFactory::maskProperty([
-                        PropertyEnum::GROUP => FALSE,
-                        PropertyEnum::OWNER => TRUE,
-                    ]));
+                    $this->createRule(
+                        $manager,
+                        $group,
+                        $rights,
+                        $res,
+                        $ruleClass,
+                        MaskFactory::maskProperty(
+                            [
+                                PropertyEnum::GROUP => FALSE,
+                                PropertyEnum::OWNER => TRUE,
+                            ]
+                        )
+                    );
                 }
             }
 

@@ -51,11 +51,15 @@ final class RuleFactoryTest extends DatabaseTestCaseAbstract
         $a = self::$container->get('event_dispatcher');
         $a->dispatch(new ActivateUserEvent($user));
 
-        $res = $this->dm->getRepository(Rule::class)->findBy([
-            'group' => $this->dm->getRepository(Group::class)->findOneBy([
-                'owner' => $user,
-            ]),
-        ]);
+        $res = $this->dm->getRepository(Rule::class)->findBy(
+            [
+                'group' => $this->dm->getRepository(Group::class)->findOneBy(
+                    [
+                        'owner' => $user,
+                    ]
+                ),
+            ]
+        );
 
         self::assertCount(2, $res);
         self::assertEquals(3, $res[0]->getActionMask());

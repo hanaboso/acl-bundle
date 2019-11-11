@@ -62,29 +62,35 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
             ExtActionEnum::TEST,
         ];
 
-        self::assertEquals([
-            MaskFactory::DEFAULT_ACTIONS => $baseList,
-            MaskFactory::RESOURCE_LIST   => [
-                ResourceEnum::TOKEN => [
-                    ExtActionEnum::TEST2,
+        self::assertEquals(
+            [
+                MaskFactory::DEFAULT_ACTIONS => $baseList,
+                MaskFactory::RESOURCE_LIST   => [
+                    ResourceEnum::TOKEN => [
+                        ExtActionEnum::TEST2,
+                    ],
                 ],
             ],
-        ], $factory->getAllowedList(FALSE));
+            $factory->getAllowedList(FALSE)
+        );
 
-        self::assertEquals([
-            ResourceEnum::TOKEN    => [
-                ExtActionEnum::READ,
-                ExtActionEnum::WRITE,
-                ExtActionEnum::DELETE,
-                ExtActionEnum::TEST,
-                ExtActionEnum::TEST2,
+        self::assertEquals(
+            [
+                ResourceEnum::TOKEN    => [
+                    ExtActionEnum::READ,
+                    ExtActionEnum::WRITE,
+                    ExtActionEnum::DELETE,
+                    ExtActionEnum::TEST,
+                    ExtActionEnum::TEST2,
+                ],
+                ResourceEnum::GROUP    => $baseList,
+                ResourceEnum::USER     => $baseList,
+                ResourceEnum::FILE     => $baseList,
+                ResourceEnum::RULE     => $baseList,
+                ResourceEnum::TMP_USER => $baseList,
             ],
-            ResourceEnum::GROUP    => $baseList,
-            ResourceEnum::USER     => $baseList,
-            ResourceEnum::FILE     => $baseList,
-            ResourceEnum::RULE     => $baseList,
-            ResourceEnum::TMP_USER => $baseList,
-        ], $factory->getAllowedList());
+            $factory->getAllowedList()
+        );
     }
 
     /**
@@ -117,11 +123,16 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
         self::assertEquals(PropertyEnum::OWNER, $factory::getPropertyFromMask(1));
 
         self::assertEquals(['read', 'delete', 'test2'], $factory->getActionsFromMask(21));
-        self::assertEquals(['read', 'delete', 'test2'], $factory->getActionsFromMask(
-            $factory->maskAction(['read', 'write' => FALSE, 'delete', 'test2'], ResourceEnum::TOKEN)
-        ));
-        self::assertEquals(['write', 'test', 'test2'],
-            $factory->getActionsFromMaskStatic(26, ExtActionEnum::getChoices()));
+        self::assertEquals(
+            ['read', 'delete', 'test2'],
+            $factory->getActionsFromMask(
+                $factory->maskAction(['read', 'write' => FALSE, 'delete', 'test2'], ResourceEnum::TOKEN)
+            )
+        );
+        self::assertEquals(
+            ['write', 'test', 'test2'],
+            $factory->getActionsFromMaskStatic(26, ExtActionEnum::getChoices())
+        );
     }
 
 }

@@ -22,17 +22,22 @@ final class ResourceProviderTest extends TestCase
      */
     public function testGetResources(): void
     {
-        $resourceProvider = new ResourceProvider([
-            'resources' => [
+        $resourceProvider = new ResourceProvider(
+            [
+                'resources' => [
+                    'one' => 'One',
+                    'two' => 'Two',
+                ],
+            ]
+        );
+
+        $this->assertEquals(
+            [
                 'one' => 'One',
                 'two' => 'Two',
             ],
-        ]);
-
-        $this->assertEquals([
-            'one' => 'One',
-            'two' => 'Two',
-        ], $resourceProvider->getResources());
+            $resourceProvider->getResources()
+        );
     }
 
     /**
@@ -65,11 +70,13 @@ final class ResourceProviderTest extends TestCase
      */
     public function testHasResource(): void
     {
-        $resourceProvider = new ResourceProvider([
-            'resources' => [
-                'one' => 'One',
-            ],
-        ]);
+        $resourceProvider = new ResourceProvider(
+            [
+                'resources' => [
+                    'one' => 'One',
+                ],
+            ]
+        );
 
         $this->assertTrue($resourceProvider->hasResource('one'));
         $this->assertFalse($resourceProvider->hasResource('two'));
@@ -81,11 +88,13 @@ final class ResourceProviderTest extends TestCase
      */
     public function testGetResource(): void
     {
-        $resourceProvider = new ResourceProvider([
-            'resources' => [
-                'one' => 'One',
-            ],
-        ]);
+        $resourceProvider = new ResourceProvider(
+            [
+                'resources' => [
+                    'one' => 'One',
+                ],
+            ]
+        );
 
         $this->assertSame('One', $resourceProvider->getResource('one'));
     }
@@ -99,11 +108,13 @@ final class ResourceProviderTest extends TestCase
         $this->expectException(ResourceProviderException::class);
         $this->expectExceptionCode(ResourceProviderException::RESOURCE_NOT_EXIST);
 
-        (new ResourceProvider([
-            'resources' => [
-                'one' => 'One',
-            ],
-        ]))->getResource('two');
+        (new ResourceProvider(
+            [
+                'resources' => [
+                    'one' => 'One',
+                ],
+            ]
+        ))->getResource('two');
     }
 
 }

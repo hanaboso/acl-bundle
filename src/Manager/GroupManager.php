@@ -211,13 +211,16 @@ class GroupManager
             $res[] = ['name' => $group->getName(), 'id' => $group->getId(), 'level' => $group->getLevel()];
         }
 
-        usort($res, function (array $a, array $b): int {
-            if ($a['level'] == $b['level']) {
-                return 0;
-            }
+        usort(
+            $res,
+            function (array $a, array $b): int {
+                if ($a['level'] == $b['level']) {
+                    return 0;
+                }
 
-            return $a['level'] > $b['level'] ? -1 : 1;
-        });
+                return $a['level'] > $b['level'] ? -1 : 1;
+            }
+        );
 
         return $res;
     }

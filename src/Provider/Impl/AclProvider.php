@@ -172,10 +172,16 @@ class AclProvider implements AclRuleProviderInterface
         }
 
         $redis = $this->getClient();
-        $redis->setex($this->getKey($user), 86400, (string) json_encode([
-            self::GROUPS => $arr,
-            self::LINKS  => $parentList,
-        ]));
+        $redis->setex(
+            $this->getKey($user),
+            86400,
+            (string) json_encode(
+                [
+                    self::GROUPS => $arr,
+                    self::LINKS  => $parentList,
+                ]
+            )
+        );
     }
 
     /**
@@ -248,10 +254,12 @@ class AclProvider implements AclRuleProviderInterface
      */
     protected function getClient(): Client
     {
-        $redis = new Client([
-            'host' => $this->redisHost,
-            'port' => $this->redisPort,
-        ]);
+        $redis = new Client(
+            [
+                'host' => $this->redisHost,
+                'port' => $this->redisPort,
+            ]
+        );
         $redis->connect();
         if (!$redis->isConnected()) {
             throw new LogicException('Failed to connect to redis.');

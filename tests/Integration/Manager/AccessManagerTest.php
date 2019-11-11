@@ -38,10 +38,12 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $this->em = self::$container->get('doctrine.orm.default_entity_manager');
         $this->clearMysql();
 
-        $redis = new Client([
-            'host' => self::$container->getParameter('redis_host'),
-            'port' => self::$container->getParameter('redis_port'),
-        ]);
+        $redis = new Client(
+            [
+                'host' => self::$container->getParameter('redis_host'),
+                'port' => self::$container->getParameter('redis_port'),
+            ]
+        );
         $redis->connect();
         $redis->flushall();
     }
@@ -570,32 +572,45 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $data = new GroupDto($group);
         $data
             ->addUser($user)
-            ->addRule(Rule::class, [
+            ->addRule(
+                Rule::class,
                 [
-                    'resource'      => ResourceEnum::USER,
-                    'action_mask'   => $maskFactory->maskAction([
-                        ActionEnum::READ   => 1,
-                        ActionEnum::WRITE  => 1,
-                        ActionEnum::DELETE => 1,
-                    ], ResourceEnum::USER),
-                    'property_mask' => $maskFactory->maskProperty([
-                        PropertyEnum::OWNER => 1,
-                        PropertyEnum::GROUP => 1,
-                    ]),
-                ],
-                [
-                    'resource'      => ResourceEnum::GROUP,
-                    'action_mask'   => $maskFactory->maskAction([
-                        ActionEnum::READ   => 1,
-                        ActionEnum::WRITE  => 1,
-                        ActionEnum::DELETE => 1,
-                    ], ResourceEnum::GROUP),
-                    'property_mask' => $maskFactory->maskProperty([
-                        PropertyEnum::OWNER => 1,
-                        PropertyEnum::GROUP => 1,
-                    ]),
-                ],
-            ]);
+                    [
+                        'resource'      => ResourceEnum::USER,
+                        'action_mask'   => $maskFactory->maskAction(
+                            [
+                                ActionEnum::READ   => 1,
+                                ActionEnum::WRITE  => 1,
+                                ActionEnum::DELETE => 1,
+                            ],
+                            ResourceEnum::USER
+                        ),
+                        'property_mask' => $maskFactory->maskProperty(
+                            [
+                                PropertyEnum::OWNER => 1,
+                                PropertyEnum::GROUP => 1,
+                            ]
+                        ),
+                    ],
+                    [
+                        'resource'      => ResourceEnum::GROUP,
+                        'action_mask'   => $maskFactory->maskAction(
+                            [
+                                ActionEnum::READ   => 1,
+                                ActionEnum::WRITE  => 1,
+                                ActionEnum::DELETE => 1,
+                            ],
+                            ResourceEnum::GROUP
+                        ),
+                        'property_mask' => $maskFactory->maskProperty(
+                            [
+                                PropertyEnum::OWNER => 1,
+                                PropertyEnum::GROUP => 1,
+                            ]
+                        ),
+                    ],
+                ]
+            );
         $group = $access->updateGroup($data);
 
         self::assertInstanceOf(Group::class, $group);

@@ -148,10 +148,12 @@ class AccessManager implements EventSubscriberInterface
                 $group->setName((string) $data->getName());
             }
 
-            $this->aclProvider->invalid(array_merge(
-                array_map([$this, 'userMap'], $group->getUsers()->toArray()),
-                array_map([$this, 'userMap'], $data->getUsers())
-            ));
+            $this->aclProvider->invalid(
+                array_merge(
+                    array_map([$this, 'userMap'], $group->getUsers()->toArray()),
+                    array_map([$this, 'userMap'], $data->getUsers())
+                )
+            );
 
             $group->setUsers($data->getUsers());
             $group->setRules($data->getRules());
@@ -274,8 +276,14 @@ class AccessManager implements EventSubscriberInterface
 
         if (is_string($object)) {
 
-            return $this->checkObjectPermission($rule, $this->getObjectById($rule, $user, $res, $object),
-                $user, $userLvl, $res, TRUE);
+            return $this->checkObjectPermission(
+                $rule,
+                $this->getObjectById($rule, $user, $res, $object),
+                $user,
+                $userLvl,
+                $res,
+                TRUE
+            );
 
         } else if (is_object($object)) {
 
@@ -284,13 +292,17 @@ class AccessManager implements EventSubscriberInterface
         } else if (is_null($object)) {
 
             if (!in_array($act, $this->actionEnum::getGlobalActions()) && $rule->getPropertyMask() !== 2) {
-                $this->throwPermissionException('For given action no group permission or non at all for global actions.');
+                $this->throwPermissionException(
+                    'For given action no group permission or non at all for global actions.'
+                );
             }
 
             return TRUE;
 
         } else {
-            $this->throwPermissionException('Given object should be entity or it\'s id or null in case of write permission.');
+            $this->throwPermissionException(
+                'Given object should be entity or it\'s id or null in case of write permission.'
+            );
         }
 
         return NULL;
@@ -421,10 +433,12 @@ class AccessManager implements EventSubscriberInterface
             $res = $this->dm->getRepository($class)->findOneBy($params);
 
             if (!$res) {
-                $this->throwPermissionException(sprintf(
-                    'User has no permission on entity with [%s] id or it doesn\'t exist.',
-                    $id
-                ));
+                $this->throwPermissionException(
+                    sprintf(
+                        'User has no permission on entity with [%s] id or it doesn\'t exist.',
+                        $id
+                    )
+                );
             }
 
             return $res;
