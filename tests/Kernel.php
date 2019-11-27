@@ -3,7 +3,6 @@
 namespace AclBundleTests;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
-use Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle;
 use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
 use Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle;
 use EmailServiceBundle\EmailServiceBundle;
@@ -51,7 +50,6 @@ class Kernel extends BaseKernel
         $contents = [
             FrameworkBundle::class        => ['all' => TRUE],
             SecurityBundle::class         => ['all' => TRUE],
-            DoctrineCacheBundle::class    => ['all' => TRUE],
             DoctrineBundle::class         => ['all' => TRUE],
             MonologBundle::class          => ['all' => TRUE],
             DoctrineMongoDBBundle::class  => ['all' => TRUE],
