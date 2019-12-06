@@ -127,7 +127,7 @@ class Rule implements RuleInterface
     }
 
     /**
-     * @param array $data
+     * @param mixed[] $data
      *
      * @return RuleInterface
      */
@@ -142,7 +142,7 @@ class Rule implements RuleInterface
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function toArrayAcl(): array
     {

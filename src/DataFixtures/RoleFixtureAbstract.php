@@ -72,10 +72,13 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
         $config     = $this->container->getParameter('db_res');
         $enum       = $this->container->getParameter('resource_enum');
 
-        $provider   = new ResourceProvider($config);
+        $provider = new ResourceProvider($config);
+        /** @phpstan-var class-string<\Hanaboso\AclBundle\Entity\Group|\Hanaboso\AclBundle\Document\Group> $groupClass */
         $groupClass = $provider->getResource($enum::GROUP);
-        $userClass  = $provider->getResource($enum::USER);
-        $ruleClass  = $provider->getResource($enum::RULE);
+        /** @phpstan-var class-string<\Hanaboso\UserBundle\Entity\User|\Hanaboso\UserBundle\Document\User> $userClass */
+        $userClass = $provider->getResource($enum::USER);
+        /** @phpstan-var class-string<\Hanaboso\AclBundle\Entity\Rule|\Hanaboso\AclBundle\Document\Rule> $ruleClass */
+        $ruleClass = $provider->getResource($enum::RULE);
 
         $parentMap = [];
 
@@ -147,7 +150,6 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
 
         }
 
-        /** @var array $data */
         foreach ($parentMap as $data) {
             /** @var GroupInterface $group */
             $group = $data['pointer'];
@@ -172,7 +174,7 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
     /**
      * @param ObjectManager  $manager
      * @param GroupInterface $group
-     * @param array          $rights
+     * @param mixed[]        $rights
      * @param string         $res
      * @param string         $ruleClass
      * @param int            $propertyMask

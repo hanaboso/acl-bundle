@@ -67,8 +67,8 @@ final class AclProviderTest extends DatabaseTestCaseAbstract
         $this->assertEquals($ruleOne->getGroup()->getName(), $rules[0]->getGroup()->getName());
         $this->assertEquals(1, count($rules[0]->getGroup()->getUsers()));
         $this->assertEquals(
-            $ruleOne->getGroup()->getUsers()[0]->getEmail(),
-            $rules[0]->getGroup()->getUsers()[0]->getEmail()
+            $ruleOne->getGroup()->getUsers()->toArray()[0]->getEmail(),
+            $rules[0]->getGroup()->getUsers()->toArray()[0]->getEmail()
         );
     }
 

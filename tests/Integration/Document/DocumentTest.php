@@ -43,9 +43,15 @@ final class DocumentTest extends DatabaseTestCaseAbstract
 
         $this->assertSame($group->getName(), $existingGroup->getName());
         $this->assertCount(1, $group->getUsers());
-        $this->assertSame($group->getUsers()[0]->getEmail(), $existingGroup->getUsers()[0]->getEmail());
+        $this->assertSame(
+            $group->getUsers()->toArray()[0]->getEmail(),
+            $existingGroup->getUsers()->toArray()[0]->getEmail()
+        );
         $this->assertCount(1, $group->getRules());
-        $this->assertSame($group->getRules()[0]->getResource(), $existingGroup->getRules()[0]->getResource());
+        $this->assertSame(
+            $group->getRules()->toArray()[0]->getResource(),
+            $existingGroup->getRules()->toArray()[0]->getResource()
+        );
     }
 
 }

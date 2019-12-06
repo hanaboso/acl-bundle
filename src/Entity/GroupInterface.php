@@ -2,7 +2,7 @@
 
 namespace Hanaboso\AclBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Hanaboso\UserBundle\Entity\UserInterface;
 
 /**
@@ -35,12 +35,12 @@ interface GroupInterface extends EntityInterface
     public function setName(string $name): GroupInterface;
 
     /**
-     * @return RuleInterface[]|ArrayCollection
+     * @return RuleInterface[]|Collection<int, RuleInterface>
      */
     public function getRules();
 
     /**
-     * @param array $rules
+     * @param mixed[] $rules
      *
      * @return GroupInterface
      */
@@ -54,7 +54,7 @@ interface GroupInterface extends EntityInterface
     public function addRule(RuleInterface $rule): GroupInterface;
 
     /**
-     * @return UserInterface[]|ArrayCollection
+     * @return UserInterface[]|Collection<int, UserInterface>
      */
     public function getUsers();
 
@@ -95,7 +95,7 @@ interface GroupInterface extends EntityInterface
     public function setLevel(int $level): GroupInterface;
 
     /**
-     * @return UserInterface[]|ArrayCollection
+     * @return UserInterface[]|Collection<int, UserInterface>
      */
     public function getTmpUsers();
 
@@ -114,7 +114,7 @@ interface GroupInterface extends EntityInterface
     public function setTmpUsers($tmpUsers): GroupInterface;
 
     /**
-     * @return iterable
+     * @return GroupInterface[]|Collection<int, GroupInterface>
      */
     public function getParents(): iterable;
 
@@ -133,7 +133,7 @@ interface GroupInterface extends EntityInterface
     public function removeParent(GroupInterface $group): GroupInterface;
 
     /**
-     * @return iterable
+     * @return GroupInterface[]|Collection<int, GroupInterface>
      */
     public function getChildren(): iterable;
 
@@ -145,18 +145,18 @@ interface GroupInterface extends EntityInterface
     public function addChild(GroupInterface $child): GroupInterface;
 
     /**
-     * @param array  $data
-     * @param string $ruleClass
-     * @param array  $rules
+     * @param mixed[] $data
+     * @param string  $ruleClass
+     * @param mixed[] $rules
      *
      * @return GroupInterface
      */
     public function fromArrayAcl(array $data, string $ruleClass, array &$rules): GroupInterface;
 
     /**
-     * @param array $links
+     * @param mixed[] $links
      *
-     * @return array
+     * @return mixed[]
      */
     public function toArrayAcl(array &$links): array;
 

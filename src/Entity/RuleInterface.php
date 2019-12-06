@@ -69,14 +69,14 @@ interface RuleInterface
     public function setPropertyMask(int $propertyMask): RuleInterface;
 
     /**
-     * @param array $data
+     * @param mixed[] $data
      *
      * @return RuleInterface
      */
     public function fromArrayAcl(array $data): RuleInterface;
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function toArrayAcl(): array;
 

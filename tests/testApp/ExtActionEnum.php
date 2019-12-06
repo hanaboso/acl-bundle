@@ -16,7 +16,7 @@ class ExtActionEnum extends ActionEnum
     public const TEST2 = 'test2';
 
     /**
-     * @var array
+     * @var mixed[]
      */
     protected static $choices = [
         self::READ   => self::READ,
@@ -27,7 +27,7 @@ class ExtActionEnum extends ActionEnum
     ];
 
     /**
-     * @var array
+     * @var mixed[]
      */
     protected static $globalActions = [
         self::WRITE => self::WRITE,

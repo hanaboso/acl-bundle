@@ -61,11 +61,12 @@ class GroupManager
 
     /**
      * @param UserInterface $user
-     * @param null|string   $id
+     * @param string|null   $id
      * @param string        $groupName
      *
      * @throws AclException
      * @throws ORMException
+     * @throws MongoDBException
      */
     public function addUserIntoGroup(UserInterface $user, ?string $id = NULL, ?string $groupName = NULL): void
     {
@@ -84,14 +85,12 @@ class GroupManager
         }
 
         try {
+            /** @phpstan-var class-string<\Hanaboso\AclBundle\Entity\Group|\Hanaboso\AclBundle\Document\Group> $groupClass */
+            $groupClass = $this->resourceProvider->getResource(ResourceEnum::GROUP);
             /** @var GroupInterface|null $group */
-            $group = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))
-                ->findOneBy($query);
+            $group = $this->dm->getRepository($groupClass)->findOneBy($query);
         } catch (ResourceProviderException $e) {
-            throw new AclException(
-                $e->getMessage(),
-                $e->getCode()
-            );
+            throw new AclException($e->getMessage(), $e->getCode());
         }
 
         if (!$group) {
@@ -113,11 +112,12 @@ class GroupManager
 
     /**
      * @param UserInterface $user
-     * @param null|string   $id
+     * @param string|null   $id
      * @param string        $groupName
      *
      * @throws AclException
      * @throws ORMException
+     * @throws MongoDBException
      */
     public function removeUserFromGroup(UserInterface $user, ?string $id = NULL, ?string $groupName = NULL): void
     {
@@ -136,15 +136,12 @@ class GroupManager
         }
 
         try {
+            /** @phpstan-var class-string<\Hanaboso\AclBundle\Entity\Group|\Hanaboso\AclBundle\Document\Group> $groupClass */
+            $groupClass = $this->resourceProvider->getResource(ResourceEnum::GROUP);
             /** @var GroupInterface|null $group */
-            $group = $this->dm
-                ->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP))
-                ->findOneBy($query);
+            $group = $this->dm->getRepository($groupClass)->findOneBy($query);
         } catch (ResourceProviderException $e) {
-            throw new AclException(
-                $e->getMessage(),
-                $e->getCode()
-            );
+            throw new AclException($e->getMessage(), $e->getCode());
         }
 
         if (!$group) {
@@ -184,20 +181,19 @@ class GroupManager
     /**
      * @param UserInterface $user
      *
-     * @return array
+     * @return mixed[]
      * @throws MongoDBException
      * @throws AclException
      */
     public function getUserGroups(UserInterface $user): array
     {
         try {
+            /** @phpstan-var class-string<\Hanaboso\AclBundle\Entity\Group|\Hanaboso\AclBundle\Document\Group> $groupClass */
+            $groupClass = $this->resourceProvider->getResource(ResourceEnum::GROUP);
             /** @var GroupRepositoryEntity|GroupRepositoryDocument $repo */
-            $repo = $this->dm->getRepository($this->resourceProvider->getResource(ResourceEnum::GROUP));
+            $repo = $this->dm->getRepository($groupClass);
         } catch (ResourceProviderException $e) {
-            throw new AclException(
-                $e->getMessage(),
-                $e->getCode()
-            );
+            throw new AclException($e->getMessage(), $e->getCode());
         }
 
         if ($user->getType() === UserTypeEnum::USER) {
@@ -230,7 +226,7 @@ class GroupManager
      */
 
     /**
-     * @param array         $users
+     * @param mixed[]       $users
      * @param UserInterface $user
      */
     private function removeItem(array &$users, UserInterface $user): void

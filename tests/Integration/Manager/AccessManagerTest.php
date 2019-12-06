@@ -742,6 +742,8 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
+     * @phpstan-param class-string<\Throwable> $class
+     *
      * @param int    $code
      * @param string $class
      */

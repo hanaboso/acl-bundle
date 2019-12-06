@@ -3,6 +3,7 @@
 namespace Hanaboso\AclBundle\Provider;
 
 use Hanaboso\AclBundle\Entity\GroupInterface;
+use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\UserBundle\Entity\UserInterface;
 
 /**
@@ -26,7 +27,7 @@ interface AclRuleProviderInterface
      * @param UserInterface $user
      * @param int           $userLvl
      *
-     * @return array
+     * @return RuleInterface[]
      */
     public function getRules(UserInterface $user, int &$userLvl): array;
 

@@ -21,7 +21,7 @@ class RuleFactory
 {
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $rules;
 
@@ -51,7 +51,7 @@ class RuleFactory
      * @param DatabaseManagerLocator $userDml
      * @param ResourceProvider       $provider
      * @param MaskFactory            $maskFactory
-     * @param array                  $rules
+     * @param mixed[]                $rules
      * @param mixed                  $resEnum
      *
      * @throws AclException
@@ -141,10 +141,7 @@ class RuleFactory
 
             return $rules;
         } catch (ResourceProviderException | ORMException $e) {
-            throw new AclException(
-                $e->getMessage(),
-                $e->getCode()
-            );
+            throw new AclException($e->getMessage(), $e->getCode());
         }
     }
 

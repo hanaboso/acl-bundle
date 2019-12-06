@@ -32,7 +32,7 @@ class ActionEnum extends EnumAbstract
     ];
 
     /**
-     * @var array
+     * @var mixed[]
      */
     protected static $globalActions = [
         self::WRITE => self::WRITE,
@@ -64,7 +64,7 @@ class ActionEnum extends EnumAbstract
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public static function getGlobalActions(): array
     {

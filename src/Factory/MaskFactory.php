@@ -23,7 +23,7 @@ class MaskFactory
     private $actionEnum;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $allowedActions;
 
@@ -35,9 +35,9 @@ class MaskFactory
     /**
      * MaskFactory constructor.
      *
-     * @param string     $actionEnum
-     * @param string     $resourceEnum
-     * @param array|null $allowedActions
+     * @param string       $actionEnum
+     * @param string       $resourceEnum
+     * @param mixed[]|null $allowedActions
      */
     public function __construct(string $actionEnum, string $resourceEnum, $allowedActions)
     {
@@ -57,8 +57,8 @@ class MaskFactory
     }
 
     /**
-     * @param array  $data
-     * @param string $resource
+     * @param mixed[] $data
+     * @param string  $resource
      *
      * @return int
      * @throws AclException
@@ -83,10 +83,7 @@ class MaskFactory
             }
         }
         if ($mask === 0) {
-            throw new AclException(
-                'Sent mask resulted in 0 value.',
-                AclException::ZERO_MASK
-            );
+            throw new AclException('Sent mask resulted in 0 value.', AclException::ZERO_MASK);
         }
 
         return $mask;
@@ -132,7 +129,7 @@ class MaskFactory
     /**
      * @param bool $fillWithDefaults
      *
-     * @return array
+     * @return mixed[]
      */
     public function getAllowedList(bool $fillWithDefaults = TRUE): array
     {
@@ -150,7 +147,7 @@ class MaskFactory
     }
 
     /**
-     * @param array $data
+     * @param mixed[] $data
      *
      * @return int
      * @throws AclException
@@ -158,18 +155,12 @@ class MaskFactory
     public static function maskProperty(array $data): int
     {
         if (!isset($data[PropertyEnum::OWNER]) || !isset($data[PropertyEnum::GROUP])) {
-            throw new AclException(
-                'Missing data',
-                AclException::MISSING_DATA
-            );
+            throw new AclException('Missing data', AclException::MISSING_DATA);
         }
 
         $mask = boolval($data[PropertyEnum::GROUP]) ? 2 : (boolval($data[PropertyEnum::OWNER]) ? 1 : 0);
         if ($mask === 0) {
-            throw new AclException(
-                'Sent mask has no value',
-                AclException::ZERO_MASK
-            );
+            throw new AclException('Sent mask has no value', AclException::ZERO_MASK);
         }
 
         return $mask;
@@ -198,16 +189,14 @@ class MaskFactory
             return PropertyEnum::GROUP;
         }
 
-        throw new LogicException(
-            'Given mask must be either 1 or 2.'
-        );
+        throw new LogicException('Given mask must be either 1 or 2.');
     }
 
     /**
-     * @param int   $mask
-     * @param array $enum
+     * @param int     $mask
+     * @param mixed[] $enum
      *
-     * @return array
+     * @return mixed[]
      */
     public static function getActionsFromMaskStatic(int $mask, array $enum): array
     {

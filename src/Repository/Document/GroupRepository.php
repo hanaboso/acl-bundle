@@ -2,8 +2,8 @@
 
 namespace Hanaboso\AclBundle\Repository\Document;
 
+use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\MongoDBException;
-use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Entity\GroupInterface;
@@ -13,6 +13,8 @@ use Hanaboso\UserBundle\Entity\UserInterface;
  * Class GroupRepository
  *
  * @package Hanaboso\AclBundle\Repository\Document
+ *
+ * @phpstan-extends DocumentRepository<Group>
  */
 class GroupRepository extends DocumentRepository
 {
@@ -25,7 +27,7 @@ class GroupRepository extends DocumentRepository
      */
     public function getUserGroups(UserInterface $user): array
     {
-        /** @var Query $query */
+        /** @var Iterator<Group> $query */
         $query = $this->createQueryBuilder()
             ->field('users')
             ->includesReferenceTo($user)
@@ -34,7 +36,8 @@ class GroupRepository extends DocumentRepository
 
         $groups = $query->toArray();
         $ids    = [];
-        /** @var GroupInterface $group */
+        reset($groups);
+
         while ($group = current($groups)) {
             $ids[] = $group->getId();
             /** @var GroupInterface $parent */
@@ -59,7 +62,7 @@ class GroupRepository extends DocumentRepository
      */
     public function getTmpUserGroups(UserInterface $user): array
     {
-        /** @var Query $query */
+        /** @var Iterator<Group> $query */
         $query = $this->createQueryBuilder()
             ->field('tmpUsers')
             ->includesReferenceTo($user)

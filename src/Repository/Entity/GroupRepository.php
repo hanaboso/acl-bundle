@@ -4,6 +4,7 @@ namespace Hanaboso\AclBundle\Repository\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\UserBundle\Entity\UserInterface;
@@ -12,6 +13,8 @@ use Hanaboso\UserBundle\Entity\UserInterface;
  * Class GroupRepository
  *
  * @package Hanaboso\AclBundle\Repository\Entity
+ *
+ * @phpstan-extends EntityRepository<Group>
  */
 class GroupRepository extends EntityRepository
 {
@@ -19,10 +22,11 @@ class GroupRepository extends EntityRepository
     /**
      * @param UserInterface $user
      *
-     * @return Group[]
+     * @return GroupInterface[]
      */
     public function getUserGroups(UserInterface $user): array
     {
+        /** @var GroupInterface[] $groups */
         $groups = $this->createQueryBuilder('g')
             ->join('g.users', 'u')
             ->where('u = :user')
@@ -31,10 +35,10 @@ class GroupRepository extends EntityRepository
             ->execute();
 
         $ids = [];
-        /** @var GroupInterface $group */
+
         while ($group = current($groups)) {
             $ids[] = $group->getId();
-            /** @var GroupInterface $parent */
+
             foreach ($group->getParents() as $parent) {
                 if (!in_array($parent->getId(), $ids)) {
                     $groups[] = $parent;
@@ -68,6 +72,7 @@ class GroupRepository extends EntityRepository
      *
      * @return bool
      * @throws NonUniqueResultException
+     * @throws NoResultException
      */
     public function exists(string $name): bool
     {

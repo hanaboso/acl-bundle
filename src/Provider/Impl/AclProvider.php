@@ -125,8 +125,10 @@ class AclProvider implements AclRuleProviderInterface
                 }
             }
 
+            /** @phpstan-var class-string<\Hanaboso\AclBundle\Entity\Group|\Hanaboso\AclBundle\Document\Group> $groupClass */
+            $groupClass = $this->provider->getResource($this->resourceEnum::GROUP);
             /** @var OrmRepo|OdmRepo $repo */
-            $repo   = $this->dm->getRepository($this->provider->getResource($this->resourceEnum::GROUP));
+            $repo   = $this->dm->getRepository($groupClass);
             $groups = $repo->getUserGroups($user);
 
             if ($this->useCache) {
@@ -135,15 +137,12 @@ class AclProvider implements AclRuleProviderInterface
 
             return $groups;
         } catch (ResourceProviderException | LogicException | MongoDBException $e) {
-            throw new AclException(
-                $e->getMessage(),
-                $e->getCode()
-            );
+            throw new AclException($e->getMessage(), $e->getCode());
         }
     }
 
     /**
-     * @param array $userIds
+     * @param mixed[] $userIds
      *
      * @throws LogicException
      */
@@ -221,10 +220,7 @@ class AclProvider implements AclRuleProviderInterface
 
             return $groups;
         } catch (LogicException | ResourceProviderException $e) {
-            throw new AclException(
-                $e->getMessage(),
-                $e->getCode()
-            );
+            throw new AclException($e->getMessage(), $e->getCode());
         }
     }
 
@@ -249,7 +245,7 @@ class AclProvider implements AclRuleProviderInterface
     }
 
     /**
-     * @return Client
+     * @return Client<mixed>
      * @throws LogicException
      */
     protected function getClient(): Client

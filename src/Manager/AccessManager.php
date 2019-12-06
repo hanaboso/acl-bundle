@@ -109,6 +109,7 @@ class AccessManager implements EventSubscriberInterface
      *
      * @return GroupInterface
      * @throws AclException
+     * @throws MongoDBException
      */
     public function addGroup(string $name): GroupInterface
     {
@@ -118,14 +119,11 @@ class AccessManager implements EventSubscriberInterface
             $group = new $class(NULL);
             $group->setName($name);
             $this->dm->persist($group);
-            $this->dm->flush($group);
+            $this->dm->flush();
 
             return $group;
         } catch (ORMException | ResourceProviderException $e) {
-            throw new AclException(
-                $e->getMessage(),
-                $e->getCode()
-            );
+            throw new AclException($e->getMessage(), $e->getCode());
         }
     }
 
@@ -134,6 +132,7 @@ class AccessManager implements EventSubscriberInterface
      *
      * @return GroupInterface
      * @throws AclException
+     * @throws MongoDBException
      */
     public function updateGroup(GroupDto $data): GroupInterface
     {
@@ -168,10 +167,7 @@ class AccessManager implements EventSubscriberInterface
 
             return $group;
         } catch (ORMException | LogicException $e) {
-            throw new AclException(
-                $e->getMessage(),
-                $e->getCode()
-            );
+            throw new AclException($e->getMessage(), $e->getCode());
         }
     }
 
@@ -179,6 +175,7 @@ class AccessManager implements EventSubscriberInterface
      * @param GroupInterface $group
      *
      * @throws AclException
+     * @throws MongoDBException
      */
     public function removeGroup(GroupInterface $group): void
     {
@@ -196,10 +193,7 @@ class AccessManager implements EventSubscriberInterface
             $this->dm->remove($group);
             $this->dm->flush();
         } catch (LogicException | ORMException $e) {
-            throw new AclException(
-                $e->getMessage(),
-                $e->getCode()
-            );
+            throw new AclException($e->getMessage(), $e->getCode());
         }
     }
 
@@ -207,6 +201,7 @@ class AccessManager implements EventSubscriberInterface
      * @param UserEvent $event
      *
      * @throws AclException
+     * @throws MongoDBException
      */
     public function createGroup(UserEvent $event): void
     {
@@ -222,15 +217,12 @@ class AccessManager implements EventSubscriberInterface
             $this->factory->getDefaultRules($group);
             $this->dm->flush();
         } catch (ResourceProviderException | ORMException $e) {
-            throw new AclException(
-                $e->getMessage(),
-                $e->getCode()
-            );
+            throw new AclException($e->getMessage(), $e->getCode());
         }
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public static function getSubscribedEvents(): array
     {
@@ -387,10 +379,7 @@ class AccessManager implements EventSubscriberInterface
 
             return $rule;
         } catch (ResourceProviderException | MongoDBException | LogicException $e) {
-            throw new AclException(
-                $e->getMessage(),
-                $e->getCode()
-            );
+            throw new AclException($e->getMessage(), $e->getCode());
         }
     }
 
@@ -419,6 +408,7 @@ class AccessManager implements EventSubscriberInterface
         try {
             $params = ['id' => $id];
 
+            /** @phpstan-var class-string<object> $class */
             $class = $this->resProvider->getResource($res);
             if ((new ReflectionClass($class))->hasProperty('owner') && $rule->getPropertyMask() === 1) {
 
@@ -443,16 +433,13 @@ class AccessManager implements EventSubscriberInterface
 
             return $res;
         } catch (ResourceProviderException | AnnotationException | ReflectionException $e) {
-            throw new AclException(
-                $e->getMessage(),
-                $e->getCode()
-            );
+            throw new AclException($e->getMessage(), $e->getCode());
         }
     }
 
     /**
      * @param string      $message
-     * @param null|string $id
+     * @param string|null $id
      *
      * @throws AclException
      */
@@ -460,10 +447,7 @@ class AccessManager implements EventSubscriberInterface
     {
         $message = is_null($id) ? $message : sprintf($message, $id);
 
-        throw new AclException(
-            $message,
-            AclException::PERMISSION
-        );
+        throw new AclException($message, AclException::PERMISSION);
     }
 
     /**
@@ -501,14 +485,16 @@ class AccessManager implements EventSubscriberInterface
      * @param UserInterface $user
      * @param int           $userLvl
      *
-     * @return UserInterface|null
+     * @return UserInterface
      * @throws AclException
      */
-    private function hasRightForUser(UserInterface $user, int $userLvl): ?UserInterface
+    private function hasRightForUser(UserInterface $user, int $userLvl): UserInterface
     {
         try {
+            /** @phpstan-var class-string<\Hanaboso\AclBundle\Entity\Group|\Hanaboso\AclBundle\Document\Group> $groupClass */
+            $groupClass = $this->resProvider->getResource(ResourceEnum::GROUP);
             /** @var EntityGroupRepository|DocumentGroupRepository $repo */
-            $repo   = $this->dm->getRepository($this->resProvider->getResource(ResourceEnum::GROUP));
+            $repo   = $this->dm->getRepository($groupClass);
             $groups = $repo->getUserGroups($user);
 
             foreach ($groups as $group) {
@@ -519,10 +505,7 @@ class AccessManager implements EventSubscriberInterface
 
             return $user;
         } catch (ResourceProviderException | MongoDBException $e) {
-            throw new AclException(
-                $e->getMessage(),
-                $e->getCode()
-            );
+            throw new AclException($e->getMessage(), $e->getCode());
         }
     }
 
@@ -530,10 +513,10 @@ class AccessManager implements EventSubscriberInterface
      * @param GroupInterface $group
      * @param int            $userLvl
      *
-     * @return GroupInterface|null
+     * @return GroupInterface
      * @throws AclException
      */
-    private function hasRightForGroup(GroupInterface $group, int $userLvl): ?GroupInterface
+    private function hasRightForGroup(GroupInterface $group, int $userLvl): GroupInterface
     {
         if ($group->getLevel() < $userLvl) {
             $this->throwPermissionException('User has lower permission than [%s] group.', $group->getId());

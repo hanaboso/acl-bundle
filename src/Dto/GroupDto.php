@@ -3,6 +3,7 @@
 namespace Hanaboso\AclBundle\Dto;
 
 use Hanaboso\AclBundle\Entity\GroupInterface;
+use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Factory\RuleFactory;
 use Hanaboso\UserBundle\Entity\UserInterface;
@@ -21,7 +22,7 @@ final class GroupDto
     private $users;
 
     /**
-     * @var array
+     * @var RuleInterface[]
      */
     private $rules;
 
@@ -31,7 +32,7 @@ final class GroupDto
     private $group;
 
     /**
-     * @var null|string
+     * @var string|null
      */
     private $name;
 
@@ -68,7 +69,7 @@ final class GroupDto
     }
 
     /**
-     * @return array
+     * @return RuleInterface[]
      */
     public function getRules(): array
     {
@@ -76,8 +77,8 @@ final class GroupDto
     }
 
     /**
-     * @param string $ruleClass
-     * @param array  $data
+     * @param string  $ruleClass
+     * @param mixed[] $data
      *
      * @return GroupDto
      * @throws AclException
@@ -86,10 +87,7 @@ final class GroupDto
     {
         foreach ($data as $rule) {
             if (!isset($rule['resource']) || !isset($rule['action_mask']) || !isset($rule['property_mask'])) {
-                throw new AclException(
-                    'Missing data in sent rules',
-                    AclException::MISSING_DATA
-                );
+                throw new AclException('Missing data in sent rules', AclException::MISSING_DATA);
             }
             $this->rules[] = RuleFactory::createRule(
                 $rule['resource'],
@@ -104,7 +102,7 @@ final class GroupDto
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getName(): ?string
     {
