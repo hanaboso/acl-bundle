@@ -6,12 +6,13 @@ services:
         volumes:
             - ./:/var/www
             - ${SSH_AUTH_SOCK}:${SSH_AUTH}
-            - ${HOME}/.composer:/srv/.composer
+            - ${HOME}/dev/.composer:${HOME}/dev/.composer
         environment:
             - APP_ENV=dev
             - DEV_UID=${DEV_UID}
             - DEV_GID=${DEV_GID}
             - KERNEL_CLASS=AclBundleTests\Kernel
+            - COMPOSER_HOME=${HOME}/dev/.composer
             - SMTP_HOST=${SMTP_HOST}
             - SMTP_PORT=${SMTP_PORT}
             - SMTP_USER=${SMTP_USER}
