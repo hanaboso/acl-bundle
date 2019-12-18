@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.5'
 services:
     app:
         image: hanabosocom/php-dev:php-7.4
@@ -12,11 +12,15 @@ services:
             - DEV_UID=${DEV_UID}
             - DEV_GID=${DEV_GID}
             - KERNEL_CLASS=AclBundleTests\Kernel
-            - SMTP_TRANSPORT=${SMTP_TRANSPORT}
             - SMTP_HOST=${SMTP_HOST}
             - SMTP_PORT=${SMTP_PORT}
             - SMTP_USER=${SMTP_USER}
             - SMTP_PASSWORD=${SMTP_PASSWORD}
+            - REDIS_DSN=redis://redis/10
+            - MONGODB_DSN=mongodb://mongo
+            - MONGODB_DB=acl
+            - MARIADB_DSN=mariadb
+            - MARIADB_DB=acl
 
     mongo:
         image: mongo:latest

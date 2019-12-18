@@ -1,8 +1,4 @@
 parameters:
-    env(REDIS_HOST): redis
-    env(REDIS_PORT): 6379
-    redis_host: '%env(REDIS_HOST)%'
-    redis_port: '%env(REDIS_PORT)%'
     acl_use_cache: false
 
 services:

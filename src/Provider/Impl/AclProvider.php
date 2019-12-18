@@ -17,6 +17,7 @@ use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
 use LogicException;
 use Predis\Client;
+use Snc\RedisBundle\DependencyInjection\Configuration\RedisDsn;
 
 /**
  * Class AclProvider
@@ -51,12 +52,7 @@ class AclProvider implements AclRuleProviderInterface
     /**
      * @var string
      */
-    protected $redisHost;
-
-    /**
-     * @var int
-     */
-    protected $redisPort;
+    private string $redisDsn;
 
     /**
      * AclProvider constructor.
@@ -65,24 +61,21 @@ class AclProvider implements AclRuleProviderInterface
      * @param ResourceProvider       $provider
      * @param string                 $resourceEnum
      * @param string                 $useCache
-     * @param string                 $redisHost
-     * @param string                 $redisPort
+     * @param string                 $redisDsn
      */
     public function __construct(
         DatabaseManagerLocator $dml,
         ResourceProvider $provider,
         string $resourceEnum,
         string $useCache,
-        string $redisHost,
-        string $redisPort
+        string $redisDsn
     )
     {
         $this->dm           = $dml->get();
         $this->provider     = $provider;
         $this->resourceEnum = $resourceEnum;
         $this->useCache     = boolval($useCache);
-        $this->redisHost    = $redisHost;
-        $this->redisPort    = (int) $redisPort;
+        $this->redisDsn     = $redisDsn;
     }
 
     /**
@@ -250,10 +243,11 @@ class AclProvider implements AclRuleProviderInterface
      */
     protected function getClient(): Client
     {
-        $redis = new Client(
+        $parsed = new RedisDsn($this->redisDsn);
+        $redis  = new Client(
             [
-                'host' => $this->redisHost,
-                'port' => $this->redisPort,
+                'host' => $parsed->getHost(),
+                'port' => $parsed->getPort(),
             ]
         );
         $redis->connect();

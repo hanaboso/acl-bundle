@@ -25,7 +25,7 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
     /**
      * @var NativePasswordEncoder
      */
-    protected $encoder;
+    protected NativePasswordEncoder $encoder;
 
     /**
      * ControllerTestCaseAbstract constructor.

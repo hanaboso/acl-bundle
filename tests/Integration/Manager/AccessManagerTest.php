@@ -19,6 +19,7 @@ use Hanaboso\CommonsBundle\Exception\EnumException;
 use Hanaboso\CommonsBundle\FileStorage\Document\File;
 use Hanaboso\UserBundle\Document\User;
 use Predis\Client;
+use Snc\RedisBundle\DependencyInjection\Configuration\RedisDsn;
 
 /**
  * Class AccessManagerTest
@@ -38,10 +39,11 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $this->em = self::$container->get('doctrine.orm.default_entity_manager');
         $this->clearMysql();
 
-        $redis = new Client(
+        $parsed = new RedisDsn((string) getenv('REDIS_DSN'));
+        $redis  = new Client(
             [
-                'host' => self::$container->getParameter('redis_host'),
-                'port' => self::$container->getParameter('redis_port'),
+                'host' => $parsed->getHost(),
+                'port' => $parsed->getPort(),
             ]
         );
         $redis->connect();
@@ -676,6 +678,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
      * @param int       $prop
      *
      * @return Rule
+     * @throws Exception
      */
     private function createRule(?User $user = NULL, int $act = 7, string $res = 'group', int $prop = 2): Rule
     {

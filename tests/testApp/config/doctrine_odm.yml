@@ -11,11 +11,11 @@ doctrine_mongodb:
     hydrator_dir: "%kernel.cache_dir%/doctrine/odm/mongodb/Hydrators"
     connections:
         default:
-            server: "mongodb://%mongo_host%"
+            server: "%env(string:MONGODB_DSN)%"
             options:
                 connectTimeoutMS: 5000
                 socketTimeoutMS: 5000
-    default_database: acl
+    default_database: "%env(string:MONGODB_DB)%"
     document_managers:
         default:
             mappings:

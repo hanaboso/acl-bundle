@@ -6,8 +6,8 @@ doctrine:
         connections:
             default:
                 driver:   pdo_mysql
-                host:     'mariadb'
-                dbname:   'acl'
+                host:     "%env(string:MARIADB_DSN)%"
+                dbname:   "%env(string:MARIADB_DB)%"
                 user:     'root'
                 password: 'root'
     orm:

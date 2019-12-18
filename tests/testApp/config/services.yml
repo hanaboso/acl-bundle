@@ -21,5 +21,4 @@ services:
             - '@hbpf.user.provider.resource'
             - '%resource_enum%'
             - '%acl_use_cache%'
-            - '%redis_host%'
-            - '%redis_port%'
+            - '%env(string:REDIS_DSN)%'
