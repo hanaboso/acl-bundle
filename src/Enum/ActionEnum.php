@@ -2,8 +2,8 @@
 
 namespace Hanaboso\AclBundle\Enum;
 
-use Hanaboso\CommonsBundle\Enum\EnumAbstract;
-use Hanaboso\CommonsBundle\Exception\EnumException;
+use Hanaboso\Utils\Enum\EnumAbstract;
+use Hanaboso\Utils\Exception\EnumException;
 use LogicException;
 
 /**
@@ -13,6 +13,8 @@ use LogicException;
  */
 class ActionEnum extends EnumAbstract
 {
+
+    // phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
 
     public const READ   = 'read';
     public const WRITE  = 'write';
@@ -25,7 +27,7 @@ class ActionEnum extends EnumAbstract
      *
      * @var string[]
      */
-    protected static $choices = [
+    protected static array $choices = [
         self::READ   => self::READ,
         self::WRITE  => self::WRITE,
         self::DELETE => self::DELETE,

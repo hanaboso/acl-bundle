@@ -2,7 +2,7 @@
 
 namespace Hanaboso\AclBundle\Enum;
 
-use Hanaboso\CommonsBundle\Enum\EnumAbstract;
+use Hanaboso\Utils\Enum\EnumAbstract;
 
 /**
  * Class PropertyEnum
@@ -12,13 +12,15 @@ use Hanaboso\CommonsBundle\Enum\EnumAbstract;
 final class PropertyEnum extends EnumAbstract
 {
 
+    // phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
+
     public const OWNER = 'owner';
     public const GROUP = 'group';
 
     /**
      * @var string[]
      */
-    protected static $choices = [
+    protected static array $choices = [
         self::OWNER => 'Owner',
         self::GROUP => 'Group',
     ];

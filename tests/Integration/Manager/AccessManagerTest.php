@@ -15,9 +15,9 @@ use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Factory\MaskFactory;
 use Hanaboso\AclBundle\Manager\AccessManager;
-use Hanaboso\CommonsBundle\Exception\EnumException;
 use Hanaboso\CommonsBundle\FileStorage\Document\File;
 use Hanaboso\UserBundle\Document\User;
+use Hanaboso\Utils\Exception\EnumException;
 use Predis\Client;
 use Snc\RedisBundle\DependencyInjection\Configuration\RedisDsn;
 

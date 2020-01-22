@@ -2,7 +2,7 @@
 
 namespace Hanaboso\AclBundle\Enum;
 
-use Hanaboso\CommonsBundle\Enum\EnumAbstract;
+use Hanaboso\Utils\Enum\EnumAbstract;
 
 /**
  * Class ResourceEnum
@@ -11,6 +11,8 @@ use Hanaboso\CommonsBundle\Enum\EnumAbstract;
  */
 class ResourceEnum extends EnumAbstract
 {
+
+    // phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
 
     public const GROUP    = 'group';
     public const USER     = 'user';
@@ -22,7 +24,7 @@ class ResourceEnum extends EnumAbstract
     /**
      * @var string[]
      */
-    protected static $choices = [
+    protected static array $choices = [
         self::GROUP    => 'Group entity',
         self::USER     => 'User entity',
         self::TMP_USER => 'TmpUser entity',
