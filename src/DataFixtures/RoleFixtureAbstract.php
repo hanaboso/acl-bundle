@@ -3,7 +3,7 @@
 namespace Hanaboso\AclBundle\DataFixtures;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Exception;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
@@ -28,12 +28,17 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
     /**
      * @var ContainerInterface|null
      */
-    protected $container;
+    protected ?ContainerInterface $container = NULL;
 
     /**
      * @var MaskFactory
      */
-    protected $maskFactory;
+    protected MaskFactory $maskFactory;
+
+    /**
+     * @var int
+     */
+    protected int $encoderLevel = 12;
 
     /**
      * @param ContainerInterface|null $container
@@ -66,7 +71,7 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
             throw new LogicException('Amount of actions exceeded allowed 32!');
         }
 
-        $encoder    = new NativePasswordEncoder(12);
+        $encoder    = new NativePasswordEncoder($this->encoderLevel);
         $rules      = $this->container->getParameter('acl_rule')['fixture_groups'];
         $ownerRules = $this->container->getParameter('acl_rule')['owner'];
         $config     = $this->container->getParameter('db_res');

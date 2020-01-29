@@ -209,7 +209,7 @@ class GroupManager
 
         usort(
             $res,
-            function (array $a, array $b): int {
+            static function (array $a, array $b): int {
                 if ($a['level'] == $b['level']) {
                     return 0;
                 }
@@ -234,6 +234,7 @@ class GroupManager
         foreach ($users as $key => $item) {
             if ($item->getId() == $user->getId()) {
                 unset($users[$key]);
+
                 break;
             }
         }

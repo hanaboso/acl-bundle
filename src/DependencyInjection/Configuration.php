@@ -9,6 +9,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * Class Configuration
  *
  * @package Hanaboso\AclBundle\DependencyInjection
+ *
+ * @codeCoverageIgnore
  */
 class Configuration implements ConfigurationInterface
 {

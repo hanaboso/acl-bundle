@@ -5,20 +5,25 @@ namespace AclBundleTests\Unit\Factory;
 use AclBundleTests\KernelTestCaseAbstract;
 use AclBundleTests\testApp\ExtActionEnum;
 use Exception;
+use Hanaboso\AclBundle\Enum\ActionEnum;
 use Hanaboso\AclBundle\Enum\PropertyEnum;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
+use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Factory\MaskFactory;
+use LogicException;
 
 /**
  * Class MaskFactoryTest
  *
  * @package AclBundleTests\Unit\Factory
+ *
+ * @covers  \Hanaboso\AclBundle\Factory\MaskFactory
  */
 final class MaskFactoryTest extends KernelTestCaseAbstract
 {
 
     /**
-     * @covers MaskFactory::maskAction()
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskAction()
      * @throws Exception
      */
     public function testMaskAction(): void
@@ -34,7 +39,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers MaskFactory::maskProperty()
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskProperty()
      * @throws Exception
      */
     public function testMaskProperty(): void
@@ -48,7 +53,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers MaskFactory::getAllowedList()
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::getAllowedList()
      *
      * @throws Exception
      */
@@ -94,7 +99,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers MaskFactory::isActionAllowed()
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::isActionAllowed()
      *
      * @throws Exception
      */
@@ -109,8 +114,8 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers MaskFactory::getActionsFromMask()
-     * @covers MaskFactory::getActionsFromMaskStatic()
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::getActionsFromMask()
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::getActionsFromMaskStatic()
      *
      * @throws Exception
      */
@@ -133,6 +138,85 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
             ['write', 'test', 'test2'],
             $factory->getActionsFromMaskStatic(26, ExtActionEnum::getChoices())
         );
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskAction
+     */
+    public function testMaskActionZero(): void
+    {
+        self::expectException(AclException::class);
+        self::expectExceptionCode(AclException::ZERO_MASK);
+        $f = new MaskFactory(
+            ActionEnum::class,
+            ResourceEnum::class
+        );
+
+        $f->maskAction([], ResourceEnum::GROUP);
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskProperty
+     */
+    public function testMissingData(): void
+    {
+        self::expectException(AclException::class);
+        self::expectExceptionCode(AclException::MISSING_DATA);
+        MaskFactory::maskProperty([]);
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskProperty
+     */
+    public function testMissingValue(): void
+    {
+        self::expectException(AclException::class);
+        self::expectExceptionCode(AclException::ZERO_MASK);
+        MaskFactory::maskProperty(
+            [
+                PropertyEnum::OWNER => [],
+                PropertyEnum::GROUP => [],
+            ]
+        );
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskActionFromYmlArray
+     */
+    public function testMaskFromYaml(): void
+    {
+        $f = new MaskFactory(
+            ActionEnum::class,
+            ResourceEnum::class,
+            []
+        );
+
+        $res = $f->maskActionFromYmlArray(
+            [
+                ActionEnum::READ,
+                ActionEnum::DELETE,
+            ],
+            ResourceEnum::GROUP
+        );
+
+        self::assertEquals(5, $res);
+    }
+
+    /**
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::getPropertyFromMask
+     */
+    public function test3(): void
+    {
+        self::expectException(LogicException::class);
+        MaskFactory::getPropertyFromMask(3);
     }
 
 }

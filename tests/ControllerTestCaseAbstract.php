@@ -20,7 +20,7 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
 {
 
     use ControllerTestTrait;
-    Use DatabaseTestTrait;
+    use DatabaseTestTrait;
 
     /**
      * @var NativePasswordEncoder
@@ -37,6 +37,7 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
     public function __construct(?string $name = NULL, array $data = [], string $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
+
         $this->encoder = new NativePasswordEncoder(3);
     }
 
@@ -46,6 +47,7 @@ abstract class ControllerTestCaseAbstract extends WebTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->client = self::createClient([], []);
         $this->dm     = self::$container->get('doctrine_mongodb.odm.default_document_manager');
         $this->clearMongo();

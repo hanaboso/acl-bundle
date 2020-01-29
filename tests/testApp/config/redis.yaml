@@ -1,7 +1,0 @@
-snc_redis:
-    clients:
-        sessions:
-            type: predis
-            alias: sessions
-            dsn: '%env(string:REDIS_DSN)%'
-            logging: false

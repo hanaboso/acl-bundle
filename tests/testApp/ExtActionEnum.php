@@ -31,7 +31,7 @@ class ExtActionEnum extends ActionEnum
     /**
      * @var mixed[]
      */
-    protected static $globalActions = [
+    protected static array $globalActions = [
         self::WRITE => self::WRITE,
         self::TEST  => self::TEST,
     ];

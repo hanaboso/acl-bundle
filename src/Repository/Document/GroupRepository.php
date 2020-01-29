@@ -42,7 +42,7 @@ class GroupRepository extends DocumentRepository
             $ids[] = $group->getId();
             /** @var GroupInterface $parent */
             foreach ($group->getParents() as $parent) {
-                if (!in_array($parent->getId(), $ids)) {
+                if (!in_array($parent->getId(), $ids, FALSE)) {
                     $groups[] = $parent;
                     $ids[]    = $parent->getId();
                 }

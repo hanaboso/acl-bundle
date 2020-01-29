@@ -23,6 +23,27 @@ class Group extends DocumentAbstract implements GroupInterface
     use IdTrait;
 
     /**
+     * @var GroupInterface[]|Collection<int, GroupInterface>
+     *
+     * @ODM\ReferenceMany(targetDocument="Hanaboso\AclBundle\Document\Group", inversedBy="children")
+     */
+    protected $parents;
+
+    /**
+     * @var GroupInterface[]|Collection<int, GroupInterface>
+     *
+     * @ODM\ReferenceMany(targetDocument="Hanaboso\AclBundle\Document\Group", mappedBy="parents")
+     */
+    protected $children;
+
+    /**
+     * @var int
+     *
+     * @ODM\Field(type="int")
+     */
+    protected $level = 999;
+
+    /**
      * @var string
      *
      * @ODM\Field(type="string")
@@ -49,27 +70,6 @@ class Group extends DocumentAbstract implements GroupInterface
      * @ODM\ReferenceMany(targetDocument="Hanaboso\UserBundle\Document\TmpUser", strategy="set")
      */
     private $tmpUsers;
-
-    /**
-     * @var GroupInterface[]|Collection<int, GroupInterface>
-     *
-     * @ODM\ReferenceMany(targetDocument="Hanaboso\AclBundle\Document\Group", inversedBy="children")
-     */
-    protected $parents;
-
-    /**
-     * @var GroupInterface[]|Collection<int, GroupInterface>
-     *
-     * @ODM\ReferenceMany(targetDocument="Hanaboso\AclBundle\Document\Group", mappedBy="parents")
-     */
-    protected $children;
-
-    /**
-     * @var int
-     *
-     * @ODM\Field(type="int")
-     */
-    protected $level = 999;
 
     /**
      * Group constructor.
@@ -304,7 +304,8 @@ class Group extends DocumentAbstract implements GroupInterface
         foreach ($data[self::RULES] as $ruleData) {
             /** @var RuleInterface $rule */
             $rule = new $ruleClass();
-            $rule->fromArrayAcl($ruleData);
+            $rule->fromArrayAcl($ruleData)
+                ->setGroup($this);
             $this->addRule($rule);
             $rules[$rule->getId()] = $rule;
         }

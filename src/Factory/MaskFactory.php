@@ -35,17 +35,14 @@ class MaskFactory
     /**
      * MaskFactory constructor.
      *
-     * @param string       $actionEnum
-     * @param string       $resourceEnum
-     * @param mixed[]|null $allowedActions
+     * @param string  $actionEnum
+     * @param string  $resourceEnum
+     * @param mixed[] $allowedActions
      */
-    public function __construct(string $actionEnum, string $resourceEnum, $allowedActions)
+    public function __construct(string $actionEnum, string $resourceEnum, array $allowedActions = [])
     {
         $this->actionEnum   = $actionEnum;
         $this->resourceEnum = $resourceEnum;
-        if (!is_array($allowedActions)) {
-            $allowedActions = [];
-        }
 
         if (!array_key_exists(self::DEFAULT_ACTIONS, $allowedActions)) {
             $allowedActions[self::DEFAULT_ACTIONS] = ['read', 'write', 'delete'];
@@ -78,7 +75,7 @@ class MaskFactory
             }
 
             if (boolval($isAllowed) && $this->isActionAllowed($actName, $resource)) {
-                $bit  = $this->actionEnum::getActionBit($actName);
+                $bit   = $this->actionEnum::getActionBit($actName);
                 $mask |= (1 << $bit);
             }
         }
@@ -100,7 +97,7 @@ class MaskFactory
         $mask = 0;
         foreach ($rules as $rule) {
             if ($this->isActionAllowed($rule, $resource)) {
-                $bit  = $this->actionEnum::getActionBit($rule);
+                $bit   = $this->actionEnum::getActionBit($rule);
                 $mask |= (1 << $bit);
             }
         }
@@ -147,6 +144,16 @@ class MaskFactory
     }
 
     /**
+     * @param int $mask
+     *
+     * @return string[]
+     */
+    public function getActionsFromMask(int $mask): array
+    {
+        return $this->getActionsFromMaskStatic($mask, $this->actionEnum::getChoices());
+    }
+
+    /**
      * @param mixed[] $data
      *
      * @return int
@@ -169,24 +176,16 @@ class MaskFactory
     /**
      * @param int $mask
      *
-     * @return string[]
-     */
-    public function getActionsFromMask(int $mask): array
-    {
-        return $this->getActionsFromMaskStatic($mask, $this->actionEnum::getChoices());
-    }
-
-    /**
-     * @param int $mask
-     *
      * @return string
      */
     public static function getPropertyFromMask(int $mask): string
     {
         if ($mask === 1) {
             return PropertyEnum::OWNER;
-        } else if ($mask === 2) {
-            return PropertyEnum::GROUP;
+        } else {
+            if ($mask === 2) {
+                return PropertyEnum::GROUP;
+            }
         }
 
         throw new LogicException('Given mask must be either 1 or 2.');

@@ -51,7 +51,7 @@ database-create:
 # App dev
 init-dev: docker-up-force composer-install
 
-codesniffer:
+phpcodesniffer:
 	$(DE) ./vendor/bin/phpcs --standard=./ruleset.xml --colors -p src/ tests/
 
 phpstan:
@@ -66,6 +66,12 @@ phpintegration: database-create
 phpcontroller:
 	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 4 --runner=WrapperRunner tests/Controller
 
+phpcoverage:
+	$(DE) php vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 4 --coverage-html var/coverage --whitelist src tests
+
+phpcoverage-ci:
+	$(DE) ./vendor/hanaboso/php-check-utils/bin/coverage.sh -p 4 -c 99
+
 test: docker-up-force composer-install fasttest
 
-fasttest: clear-cache codesniffer phpstan phpunit phpintegration phpcontroller
+fasttest: clear-cache phpcodesniffer phpstan phpunit phpintegration phpcontroller phpcoverage-ci

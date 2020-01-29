@@ -13,12 +13,14 @@ use Hanaboso\UserBundle\Repository\Document\UserRepository;
  * Class GroupRepositoryTest
  *
  * @package AclBundleTests\Integration\Reposity\Document
+ *
+ * @covers  \Hanaboso\AclBundle\Repository\Document\GroupRepository
  */
 final class GroupRepositoryTest extends DatabaseTestCaseAbstract
 {
 
     /**
-     * @covers GroupRepository::getUserGroups()
+     * @covers \Hanaboso\AclBundle\Repository\Document\GroupRepository::getUserGroups
      *
      * @throws Exception
      */

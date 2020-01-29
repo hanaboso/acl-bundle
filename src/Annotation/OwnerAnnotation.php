@@ -10,7 +10,7 @@ use Doctrine\Common\Annotations\Annotation;
  * @package Hanaboso\AclBundle\Annotation
  * @Annotation
  */
-class OwnerAnnotation
+final class OwnerAnnotation
 {
 
 }

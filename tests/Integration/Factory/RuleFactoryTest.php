@@ -6,6 +6,7 @@ use AclBundleTests\DatabaseTestCaseAbstract;
 use Exception;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
+use Hanaboso\AclBundle\Factory\RuleFactory;
 use Hanaboso\UserBundle\Document\User;
 use Hanaboso\UserBundle\Model\User\Event\ActivateUserEvent;
 
@@ -13,12 +14,15 @@ use Hanaboso\UserBundle\Model\User\Event\ActivateUserEvent;
  * Class RuleFactoryTest
  *
  * @package AclBundleTests\Integration\Factory
+ *
+ * @covers  \Hanaboso\AclBundle\Factory\RuleFactory
+ * @coversDefaultClass \Hanaboso\AclBundle\Factory\RuleFactory
  */
 final class RuleFactoryTest extends DatabaseTestCaseAbstract
 {
 
     /**
-     * @covers ::createRule()
+     * @covers ::createRule
      * @throws Exception
      */
     public function testRuleFactory(): void
@@ -27,18 +31,16 @@ final class RuleFactoryTest extends DatabaseTestCaseAbstract
         $group->setName('group');
         $this->pfd($group);
 
-        $fac = self::$container->get('hbpf.factory.rule');
         /** @var Rule $rule */
-        $rule = $fac->createRule('user', $group, 3, 2, Rule::class);
+        $rule = RuleFactory::createRule('user', $group, 3, 2, Rule::class);
 
-        self::assertInstanceOf(Rule::class, $rule);
         self::assertEquals(3, $rule->getActionMask());
         self::assertEquals(2, $rule->getPropertyMask());
         self::assertEquals('user', $rule->getResource());
     }
 
     /**
-     * @covers ::getDefaultRules()
+     * @covers ::getDefaultRules
      * @throws Exception
      */
     public function testSetDefaultRules(): void

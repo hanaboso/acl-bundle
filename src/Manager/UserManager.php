@@ -33,16 +33,6 @@ class UserManager implements EventSubscriberInterface
     }
 
     /**
-     * @return mixed[]
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            DeleteBeforeUserEvent::class => 'checkPermission',
-        ];
-    }
-
-    /**
      * @param UserEvent $userEvent
      *
      * @throws AclException
@@ -55,6 +45,16 @@ class UserManager implements EventSubscriberInterface
             $userEvent->getLoggedUser(),
             $userEvent->getUser()
         );
+    }
+
+    /**
+     * @return array<string, array<int|string, array<int|string, int|string>|int|string>|string>
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            DeleteBeforeUserEvent::class => 'checkPermission',
+        ];
     }
 
 }

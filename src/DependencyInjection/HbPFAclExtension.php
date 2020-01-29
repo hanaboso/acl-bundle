@@ -12,6 +12,8 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  * Class HbPFAclExtension
  *
  * @package Hanaboso\AclBundle\DependencyInjection
+ *
+ * @codeCoverageIgnore
  */
 class HbPFAclExtension extends Extension
 {

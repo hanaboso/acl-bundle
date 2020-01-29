@@ -40,7 +40,7 @@ class GroupRepository extends EntityRepository
             $ids[] = $group->getId();
 
             foreach ($group->getParents() as $parent) {
-                if (!in_array($parent->getId(), $ids)) {
+                if (!in_array($parent->getId(), $ids, FALSE)) {
                     $groups[] = $parent;
                     $ids[]    = $parent->getId();
                 }

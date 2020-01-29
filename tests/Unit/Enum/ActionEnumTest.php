@@ -11,12 +11,28 @@ use LogicException;
  * Class ActionEnumTest
  *
  * @package AclBundleTests\Unit\Enum
+ *
+ * @covers  \Hanaboso\AclBundle\Enum\ActionEnum
  */
 final class ActionEnumTest extends KernelTestCaseAbstract
 {
 
     /**
-     * @covers ActionEnum::getActionBit()
+     * @covers \Hanaboso\AclBundle\Enum\ActionEnum::getActionBit
+     * @covers \Hanaboso\AclBundle\Enum\ActionEnum::getGlobalActions
+     *
+     * @throws Exception
+     */
+    public function testActionEnum(): void
+    {
+        self::assertEquals([ActionEnum::WRITE => ActionEnum::WRITE], ActionEnum::getGlobalActions());
+
+        self::assertEquals(0, ActionEnum::getActionBit(ActionEnum::READ));
+        self::assertEquals(1, ActionEnum::getActionBit(ActionEnum::WRITE));
+    }
+
+    /**
+     * @covers \Hanaboso\AclBundle\Enum\ActionEnum::getActionBit
      *
      * @throws Exception
      */
@@ -34,6 +50,16 @@ final class ActionEnumTest extends KernelTestCaseAbstract
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Amount of actions exceeded 32.');
         $class::getActionBit('32');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testUselessFakeException(): void
+    {
+        self::expectException(LogicException::class);
+        self::expectExceptionMessage('Missing action.');
+        TestActionEnum::getActionBit('asdasd');
     }
 
 }

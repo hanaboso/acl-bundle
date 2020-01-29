@@ -14,8 +14,6 @@ use LogicException;
 class ActionEnum extends EnumAbstract
 {
 
-    // phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
-
     public const READ   = 'read';
     public const WRITE  = 'write';
     public const DELETE = 'delete';
@@ -36,7 +34,7 @@ class ActionEnum extends EnumAbstract
     /**
      * @var mixed[]
      */
-    protected static $globalActions = [
+    protected static array $globalActions = [
         self::WRITE => self::WRITE,
     ];
 
@@ -48,7 +46,7 @@ class ActionEnum extends EnumAbstract
      */
     public static function getActionBit(string $action): int
     {
-        self::isValid($action);
+        static::isValid($action);
 
         $i = 0;
         foreach (static::$choices as $act) {

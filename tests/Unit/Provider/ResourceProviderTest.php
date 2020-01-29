@@ -12,12 +12,14 @@ use stdClass;
  * Class ResourceProviderTest
  *
  * @package AclBundleTests\Unit\Provider
+ *
+ * @covers \Hanaboso\UserBundle\Provider\ResourceProvider
  */
 final class ResourceProviderTest extends TestCase
 {
 
     /**
-     * @covers ResourceProvider::getResources()
+     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResources()
      * @throws Exception
      */
     public function testGetResources(): void
@@ -31,7 +33,7 @@ final class ResourceProviderTest extends TestCase
             ]
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'one' => 'One',
                 'two' => 'Two',
@@ -41,31 +43,31 @@ final class ResourceProviderTest extends TestCase
     }
 
     /**
-     * @covers ResourceProvider::getResources()
+     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResources()
      * @throws Exception
      */
     public function testGetResourcesMissing(): void
     {
-        $this->expectException(ResourceProviderException::class);
-        $this->expectExceptionCode(ResourceProviderException::RULESET_NOT_EXIST);
+        self::expectException(ResourceProviderException::class);
+        self::expectExceptionCode(ResourceProviderException::RULESET_NOT_EXIST);
 
         new ResourceProvider([]);
     }
 
     /**
-     * @covers ResourceProvider::getResources()
+     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResources()
      * @throws Exception
      */
     public function testGetResourcesNotArray(): void
     {
-        $this->expectException(ResourceProviderException::class);
-        $this->expectExceptionCode(ResourceProviderException::RULESET_NOT_EXIST);
+        self::expectException(ResourceProviderException::class);
+        self::expectExceptionCode(ResourceProviderException::RULESET_NOT_EXIST);
 
         new ResourceProvider(['resources' => new stdClass()]);
     }
 
     /**
-     * @covers ResourceProvider::hasResource()
+     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::hasResource()
      * @throws Exception
      */
     public function testHasResource(): void
@@ -78,12 +80,12 @@ final class ResourceProviderTest extends TestCase
             ]
         );
 
-        $this->assertTrue($resourceProvider->hasResource('one'));
-        $this->assertFalse($resourceProvider->hasResource('two'));
+        self::assertTrue($resourceProvider->hasResource('one'));
+        self::assertFalse($resourceProvider->hasResource('two'));
     }
 
     /**
-     * @covers ResourceProvider::getResource()
+     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResource()
      * @throws Exception
      */
     public function testGetResource(): void
@@ -96,17 +98,17 @@ final class ResourceProviderTest extends TestCase
             ]
         );
 
-        $this->assertSame('One', $resourceProvider->getResource('one'));
+        self::assertSame('One', $resourceProvider->getResource('one'));
     }
 
     /**
-     * @covers ResourceProvider::getResource()
+     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResource()
      * @throws Exception
      */
     public function testGetResourceMissing(): void
     {
-        $this->expectException(ResourceProviderException::class);
-        $this->expectExceptionCode(ResourceProviderException::RESOURCE_NOT_EXIST);
+        self::expectException(ResourceProviderException::class);
+        self::expectExceptionCode(ResourceProviderException::RESOURCE_NOT_EXIST);
 
         (new ResourceProvider(
             [

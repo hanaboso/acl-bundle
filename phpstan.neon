@@ -1,12 +1,15 @@
 includes:
-	- vendor/phpstan/phpstan-symfony/extension.neon # symfony extension
-	- vendor/phpstan/phpstan-doctrine/extension.neon # doctrine extension
-	- vendor/phpstan/phpstan-phpunit/extension.neon # phpunit extension
-	- vendor/phpstan/phpstan-phpunit/rules.neon # phpunit rules
 	- vendor/hanaboso/php-check-utils/phpstan.neon # hanaboso rules
 
 parameters:
 	excludes_analyse:
+	    - tests/Unit/Factory/MaskFactoryTest.php
+	    - tests/Unit/Enum/ActionEnumTest.php
+	    - src/Manager/AccessManager.php
+	    - src/Factory/RuleFactory.php
+	    - src/DataFixtures/RoleFixtureAbstract.php
+	    - src/Factory/MaskFactory.php
 	ignoreErrors:
+	    - '#Call to function in_array\(\) requires parameter \#3 to be true\.#'
 	symfony:
 		container_xml_path: %rootDir%/../../../var/cache/test/AclBundleTests_KernelTestDebugContainer.xml

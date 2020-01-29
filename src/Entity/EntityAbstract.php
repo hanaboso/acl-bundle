@@ -2,6 +2,7 @@
 
 namespace Hanaboso\AclBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Hanaboso\AclBundle\Annotation\OwnerAnnotation as OWNER;
 use Hanaboso\UserBundle\Entity\UserInterface;
 
@@ -14,7 +15,7 @@ abstract class EntityAbstract
 {
 
     /**
-     * @var UserInterface[]|null
+     * @var ArrayCollection<mixed, UserInterface>
      * @OWNER()
      */
     protected $owner;
@@ -26,6 +27,7 @@ abstract class EntityAbstract
      */
     function __construct(?UserInterface $owner)
     {
+        $this->owner = new ArrayCollection();
         if (!is_null($owner)) {
             $this->owner[0] = $owner;
         }
@@ -36,7 +38,7 @@ abstract class EntityAbstract
      */
     public function getOwner(): ?UserInterface
     {
-        if (is_null($this->owner)) {
+        if ($this->owner->isEmpty()) {
             return NULL;
         }
 
@@ -51,7 +53,7 @@ abstract class EntityAbstract
     public function setOwner(?UserInterface $owner): ?EntityAbstract
     {
         if (is_null($owner)) {
-            $this->owner = NULL;
+            $this->owner->clear();
         } else {
             $this->owner[0] = $owner;
         }

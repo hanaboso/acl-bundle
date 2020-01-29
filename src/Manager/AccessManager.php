@@ -222,16 +222,6 @@ class AccessManager implements EventSubscriberInterface
     }
 
     /**
-     * @return mixed[]
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            ActivateUserEvent::class => 'createGroup',
-        ];
-    }
-
-    /**
      * Possible ways of use:
      * $act -> desired action (from ActionEnum)
      * $res -> desired resource (from ResourceEnum)
@@ -267,7 +257,6 @@ class AccessManager implements EventSubscriberInterface
         $rule    = $this->selectRule($user, $act, $res, $userLvl);
 
         if (is_string($object)) {
-
             return $this->checkObjectPermission(
                 $rule,
                 $this->getObjectById($rule, $user, $res, $object),
@@ -276,28 +265,42 @@ class AccessManager implements EventSubscriberInterface
                 $res,
                 TRUE
             );
-
         } else if (is_object($object)) {
-
             return $this->checkObjectPermission($rule, $object, $user, $userLvl, $res);
-
         } else if (is_null($object)) {
 
             if (!in_array($act, $this->actionEnum::getGlobalActions()) && $rule->getPropertyMask() !== 2) {
-                $this->throwPermissionException(
+                throw $this->getPermissionException(
                     'For given action no group permission or non at all for global actions.'
                 );
             }
 
             return TRUE;
-
         } else {
-            $this->throwPermissionException(
+            throw $this->getPermissionException(
                 'Given object should be entity or it\'s id or null in case of write permission.'
             );
         }
+    }
 
-        return NULL;
+    /**
+     * @return mixed[]
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            ActivateUserEvent::class => 'createGroup',
+        ];
+    }
+
+    /**
+     * @param UserInterface $user
+     *
+     * @return string
+     */
+    protected function userMap(UserInterface $user): string
+    {
+        return $user->getId();
     }
 
     /**
@@ -326,7 +329,7 @@ class AccessManager implements EventSubscriberInterface
             if ($user->getId() !== (is_string($object->getOwner())
                     ? $object->getOwner() : $object->getOwner()->getId())
             ) {
-                $this->throwPermissionException('User has no permission from given object and action.');
+                throw $this->getPermissionException('User has no permission from given object and action.');
             }
         }
 
@@ -374,7 +377,7 @@ class AccessManager implements EventSubscriberInterface
             }
 
             if (!$rule) {
-                $this->throwPermissionException('User has no permission on [%s] resource for desired action.', $res);
+                throw $this->getPermissionException('User has no permission on [%s] resource for desired action.', $res);
             }
 
             return $rule;
@@ -423,7 +426,7 @@ class AccessManager implements EventSubscriberInterface
             $res = $this->dm->getRepository($class)->findOneBy($params);
 
             if (!$res) {
-                $this->throwPermissionException(
+                throw $this->getPermissionException(
                     sprintf(
                         'User has no permission on entity with [%s] id or it doesn\'t exist.',
                         $id
@@ -441,13 +444,13 @@ class AccessManager implements EventSubscriberInterface
      * @param string      $message
      * @param string|null $id
      *
-     * @throws AclException
+     * @return AclException
      */
-    private function throwPermissionException(string $message, ?string $id = NULL): void
+    private function getPermissionException(string $message, ?string $id = NULL): AclException
     {
         $message = is_null($id) ? $message : sprintf($message, $id);
 
-        throw new AclException($message, AclException::PERMISSION);
+        return new AclException($message, AclException::PERMISSION);
     }
 
     /**
@@ -499,7 +502,7 @@ class AccessManager implements EventSubscriberInterface
 
             foreach ($groups as $group) {
                 if ($group->getLevel() < $userLvl) {
-                    $this->throwPermissionException('User has lower permission than [%s] user.', $group->getId());
+                    throw $this->getPermissionException('User has lower permission than [%s] user.', $group->getId());
                 }
             }
 
@@ -519,20 +522,10 @@ class AccessManager implements EventSubscriberInterface
     private function hasRightForGroup(GroupInterface $group, int $userLvl): GroupInterface
     {
         if ($group->getLevel() < $userLvl) {
-            $this->throwPermissionException('User has lower permission than [%s] group.', $group->getId());
+            throw $this->getPermissionException('User has lower permission than [%s] group.', $group->getId());
         }
 
         return $group;
-    }
-
-    /**
-     * @param UserInterface $user
-     *
-     * @return string
-     */
-    protected function userMap(UserInterface $user): string
-    {
-        return $user->getId();
     }
 
 }

@@ -15,9 +15,10 @@ use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
+use Hanaboso\Utils\String\DsnParser;
+use Hanaboso\Utils\String\Json;
 use LogicException;
 use Predis\Client;
-use Snc\RedisBundle\DependencyInjection\Configuration\RedisDsn;
 
 /**
  * Class AclProvider
@@ -38,16 +39,17 @@ class AclProvider implements AclRuleProviderInterface
     /**
      * @var ResourceProvider
      */
-    protected $provider;
+    protected ResourceProvider $provider;
 
     /**
      * @var string
      */
-    protected $resourceEnum;
+    protected string $resourceEnum;
+
     /**
      * @var bool
      */
-    protected $useCache;
+    protected bool $useCache;
 
     /**
      * @var string
@@ -166,8 +168,8 @@ class AclProvider implements AclRuleProviderInterface
         $redis = $this->getClient();
         $redis->setex(
             $this->getKey($user),
-            86400,
-            (string) json_encode(
+            86_400,
+            Json::encode(
                 [
                     self::GROUPS => $arr,
                     self::LINKS  => $parentList,
@@ -192,7 +194,7 @@ class AclProvider implements AclRuleProviderInterface
             }
 
             $json   = $redis->get($key);
-            $arr    = json_decode($json, TRUE);
+            $arr    = Json::decode($json);
             $groups = [];
 
             $groupClass = $this->provider->getResource($this->resourceEnum::GROUP);
@@ -243,17 +245,15 @@ class AclProvider implements AclRuleProviderInterface
      */
     protected function getClient(): Client
     {
-        $parsed = new RedisDsn($this->redisDsn);
-        $redis  = new Client(
+        $config = DsnParser::parseRedisDsn($this->redisDsn);
+
+        $redis = new Client(
             [
-                'host' => $parsed->getHost(),
-                'port' => $parsed->getPort(),
+                'host' => $config[DsnParser::HOST],
+                'port' => $config[DsnParser::PORT] ?? 6_379,
             ]
         );
         $redis->connect();
-        if (!$redis->isConnected()) {
-            throw new LogicException('Failed to connect to redis.');
-        }
 
         return $redis;
     }

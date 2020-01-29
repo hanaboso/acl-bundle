@@ -79,6 +79,36 @@ class RuleFactory
     }
 
     /**
+     * @param GroupInterface $group
+     *
+     * @return array|RuleInterface[]
+     * @throws AclException
+     */
+    public function getDefaultRules(GroupInterface $group): array
+    {
+        try {
+            $this->dm->persist($group);
+
+            // TODO ošetřit následnou změnu defaultních práv
+            $rules = [];
+            foreach ($this->rules as $key => $rule) {
+                $this->resource::isValid($key);
+                $ruleClass = $this->provider->getResource($this->resource::RULE);
+                $actMask   = $this->maskFactory->maskActionFromYmlArray($rule, $this->resource::RULE);
+                $rule      = self::createRule($key, $group, $actMask, 1, $ruleClass);
+                $group->addRule($rule);
+                $this->dm->persist($rule);
+
+                $rules[] = $rule;
+            }
+
+            return $rules;
+        } catch (ResourceProviderException | ORMException $e) {
+            throw new AclException($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
      * @param string         $resource
      * @param GroupInterface $group
      * @param int            $actMask
@@ -107,42 +137,6 @@ class RuleFactory
         $group->addRule($rule);
 
         return $rule;
-    }
-
-    /**
-     * @param GroupInterface $group
-     *
-     * @return array|RuleInterface[]
-     * @throws AclException
-     */
-    public function getDefaultRules(GroupInterface $group): array
-    {
-        try {
-            $this->dm->persist($group);
-
-            // TODO ošetřit následnou změnu defaultních práv
-            $rules = [];
-            foreach ($this->rules as $key => $rule) {
-                if (!$this->resource::isValid($key)) {
-                    throw new AclException(
-                        sprintf('[%s] is not a valid resource', $key),
-                        AclException::INVALID_RESOURCE
-                    );
-                }
-
-                $ruleClass = $this->provider->getResource($this->resource::RULE);
-                $actMask   = $this->maskFactory->maskActionFromYmlArray($rule, $this->resource::RULE);
-                $rule      = self::createRule($key, $group, $actMask, 1, $ruleClass);
-                $group->addRule($rule);
-                $this->dm->persist($rule);
-
-                $rules[] = $rule;
-            }
-
-            return $rules;
-        } catch (ResourceProviderException | ORMException $e) {
-            throw new AclException($e->getMessage(), $e->getCode());
-        }
     }
 
 }

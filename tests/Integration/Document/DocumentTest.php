@@ -41,14 +41,14 @@ final class DocumentTest extends DatabaseTestCaseAbstract
         /** @var Group $existingGroup */
         $existingGroup = $this->dm->getRepository(Group::class)->find($group->getId());
 
-        $this->assertSame($group->getName(), $existingGroup->getName());
-        $this->assertCount(1, $group->getUsers());
-        $this->assertSame(
+        self::assertSame($group->getName(), $existingGroup->getName());
+        self::assertCount(1, $group->getUsers());
+        self::assertSame(
             $group->getUsers()->toArray()[0]->getEmail(),
             $existingGroup->getUsers()->toArray()[0]->getEmail()
         );
-        $this->assertCount(1, $group->getRules());
-        $this->assertSame(
+        self::assertCount(1, $group->getRules());
+        self::assertSame(
             $group->getRules()->toArray()[0]->getResource(),
             $existingGroup->getRules()->toArray()[0]->getResource()
         );

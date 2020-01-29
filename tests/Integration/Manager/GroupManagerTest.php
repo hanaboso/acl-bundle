@@ -5,9 +5,11 @@ namespace AclBundleTests\Integration\Manager;
 use AclBundleTests\DatabaseTestCaseAbstract;
 use Exception;
 use Hanaboso\AclBundle\Document\Group;
+use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Manager\GroupManager;
 use Hanaboso\UserBundle\Document\TmpUser;
+use Hanaboso\UserBundle\Document\User;
 
 /**
  * Class GroupManagerTest
@@ -54,19 +56,19 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
 
         $this->dm->clear();
 
-        $tmpUser = new TmpUser();
-        $tmpUser->setEmail('a@b.c');
-        $this->pfd($tmpUser);
+        $user = new User();
+        $user->setEmail('a@b.c');
+        $this->pfd($user);
 
         /** @var GroupManager $man */
         $man = self::$container->get('hbpf.manager.group');
 
-        $man->addUserIntoGroup($tmpUser, $group->getId());
+        $man->addUserIntoGroup($user, $group->getId());
         $this->dm->clear();
 
         /** @var Group $gr */
         $gr = $this->dm->getRepository(Group::class)->find($group->getId());
-        self::assertCount(1, $gr->getTmpUsers());
+        self::assertCount(1, $gr->getUsers());
     }
 
     /**
@@ -132,35 +134,27 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
      */
     public function testRemoveUserFromGroup2(): void
     {
-        $group = new Group(NULL);
+        $user = new User();
+        $user->setEmail('a@b.c');
+        $this->pfd($user);
+
+        $group = new Group($user);
         $group->setName('d');
         $this->pfd($group);
 
-        $tmpUser = new TmpUser();
-        $tmpUser->setEmail('a@b.c');
-        $this->pfd($tmpUser);
-
-        $group->addTmpUser($tmpUser);
-
-        $tmpUser = new TmpUser();
-        $tmpUser->setEmail('aa@b.c');
-        $this->pfd($tmpUser);
-
-        $group->addTmpUser($tmpUser);
+        $r = new Rule();
+        $this->pfd($r);
+        $group->addRule($r);
         $this->dm->flush();
-
-        self::assertCount(2, $group->getTmpUsers());
 
         $this->dm->clear();
 
         /** @var GroupManager $man */
         $man = self::$container->get('hbpf.manager.group');
 
-        $man->removeUserFromGroup($tmpUser, NULL, 'd');
+        $man->removeUserFromGroup($user, NULL, 'd');
 
-        /** @var Group $gr */
-        $gr = $this->dm->getRepository(Group::class)->find($group->getId());
-        self::assertCount(1, $gr->getTmpUsers());
+        self::assertEmpty($this->dm->getRepository(Group::class)->findAll());
     }
 
     /**
@@ -226,6 +220,48 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
         /** @var Group $gr */
         $gr = $this->dm->getRepository(Group::class)->find($group->getId());
         self::assertCount(1, $gr->getTmpUsers());
+
+        /** @var GroupManager $man */
+        $man = self::$container->get('hbpf.manager.group');
+
+        $res = $man->getUserGroups($u);
+        self::assertNotEmpty($res);
+        self::assertEquals(
+            ['name' => $group->getName(), 'id' => $group->getId(), 'level' => $group->getLevel()],
+            $res[0]
+        );
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGetUserGroups2(): void
+    {
+        $group = new Group(NULL);
+        $group->setName('a');
+        $this->pfd($group);
+
+        $group2 = new Group(NULL);
+        $group2->setName('b')->setLevel(999);
+        $this->pfd($group2);
+
+        $user = new User();
+        $user->setEmail('a@b.c');
+        $this->pfd($user);
+
+        $group->addUser($user);
+        $group2->addUser($user);
+
+        $this->dm->flush();
+        $this->dm->clear();
+        self::assertCount(1, $group->getUsers());
+
+        /** @var TmpUser $u */
+        $u = $this->dm->getRepository(User::class)->find($user->getId());
+
+        /** @var Group $gr */
+        $gr = $this->dm->getRepository(Group::class)->find($group->getId());
+        self::assertCount(1, $gr->getUsers());
 
         /** @var GroupManager $man */
         $man = self::$container->get('hbpf.manager.group');

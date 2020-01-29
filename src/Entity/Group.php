@@ -22,6 +22,40 @@ class Group extends EntityAbstract implements GroupInterface
     use IdTrait;
 
     /**
+     * @var UserInterface[]|Collection<int, UserInterface>
+     *
+     * @ORM\ManyToMany(targetEntity="Hanaboso\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="group_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinTable(name="group_owner")
+     */
+    protected $owner;
+
+    /**
+     * @var GroupInterface[]|Collection<int, GroupInterface>
+     *
+     * @ORM\ManyToMany(targetEntity="Hanaboso\AclBundle\Entity\Group", inversedBy="children")
+     * @ORM\JoinTable(name="group_inheritance",
+     *      joinColumns={@ORM\JoinColumn(name="parent_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="child_id", referencedColumnName="id")}
+     *      )
+     */
+    protected $parents;
+
+    /**
+     * @var GroupInterface[]|Collection<int, GroupInterface>
+     *
+     * @ORM\ManyToMany(targetEntity="Hanaboso\AclBundle\Entity\Group", mappedBy="parents")
+     */
+    protected $children;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $level = 999;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string")
@@ -46,38 +80,11 @@ class Group extends EntityAbstract implements GroupInterface
     /**
      * @var UserInterface[]|Collection<int, UserInterface>
      *
-     * @ORM\ManyToMany(targetEntity="Hanaboso\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="group_id", referencedColumnName="id", nullable=true)
-     * @ORM\JoinTable(name="group_owner")
-     */
-    protected $owner;
-
-    /**
-     * @var UserInterface[]|Collection<int, UserInterface>
-     *
      * @ORM\ManyToMany(targetEntity="Hanaboso\UserBundle\Entity\TmpUser")
      * @ORM\JoinColumn(name="tmp_user_id", referencedColumnName="id", nullable=true)
      * @ORM\JoinTable(name="group_tmp_user")
      */
     private $tmpUsers;
-
-    /**
-     * @var GroupInterface[]|Collection<int, GroupInterface>
-     *
-     * @ORM\ManyToMany(targetEntity="Hanaboso\AclBundle\Entity\Group", inversedBy="children")
-     * @ORM\JoinTable(name="group_inheritance",
-     *      joinColumns={@ORM\JoinColumn(name="parent_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="child_id", referencedColumnName="id")}
-     *      )
-     */
-    protected $parents;
-
-    /**
-     * @var GroupInterface[]|Collection<int, GroupInterface>
-     *
-     * @ORM\ManyToMany(targetEntity="Hanaboso\AclBundle\Entity\Group", mappedBy="parents")
-     */
-    protected $children;
 
     /**
      * Group constructor.
@@ -90,18 +97,10 @@ class Group extends EntityAbstract implements GroupInterface
 
         $this->rules    = new ArrayCollection();
         $this->users    = new ArrayCollection();
-        $this->owner    = new ArrayCollection();
         $this->tmpUsers = new ArrayCollection();
         $this->parents  = new ArrayCollection();
         $this->children = new ArrayCollection();
     }
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     */
-    protected $level = 999;
 
     /**
      * @return string
@@ -321,6 +320,7 @@ class Group extends EntityAbstract implements GroupInterface
             $rule = new $ruleClass();
             $rule->fromArrayAcl($ruleData);
             $this->addRule($rule);
+            $rule->setGroup($this);
             $rules[$rule->getId()] = $rule;
         }
 

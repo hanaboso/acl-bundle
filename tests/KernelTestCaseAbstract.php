@@ -21,6 +21,7 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         self::bootKernel();
     }
 
