@@ -95,7 +95,7 @@ final class GroupDto
                 $this->group,
                 $rule[Rule::ACTION_MASK],
                 $rule[Rule::PROPERTY_MASK],
-                $ruleClass
+                sprintf('%s', $ruleClass)
             );
         }
 

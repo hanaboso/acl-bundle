@@ -22,6 +22,8 @@ services:
             - MONGODB_DB=acl
             - MARIADB_DSN=mariadb
             - MARIADB_DB=acl
+            - MARIADB_USER=root
+            - MARIADB_PASS=root
 
     mongo:
         image: mongo:latest

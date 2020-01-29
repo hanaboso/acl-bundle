@@ -214,6 +214,16 @@ final class AccessManagerTest extends KernelTestCaseAbstract
     }
 
     /**
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::getSubscribedEvents
+     *
+     * @throws Exception
+     */
+    public function testGetSubscribedEvents(): void
+    {
+        self::assertCount(1, AccessManager::getSubscribedEvents());
+    }
+
+    /**
      * @param bool $throw
      *
      * @return ResourceProvider
