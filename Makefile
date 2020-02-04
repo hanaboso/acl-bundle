@@ -37,6 +37,7 @@ clear-cache:
 	$(DE) php tests/testApp/bin/console cache:warmup --env=test
 
 database-create:
+	$(DMY) /bin/bash -c 'while ! mysql -uroot -proot <<< "DROP DATABASE IF EXISTS acl;" > /dev/null 2>&1; do sleep 1; done'
 	$(DE) php tests/testApp/bin/console doctrine:database:drop --force || true --env=test
 	$(DE) php tests/testApp/bin/console doctrine:database:create --env=test
 	$(DE) php tests/testApp/bin/console doctrine:schema:create --env=test
@@ -52,10 +53,10 @@ database-create:
 init-dev: docker-up-force composer-install
 
 phpcodesniffer:
-	$(DE) ./vendor/bin/phpcs --standard=./ruleset.xml --colors -p src/ tests/
+	$(DE) ./vendor/bin/phpcs --standard=./ruleset.xml --colors -p src tests
 
 phpstan:
-	$(DE) ./vendor/bin/phpstan analyse -c ./phpstan.neon -l 8 src/ tests/
+	$(DE) ./vendor/bin/phpstan analyse -c ./phpstan.neon -l 8 src tests
 
 phpunit:
 	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 4 --runner=WrapperRunner tests/Unit
@@ -67,7 +68,7 @@ phpcontroller:
 	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 4 --runner=WrapperRunner tests/Controller
 
 phpcoverage:
-	$(DE) php vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 4 --coverage-html var/coverage --whitelist src tests
+	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 4 --coverage-html var/coverage --whitelist src tests
 
 phpcoverage-ci:
 	$(DE) ./vendor/hanaboso/php-check-utils/bin/coverage.sh -p 4
