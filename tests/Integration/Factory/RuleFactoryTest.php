@@ -51,7 +51,7 @@ final class RuleFactoryTest extends DatabaseTestCaseAbstract
             ->setPassword('pass');
         $this->pfd($user);
         $a = self::$container->get('event_dispatcher');
-        $a->dispatch(new ActivateUserEvent($user));
+        $a->dispatch(new ActivateUserEvent($user), ActivateUserEvent::NAME);
 
         $res = $this->dm->getRepository(Rule::class)->findBy(
             [

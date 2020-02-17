@@ -53,7 +53,7 @@ class UserManager implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            DeleteBeforeUserEvent::class => 'checkPermission',
+            DeleteBeforeUserEvent::NAME => 'checkPermission',
         ];
     }
 

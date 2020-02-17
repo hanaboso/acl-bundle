@@ -7,6 +7,7 @@ use Exception;
 use Hanaboso\AclBundle\Manager\AccessManager;
 use Hanaboso\AclBundle\Manager\UserManager;
 use Hanaboso\PhpCheckUtils\PhpUnit\Traits\CustomAssertTrait;
+use Hanaboso\UserBundle\Model\User\Event\DeleteBeforeUserEvent;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -28,7 +29,7 @@ final class UserManagerTest extends KernelTestCaseAbstract
     public function testArray(): void
     {
         self::assertEquals(
-            ['Hanaboso\UserBundle\Model\User\Event\DeleteBeforeUserEvent' => 'checkPermission'],
+            [DeleteBeforeUserEvent::NAME => 'checkPermission'],
             UserManager::getSubscribedEvents()
         );
     }

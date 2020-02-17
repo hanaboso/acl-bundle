@@ -149,8 +149,8 @@ class AccessManager implements EventSubscriberInterface
 
             $this->aclProvider->invalid(
                 array_merge(
-                    array_map([$this, 'userMap'], $group->getUsers()->toArray()),
-                    array_map([$this, 'userMap'], $data->getUsers())
+                    array_map(static fn(UserInterface $user): string => $user->getId(), $group->getUsers()->toArray()),
+                    array_map(static fn(UserInterface $user): string => $user->getId(), $data->getUsers())
                 )
             );
 
@@ -180,7 +180,9 @@ class AccessManager implements EventSubscriberInterface
     public function removeGroup(GroupInterface $group): void
     {
         try {
-            $this->aclProvider->invalid(array_map([$this, 'userMap'], $group->getUsers()->toArray()));
+            $this->aclProvider->invalid(
+                array_map(static fn(UserInterface $user): string => $user->getId(), $group->getUsers()->toArray())
+            );
 
             foreach ($group->getRules() as $rule) {
                 $this->dm->remove($rule);
@@ -289,18 +291,8 @@ class AccessManager implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            ActivateUserEvent::class => 'createGroup',
+            ActivateUserEvent::NAME => 'createGroup',
         ];
-    }
-
-    /**
-     * @param UserInterface $user
-     *
-     * @return string
-     */
-    protected function userMap(UserInterface $user): string
-    {
-        return $user->getId();
     }
 
     /**
@@ -377,7 +369,10 @@ class AccessManager implements EventSubscriberInterface
             }
 
             if (!$rule) {
-                throw $this->getPermissionException('User has no permission on [%s] resource for desired action.', $res);
+                throw $this->getPermissionException(
+                    'User has no permission on [%s] resource for desired action.',
+                    $res
+                );
             }
 
             return $rule;
