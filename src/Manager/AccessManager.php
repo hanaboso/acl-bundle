@@ -9,7 +9,9 @@ use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use Hanaboso\AclBundle\Annotation\OwnerAnnotation;
+use Hanaboso\AclBundle\Document\Group as DmGroup;
 use Hanaboso\AclBundle\Dto\GroupDto;
+use Hanaboso\AclBundle\Entity\Group;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
@@ -489,7 +491,7 @@ class AccessManager implements EventSubscriberInterface
     private function hasRightForUser(UserInterface $user, int $userLvl): UserInterface
     {
         try {
-            /** @phpstan-var class-string<\Hanaboso\AclBundle\Entity\Group|\Hanaboso\AclBundle\Document\Group> $groupClass */
+            /** @phpstan-var class-string<Group|DmGroup> $groupClass */
             $groupClass = $this->resProvider->getResource(ResourceEnum::GROUP);
             /** @var EntityGroupRepository|DocumentGroupRepository $repo */
             $repo   = $this->dm->getRepository($groupClass);

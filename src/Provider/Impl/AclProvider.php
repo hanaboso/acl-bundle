@@ -5,6 +5,8 @@ namespace Hanaboso\AclBundle\Provider\Impl;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
+use Hanaboso\AclBundle\Document\Group as DmGroup;
+use Hanaboso\AclBundle\Entity\Group;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Exception\AclException;
@@ -120,7 +122,7 @@ class AclProvider implements AclRuleProviderInterface
                 }
             }
 
-            /** @phpstan-var class-string<\Hanaboso\AclBundle\Entity\Group|\Hanaboso\AclBundle\Document\Group> $groupClass */
+            /** @phpstan-var class-string<Group|DmGroup> $groupClass */
             $groupClass = $this->provider->getResource($this->resourceEnum::GROUP);
             /** @var OrmRepo|OdmRepo $repo */
             $repo   = $this->dm->getRepository($groupClass);

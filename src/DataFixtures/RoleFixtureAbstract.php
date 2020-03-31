@@ -5,11 +5,17 @@ namespace Hanaboso\AclBundle\DataFixtures;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
+use Hanaboso\AclBundle\Document\Group as DmGroup;
+use Hanaboso\AclBundle\Document\Rule as DmRule;
+use Hanaboso\AclBundle\Entity\Group;
 use Hanaboso\AclBundle\Entity\GroupInterface;
+use Hanaboso\AclBundle\Entity\Rule;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Enum\PropertyEnum;
 use Hanaboso\AclBundle\Factory\MaskFactory;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository;
+use Hanaboso\UserBundle\Document\User as DmUser;
+use Hanaboso\UserBundle\Entity\User;
 use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use LogicException;
@@ -78,11 +84,11 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
         $enum       = $this->container->getParameter('resource_enum');
 
         $provider = new ResourceProvider($config);
-        /** @phpstan-var class-string<\Hanaboso\AclBundle\Entity\Group|\Hanaboso\AclBundle\Document\Group> $groupClass */
+        /** @phpstan-var class-string<Group|DmGroup> $groupClass */
         $groupClass = $provider->getResource($enum::GROUP);
-        /** @phpstan-var class-string<\Hanaboso\UserBundle\Entity\User|\Hanaboso\UserBundle\Document\User> $userClass */
+        /** @phpstan-var class-string<User|DmUser> $userClass */
         $userClass = $provider->getResource($enum::USER);
-        /** @phpstan-var class-string<\Hanaboso\AclBundle\Entity\Rule|\Hanaboso\AclBundle\Document\Rule> $ruleClass */
+        /** @phpstan-var class-string<Rule|DmRule> $ruleClass */
         $ruleClass = $provider->getResource($enum::RULE);
 
         $parentMap = [];

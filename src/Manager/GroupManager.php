@@ -6,6 +6,8 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
+use Hanaboso\AclBundle\Document\Group as DmGroup;
+use Hanaboso\AclBundle\Entity\Group;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Exception\AclException;
@@ -85,7 +87,7 @@ class GroupManager
         }
 
         try {
-            /** @phpstan-var class-string<\Hanaboso\AclBundle\Entity\Group|\Hanaboso\AclBundle\Document\Group> $groupClass */
+            /** @phpstan-var class-string<Group|DmGroup> $groupClass */
             $groupClass = $this->resourceProvider->getResource(ResourceEnum::GROUP);
             /** @var GroupInterface|null $group */
             $group = $this->dm->getRepository($groupClass)->findOneBy($query);
@@ -136,7 +138,7 @@ class GroupManager
         }
 
         try {
-            /** @phpstan-var class-string<\Hanaboso\AclBundle\Entity\Group|\Hanaboso\AclBundle\Document\Group> $groupClass */
+            /** @phpstan-var class-string<Group|DmGroup> $groupClass */
             $groupClass = $this->resourceProvider->getResource(ResourceEnum::GROUP);
             /** @var GroupInterface|null $group */
             $group = $this->dm->getRepository($groupClass)->findOneBy($query);
@@ -188,7 +190,7 @@ class GroupManager
     public function getUserGroups(UserInterface $user): array
     {
         try {
-            /** @phpstan-var class-string<\Hanaboso\AclBundle\Entity\Group|\Hanaboso\AclBundle\Document\Group> $groupClass */
+            /** @phpstan-var class-string<Group|DmGroup> $groupClass */
             $groupClass = $this->resourceProvider->getResource(ResourceEnum::GROUP);
             /** @var GroupRepositoryEntity|GroupRepositoryDocument $repo */
             $repo = $this->dm->getRepository($groupClass);

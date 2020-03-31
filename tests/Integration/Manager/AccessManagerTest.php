@@ -20,6 +20,7 @@ use Hanaboso\UserBundle\Document\User;
 use Hanaboso\Utils\Exception\EnumException;
 use Hanaboso\Utils\String\DsnParser;
 use Predis\Client;
+use Throwable;
 
 /**
  * Class AccessManagerTest
@@ -780,7 +781,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @phpstan-param class-string<\Throwable> $class
+     * @phpstan-param class-string<Throwable> $class
      *
      * @param int    $code
      * @param string $class
