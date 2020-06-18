@@ -12,7 +12,7 @@ use Hanaboso\UserBundle\Entity\UserInterface;
 /**
  * Class GroupRepository
  *
- * @package Hanaboso\AclBundle\Repository\Document
+ * @package         Hanaboso\AclBundle\Repository\Document
  *
  * @phpstan-extends DocumentRepository<Group>
  */
@@ -42,7 +42,9 @@ class GroupRepository extends DocumentRepository
             $ids[] = $group->getId();
             /** @var GroupInterface $parent */
             foreach ($group->getParents() as $parent) {
+                // phpcs:disable
                 if (!in_array($parent->getId(), $ids, FALSE)) {
+                    // phpcs:enable
                     $groups[] = $parent;
                     $ids[]    = $parent->getId();
                 }
