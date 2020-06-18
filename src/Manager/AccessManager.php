@@ -273,7 +273,7 @@ class AccessManager implements EventSubscriberInterface
             return $this->checkObjectPermission($rule, $object, $user, $userLvl, $res);
         } else if (is_null($object)) {
 
-            if (!in_array($act, $this->actionEnum::getGlobalActions()) && $rule->getPropertyMask() !== 2) {
+            if (!in_array($act, $this->actionEnum::getGlobalActions(), TRUE) && $rule->getPropertyMask() !== 2) {
                 throw $this->getPermissionException(
                     'For given action no group permission or non at all for global actions.'
                 );

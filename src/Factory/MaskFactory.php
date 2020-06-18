@@ -113,11 +113,11 @@ class MaskFactory
      */
     public function isActionAllowed(string $action, string $resource): bool
     {
-        if (in_array($action, $this->allowedActions[self::DEFAULT_ACTIONS])) {
+        if (in_array($action, $this->allowedActions[self::DEFAULT_ACTIONS], TRUE)) {
             return TRUE;
         }
         if (array_key_exists($resource, $this->allowedActions[self::RESOURCE_LIST])) {
-            return in_array($action, $this->allowedActions[self::RESOURCE_LIST][$resource]);
+            return in_array($action, $this->allowedActions[self::RESOURCE_LIST][$resource], TRUE);
         }
 
         return FALSE;
