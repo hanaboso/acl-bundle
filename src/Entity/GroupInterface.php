@@ -63,7 +63,7 @@ interface GroupInterface extends EntityInterface
      *
      * @return GroupInterface
      */
-    public function setUsers($users): GroupInterface;
+    public function setUsers(array $users): GroupInterface;
 
     /**
      * @param UserInterface $user
@@ -111,7 +111,7 @@ interface GroupInterface extends EntityInterface
      *
      * @return GroupInterface
      */
-    public function setTmpUsers($tmpUsers): GroupInterface;
+    public function setTmpUsers(array $tmpUsers): GroupInterface;
 
     /**
      * @return GroupInterface[]|Collection<int, GroupInterface>

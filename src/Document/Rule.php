@@ -24,28 +24,28 @@ class Rule implements RuleInterface
      *
      * @ODM\Field(type="string")
      */
-    private $resource;
+    private string $resource;
 
     /**
      * @var GroupInterface
      *
      * @ODM\ReferenceOne(targetDocument="Hanaboso\AclBundle\Document\Group")
      */
-    private $group;
+    private GroupInterface $group;
 
     /**
      * @var int
      *
      * @ODM\Field(type="int")
      */
-    private $actionMask;
+    private int $actionMask = 0;
 
     /**
      * @var int
      *
      * @ODM\Field(type="int")
      */
-    private $propertyMask;
+    private int $propertyMask = 0;
 
     /**
      * @return string

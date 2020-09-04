@@ -9,7 +9,7 @@ use Hanaboso\AclBundle\DataFixtures\RoleFixtureAbstract;
  *
  * @package Hanaboso\AclBundle\DataFixtures\ORM
  */
-class RoleFixtures extends RoleFixtureAbstract
+final class RoleFixtures extends RoleFixtureAbstract
 {
 
 }

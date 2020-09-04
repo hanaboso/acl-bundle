@@ -20,7 +20,7 @@ abstract class DocumentAbstract
      * @ODM\ReferenceOne(targetDocument="Hanaboso\UserBundle\Document\User", strategy="set")
      * @OWNER()
      */
-    protected $owner;
+    protected ?UserInterface $owner;
 
     /**
      * DocumentAbstract constructor.

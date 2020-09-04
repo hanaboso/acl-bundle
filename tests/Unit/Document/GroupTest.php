@@ -66,7 +66,7 @@ final class GroupTest extends KernelTestCaseAbstract
         $arr   = [
             Group::ID    => 'groupId',
             Group::NAME  => 'onamae',
-            Group::LEVEL => 'll',
+            Group::LEVEL => 11,
             'owner'      => 'ownerId',
             Group::RULES => [
                 [

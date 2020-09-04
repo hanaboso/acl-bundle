@@ -23,7 +23,7 @@ class RuleFactory
     /**
      * @var mixed[]
      */
-    private $rules;
+    private array $rules;
 
     /**
      * @var DocumentManager|EntityManager
@@ -38,12 +38,12 @@ class RuleFactory
     /**
      * @var ResourceProvider
      */
-    private $provider;
+    private ResourceProvider $provider;
 
     /**
      * @var MaskFactory
      */
-    private $maskFactory;
+    private MaskFactory $maskFactory;
 
     /**
      * RuleFactory constructor.

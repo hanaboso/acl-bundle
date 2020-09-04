@@ -5,6 +5,7 @@ namespace Hanaboso\AclBundle\Manager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Hanaboso\AclBundle\Document\Group as DmGroup;
 use Hanaboso\AclBundle\Entity\Group;
@@ -25,7 +26,7 @@ use Hanaboso\UserBundle\Provider\ResourceProviderException;
  *
  * @package Hanaboso\AclBundle\Manager
  */
-class GroupManager
+final class GroupManager
 {
 
     /**
@@ -36,12 +37,12 @@ class GroupManager
     /**
      * @var ResourceProvider
      */
-    protected $resourceProvider;
+    protected ResourceProvider $resourceProvider;
 
     /**
      * @var AclRuleProviderInterface
      */
-    protected $aclProvider;
+    protected AclRuleProviderInterface $aclProvider;
 
     /**
      * GroupManager constructor.
@@ -64,11 +65,12 @@ class GroupManager
     /**
      * @param UserInterface $user
      * @param string|null   $id
-     * @param string        $groupName
+     * @param string|null   $groupName
      *
      * @throws AclException
-     * @throws ORMException
      * @throws MongoDBException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function addUserIntoGroup(UserInterface $user, ?string $id = NULL, ?string $groupName = NULL): void
     {
@@ -115,11 +117,12 @@ class GroupManager
     /**
      * @param UserInterface $user
      * @param string|null   $id
-     * @param string        $groupName
+     * @param string|null   $groupName
      *
      * @throws AclException
-     * @throws ORMException
      * @throws MongoDBException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function removeUserFromGroup(UserInterface $user, ?string $id = NULL, ?string $groupName = NULL): void
     {

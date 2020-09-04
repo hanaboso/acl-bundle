@@ -20,7 +20,6 @@ use Hanaboso\UserBundle\Model\User\Event\UserEvent;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
 use LogicException;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class AccessManagerTest
@@ -230,7 +229,6 @@ final class AccessManagerTest extends KernelTestCaseAbstract
      */
     private function mockResProvider(bool $throw = FALSE): ResourceProvider
     {
-        /** @var ResourceProvider|MockObject $r */
         $r = self::createMock(ResourceProvider::class);
         if ($throw) {
             $r->method('getResource')->willReturnCallback(
@@ -250,10 +248,8 @@ final class AccessManagerTest extends KernelTestCaseAbstract
      */
     private function mockDml(): DatabaseManagerLocator
     {
-        /** @var DocumentManager|MockObject $dm */
         $dm = self::createMock(DocumentManager::class);
 
-        /** @var DatabaseManagerLocator|MockObject $dml */
         $dml = self::createMock(DatabaseManagerLocator::class);
         $dml->method('get')->willReturn($dm);
 
@@ -267,7 +263,6 @@ final class AccessManagerTest extends KernelTestCaseAbstract
      */
     private function mockAcl(bool $throw = FALSE): AclProvider
     {
-        /** @var AclProvider|MockObject $a */
         $a = self::createMock(AclProvider::class);
         if ($throw) {
             $a->method('invalid')->willReturnCallback(

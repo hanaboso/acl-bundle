@@ -9,7 +9,7 @@ use Hanaboso\AclBundle\Enum\ActionEnum;
  *
  * @package AclBundleTests\testApp
  */
-class ExtActionEnum extends ActionEnum
+final class ExtActionEnum extends ActionEnum
 {
 
     // phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable

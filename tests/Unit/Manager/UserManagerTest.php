@@ -9,7 +9,6 @@ use Hanaboso\AclBundle\Manager\UserManager;
 use Hanaboso\PhpCheckUtils\PhpUnit\Traits\CustomAssertTrait;
 use Hanaboso\UserBundle\Model\User\Event\DeleteBeforeUserEvent;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class UserManagerTest
@@ -52,10 +51,7 @@ final class UserManagerTest extends KernelTestCaseAbstract
      */
     private function mockAccessManager(): AccessManager
     {
-        /** @var AccessManager|MockObject $a */
-        $a = self::createMock(AccessManager::class);
-
-        return $a;
+        return self::createMock(AccessManager::class);
     }
 
     /**
@@ -63,10 +59,7 @@ final class UserManagerTest extends KernelTestCaseAbstract
      */
     private function mockUserEvent(): UserEvent
     {
-        /** @var UserEvent|MockObject $e */
-        $e = self::createMock(UserEvent::class);
-
-        return $e;
+        return self::createMock(UserEvent::class);
     }
 
 }

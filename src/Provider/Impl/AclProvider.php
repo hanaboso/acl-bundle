@@ -19,6 +19,7 @@ use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
 use Hanaboso\Utils\String\DsnParser;
 use Hanaboso\Utils\String\Json;
+use JsonException;
 use LogicException;
 use Predis\Client;
 
@@ -27,7 +28,7 @@ use Predis\Client;
  *
  * @package Hanaboso\AclBundle\Provider\Impl
  */
-class AclProvider implements AclRuleProviderInterface
+final class AclProvider implements AclRuleProviderInterface
 {
 
     protected const GROUPS = 'groups';
@@ -88,6 +89,7 @@ class AclProvider implements AclRuleProviderInterface
      *
      * @return RuleInterface[]
      * @throws AclException
+     * @throws JsonException
      */
     public function getRules(UserInterface $user, int &$userLvl): array
     {
@@ -111,6 +113,7 @@ class AclProvider implements AclRuleProviderInterface
      *
      * @return GroupInterface[]
      * @throws AclException
+     * @throws JsonException
      */
     public function getGroups(UserInterface $user): array
     {
@@ -185,6 +188,7 @@ class AclProvider implements AclRuleProviderInterface
      *
      * @return GroupInterface[]|null
      * @throws AclException
+     * @throws JsonException
      */
     protected function load(UserInterface $user): ?array
     {
@@ -196,7 +200,7 @@ class AclProvider implements AclRuleProviderInterface
             }
 
             $json   = $redis->get($key);
-            $arr    = Json::decode($json);
+            $arr    = Json::decode($json ?? '{}');
             $groups = [];
 
             $groupClass = $this->provider->getResource($this->resourceEnum::GROUP);

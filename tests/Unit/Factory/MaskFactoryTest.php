@@ -149,11 +149,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     {
         self::expectException(AclException::class);
         self::expectExceptionCode(AclException::ZERO_MASK);
-        $f = new MaskFactory(
-            ActionEnum::class,
-            ResourceEnum::class
-        );
-
+        $f = new MaskFactory(ActionEnum::class, ResourceEnum::class);
         $f->maskAction([], ResourceEnum::GROUP);
     }
 

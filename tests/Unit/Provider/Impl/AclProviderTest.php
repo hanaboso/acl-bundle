@@ -12,7 +12,6 @@ use Hanaboso\AclBundle\Repository\Document\GroupRepository;
 use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Entity\User;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
-use PHPUnit\Framework\MockObject\MockObject;
 use Predis\Client;
 
 /**
@@ -30,7 +29,6 @@ final class AclProviderTest extends KernelTestCaseAbstract
      */
     public function testGetGroups(): void
     {
-        /** @var AclProvider|MockObject $a */
         $a = self::getMockBuilder(AclProvider::class)->setConstructorArgs(
             [
                 $this->mockDml(),
@@ -54,7 +52,6 @@ final class AclProviderTest extends KernelTestCaseAbstract
      */
     public function testException(): void
     {
-        /** @var AclProvider|MockObject $a */
         $a = self::getMockBuilder(AclProvider::class)->setConstructorArgs(
             [
                 $this->mockDml(),
@@ -79,7 +76,6 @@ final class AclProviderTest extends KernelTestCaseAbstract
      */
     public function testException2(): void
     {
-        /** @var AclProvider|MockObject $a */
         $a = self::getMockBuilder(AclProvider::class)->setConstructorArgs(
             [
                 $this->mockDml(),
@@ -104,14 +100,9 @@ final class AclProviderTest extends KernelTestCaseAbstract
      */
     private function mockDml(): DatabaseManagerLocator
     {
-        /** @var GroupRepository|MockObject $rep */
         $rep = self::createMock(GroupRepository::class);
-
-        /** @var DocumentManager|MockObject $dm */
-        $dm = self::createMock(DocumentManager::class);
+        $dm  = self::createMock(DocumentManager::class);
         $dm->method('getRepository')->willReturn($rep);
-
-        /** @var DatabaseManagerLocator|MockObject $dml */
         $dml = self::createMock(DatabaseManagerLocator::class);
         $dml->method('get')->willReturn($dm);
 
@@ -123,12 +114,14 @@ final class AclProviderTest extends KernelTestCaseAbstract
      */
     private function mockRedis(): Client
     {
-        /** @var Client<mixed>|MockObject $c */
         $c = self::createMock(Client::class);
-        $c->expects(self::at(0))->method('__call')->willReturn(TRUE);
-        $c->expects(self::at(1))->method('__call')->willReturn(
-            '{"groups":[{"owner":null,"id":"id","name":"nae","level":1,"rules":[{"id":"rid","property_mask":1,"action_mask":1,"resource":"user"}]}],"links":{"rid":"id"}}'
-        );
+        $c
+            ->expects(self::exactly(2))
+            ->method('__call')
+            ->willReturnOnConsecutiveCalls(
+                TRUE,
+                '{"groups":[{"owner":null,"id":"id","name":"nae","level":1,"rules":[{"id":"rid","property_mask":1,"action_mask":1,"resource":"user"}]}],"links":{"rid":"id"}}'
+            );
 
         return $c;
     }

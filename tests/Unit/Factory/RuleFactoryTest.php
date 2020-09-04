@@ -14,7 +14,6 @@ use Hanaboso\AclBundle\Factory\RuleFactory;
 use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class RuleFactoryTest
@@ -70,7 +69,6 @@ final class RuleFactoryTest extends KernelTestCaseAbstract
      */
     private function mockResourceProvider(): ResourceProvider
     {
-        /** @var ResourceProvider|MockObject $r */
         $r = self::createMock(ResourceProvider::class);
         $r->method('getResource')->willReturnCallback(
             static function (): void {
@@ -86,10 +84,7 @@ final class RuleFactoryTest extends KernelTestCaseAbstract
      */
     private function mockDm(): DocumentManager
     {
-        /** @var DocumentManager|MockObject $dm */
-        $dm = self::createMock(DocumentManager::class);
-
-        return $dm;
+        return self::createMock(DocumentManager::class);
     }
 
 }

@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  *
  * @package Hanaboso\AclBundle
  */
-class HbPFAclBundle extends Bundle
+final class HbPFAclBundle extends Bundle
 {
 
 }

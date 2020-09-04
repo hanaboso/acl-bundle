@@ -15,7 +15,6 @@ use Hanaboso\PhpCheckUtils\PhpUnit\Traits\CustomAssertTrait;
 use Hanaboso\UserBundle\Document\User;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class GroupManagerTest
@@ -114,17 +113,14 @@ final class GroupManagerTest extends KernelTestCaseAbstract
      */
     private function mockDml(bool $throw = FALSE): DatabaseManagerLocator
     {
-        /** @var GroupRepository|MockObject $repo */
         $repo = self::createMock(GroupRepository::class);
         if ($throw) {
             $repo->method('findOneBy')->willReturnCallback(static fn() => NULL);
         }
 
-        /** @var DocumentManager|MockObject $dm */
         $dm = self::createMock(DocumentManager::class);
         $dm->method('getRepository')->willReturn($repo);
 
-        /** @var DatabaseManagerLocator|MockObject $d */
         $d = self::createMock(DatabaseManagerLocator::class);
         $d->method('get')->willReturn($dm);
 
@@ -138,7 +134,6 @@ final class GroupManagerTest extends KernelTestCaseAbstract
      */
     private function mockResProvider(bool $throw = FALSE): ResourceProvider
     {
-        /** @var ResourceProvider|MockObject $r */
         $r = self::createMock(ResourceProvider::class);
         if ($throw) {
             $r->method('getResource')->willReturnCallback(
@@ -158,10 +153,7 @@ final class GroupManagerTest extends KernelTestCaseAbstract
      */
     private function mockAclProvider(): AclProvider
     {
-        /** @var AclProvider|MockObject $a */
-        $a = self::createMock(AclProvider::class);
-
-        return $a;
+        return self::createMock(AclProvider::class);
     }
 
 }

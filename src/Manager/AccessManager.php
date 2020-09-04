@@ -27,6 +27,7 @@ use Hanaboso\UserBundle\Model\User\Event\ActivateUserEvent;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
+use JsonException;
 use LogicException;
 use ReflectionClass;
 use ReflectionException;
@@ -38,7 +39,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @package Hanaboso\AclBundle\Manager
  */
-class AccessManager implements EventSubscriberInterface
+final class AccessManager implements EventSubscriberInterface
 {
 
     /**
@@ -49,32 +50,32 @@ class AccessManager implements EventSubscriberInterface
     /**
      * @var RuleFactory
      */
-    private $factory;
+    private RuleFactory $factory;
 
     /**
      * @var AclProvider
      */
-    private $aclProvider;
+    private AclProvider $aclProvider;
 
     /**
      * @var ResourceProvider
      */
-    private $resProvider;
+    private ResourceProvider $resProvider;
 
     /**
      * @var string
      */
-    private $resEnum;
+    private string $resEnum;
 
     /**
      * @var string
      */
-    private $actionEnum;
+    private string $actionEnum;
 
     /**
      * @var MaskFactory
      */
-    private $maskFactory;
+    private MaskFactory $maskFactory;
 
     /**
      * AccessManager constructor.
@@ -253,6 +254,7 @@ class AccessManager implements EventSubscriberInterface
      *
      * @return mixed
      * @throws AclException
+     * @throws JsonException
      */
     public function isAllowed(string $act, string $res, UserInterface $user, $object = NULL)
     {
@@ -299,7 +301,7 @@ class AccessManager implements EventSubscriberInterface
 
     /**
      * @param RuleInterface $rule
-     * @param mixed         $object
+     * @param mixed         $obj
      * @param UserInterface $user
      * @param int           $userLvl
      * @param string        $res
@@ -310,30 +312,26 @@ class AccessManager implements EventSubscriberInterface
      */
     private function checkObjectPermission(
         RuleInterface $rule,
-        $object,
+        $obj,
         UserInterface $user,
         int $userLvl,
         string $res,
         bool $checkedGroup = FALSE
     )
     {
-        if (!$checkedGroup && $rule->getPropertyMask() === 1
-            && method_exists($object, 'getOwner')
-        ) {
-            if ($user->getId() !== (is_string($object->getOwner())
-                    ? $object->getOwner() : $object->getOwner()->getId())
-            ) {
+        if (!$checkedGroup && $rule->getPropertyMask() === 1 && method_exists($obj, 'getOwner')) {
+            if ($user->getId() !== (is_string($obj->getOwner()) ? $obj->getOwner() : $obj->getOwner()->getId())) {
                 throw $this->getPermissionException('User has no permission from given object and action.');
             }
         }
 
         if ($res === ResourceEnum::GROUP) {
-            return $this->hasRightForGroup($object, $userLvl);
+            return $this->hasRightForGroup($obj, $userLvl);
         } else if ($res === ResourceEnum::USER) {
-            return $this->hasRightForUser($object, $userLvl);
+            return $this->hasRightForUser($obj, $userLvl);
         }
 
-        return $object;
+        return $obj;
     }
 
     /**
@@ -344,6 +342,7 @@ class AccessManager implements EventSubscriberInterface
      *
      * @return RuleInterface
      * @throws AclException
+     * @throws JsonException
      */
     private function selectRule(UserInterface $user, string $act, string $res, int &$userLvl): RuleInterface
     {

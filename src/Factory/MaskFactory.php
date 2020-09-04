@@ -20,17 +20,17 @@ class MaskFactory
     /**
      * @var string
      */
-    private $actionEnum;
+    private string $actionEnum;
 
     /**
      * @var mixed[]
      */
-    private $allowedActions;
+    private array $allowedActions;
 
     /**
      * @var string
      */
-    private $resourceEnum;
+    private string $resourceEnum;
 
     /**
      * MaskFactory constructor.

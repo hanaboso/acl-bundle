@@ -3,13 +3,33 @@ includes:
 
 parameters:
 	excludes_analyse:
-	    - tests/Unit/Factory/MaskFactoryTest.php
-	    - tests/Unit/Enum/ActionEnumTest.php
-	    - src/Manager/AccessManager.php
-	    - src/Factory/RuleFactory.php
-	    - src/DataFixtures/RoleFixtureAbstract.php
-	    - src/Factory/MaskFactory.php
+		- tests/Unit/Factory/MaskFactoryTest.php
+		- tests/Unit/Enum/ActionEnumTest.php
+		- src/Manager/AccessManager.php
+		- src/Factory/RuleFactory.php
+		- src/DataFixtures/RoleFixtureAbstract.php
+		- src/Factory/MaskFactory.php
 	ignoreErrors:
-	    - '#Call to function in_array\(\) requires parameter \#3 to be true\.#'
+		- '#Call to function in_array\(\) requires parameter \#3 to be true\.#'
 	symfony:
 		container_xml_path: %rootDir%/../../../var/cache/test/AclBundleTests_KernelTestDebugContainer.xml
+	ergebnis:
+		classesNotRequiredToBeAbstractOrFinal:
+			- Hanaboso\AclBundle\Document\Group
+			- Hanaboso\AclBundle\Document\Rule
+			- Hanaboso\AclBundle\Enum\ActionEnum
+			- Hanaboso\AclBundle\Enum\ResourceEnum
+			- Hanaboso\AclBundle\Repository\Document\GroupRepository
+			- Hanaboso\AclBundle\Repository\Document\RuleRepository
+			- Hanaboso\AclBundle\Repository\Entity\GroupRepository
+			- Hanaboso\AclBundle\Repository\Entity\RuleRepository
+		classesAllowedToBeExtended:
+			- AclBundleTests\ControllerTestCaseAbstract
+			- AclBundleTests\DatabaseTestCaseAbstract
+			- AclBundleTests\KernelTestCaseAbstract
+			- Hanaboso\AclBundle\DataFixtures\RoleFixtureAbstract
+			- Hanaboso\AclBundle\Document\DocumentAbstract
+			- Hanaboso\AclBundle\Entity\EntityAbstract
+			- Hanaboso\AclBundle\Enum\ActionEnum
+			- Hanaboso\Utils\Enum\EnumAbstract
+			- Hanaboso\Utils\Exception\PipesFrameworkExceptionAbstract

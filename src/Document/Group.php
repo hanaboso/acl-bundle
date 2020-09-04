@@ -41,14 +41,14 @@ class Group extends DocumentAbstract implements GroupInterface
      *
      * @ODM\Field(type="int")
      */
-    protected $level = 999;
+    protected int $level = 999;
 
     /**
      * @var string
      *
      * @ODM\Field(type="string")
      */
-    private $name;
+    private string $name;
 
     /**
      * @var RuleInterface[]|Collection<int, RuleInterface>
@@ -152,7 +152,7 @@ class Group extends DocumentAbstract implements GroupInterface
      *
      * @return GroupInterface
      */
-    public function setUsers($users): GroupInterface
+    public function setUsers(array $users): GroupInterface
     {
         $this->users = new ArrayCollection($users);
 
@@ -224,7 +224,7 @@ class Group extends DocumentAbstract implements GroupInterface
      *
      * @return GroupInterface
      */
-    public function setTmpUsers($tmpUsers): GroupInterface
+    public function setTmpUsers(array $tmpUsers): GroupInterface
     {
         $this->tmpUsers = new ArrayCollection($tmpUsers);
 
@@ -318,7 +318,7 @@ class Group extends DocumentAbstract implements GroupInterface
      *
      * @return mixed[]
      */
-    public function toArrayAcl(&$links): array
+    public function toArrayAcl(array &$links): array
     {
         $owner = $this->getOwner();
         $rules = [];

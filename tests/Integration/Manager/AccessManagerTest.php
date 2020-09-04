@@ -491,7 +491,9 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $rule = $this->createRule($user, 7, ResourceEnum::USER, 1);
 
         $group = new Group(NULL);
-        $group->setLevel(55)
+        $group
+            ->setName('group')
+            ->setLevel(55)
             ->addChild($rule->getGroup()->addParent($group));
         $this->dm->persist($group);
 
