@@ -19,6 +19,7 @@ parameters:
 			- Hanaboso\AclBundle\Document\Rule
 			- Hanaboso\AclBundle\Enum\ActionEnum
 			- Hanaboso\AclBundle\Enum\ResourceEnum
+			- Hanaboso\AclBundle\Manager\GroupManager
 			- Hanaboso\AclBundle\Repository\Document\GroupRepository
 			- Hanaboso\AclBundle\Repository\Document\RuleRepository
 			- Hanaboso\AclBundle\Repository\Entity\GroupRepository

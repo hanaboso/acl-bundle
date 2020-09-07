@@ -26,7 +26,7 @@ use Hanaboso\UserBundle\Provider\ResourceProviderException;
  *
  * @package Hanaboso\AclBundle\Manager
  */
-final class GroupManager
+class GroupManager
 {
 
     /**
