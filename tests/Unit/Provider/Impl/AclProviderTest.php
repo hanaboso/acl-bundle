@@ -5,6 +5,8 @@ namespace AclBundleTests\Unit\Provider\Impl;
 use AclBundleTests\KernelTestCaseAbstract;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Exception;
+use Hanaboso\AclBundle\Cache\NullCache;
+use Hanaboso\AclBundle\Cache\RedisCache;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Provider\Impl\AclProvider;
@@ -12,7 +14,7 @@ use Hanaboso\AclBundle\Repository\Document\GroupRepository;
 use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Entity\User;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
-use Predis\Client;
+use Hanaboso\Utils\String\Json;
 
 /**
  * Class AclProviderTest
@@ -29,21 +31,18 @@ final class AclProviderTest extends KernelTestCaseAbstract
      */
     public function testGetGroups(): void
     {
-        $a = self::getMockBuilder(AclProvider::class)->setConstructorArgs(
-            [
-                $this->mockDml(),
-                self::$container->get('hbpf.user.provider.resource'),
-                ResourceEnum::class,
-                'true',
-                '',
-            ]
-        )->onlyMethods(['getClient'])->getMock();
-        $a->method('getClient')->willReturn($this->mockRedis());
+        $a = new AclProvider(
+            $this->mockDml(),
+            self::$container->get('hbpf.user.provider.resource'),
+            ResourceEnum::class,
+            $this->mockRedis(
+                static fn() => Json::decode(
+                    '{"groups":[{"owner":null,"id":"id","name":"nae","level":1,"rules":[{"id":"rid","property_mask":1,"action_mask":1,"resource":"user"}]}],"links":{"rid":"id"}}'
+                )
+            )
+        );
 
-        $u = new User();
-        $this->setProperty($u, 'id', 'id');
-        $res = $a->getGroups($u);
-
+        $res = $a->getGroups($this->getUser());
         self::assertNotEmpty($res);
     }
 
@@ -57,8 +56,7 @@ final class AclProviderTest extends KernelTestCaseAbstract
                 $this->mockDml(),
                 self::$container->get('hbpf.user.provider.resource'),
                 ResourceEnum::class,
-                'true',
-                '',
+                new NullCache(),
             ]
         )->onlyMethods(['load'])->getMock();
         $a->method('load')->willReturnCallback(
@@ -68,7 +66,7 @@ final class AclProviderTest extends KernelTestCaseAbstract
         );
 
         self::expectException(AclException::class);
-        $a->getGroups(new User());
+        $a->getGroups($this->getUser());
     }
 
     /**
@@ -76,23 +74,19 @@ final class AclProviderTest extends KernelTestCaseAbstract
      */
     public function testException2(): void
     {
-        $a = self::getMockBuilder(AclProvider::class)->setConstructorArgs(
-            [
-                $this->mockDml(),
-                self::$container->get('hbpf.user.provider.resource'),
-                ResourceEnum::class,
-                'true',
-                '',
-            ]
-        )->onlyMethods(['getClient'])->getMock();
-        $a->method('getClient')->willReturnCallback(
-            static function (): void {
-                throw new ResourceProviderException();
-            }
+        $a = new AclProvider(
+            $this->mockDml(),
+            self::$container->get('hbpf.user.provider.resource'),
+            ResourceEnum::class,
+            $this->mockRedis(
+                static function (): void {
+                    throw new ResourceProviderException();
+                }
+            )
         );
 
         self::expectException(AclException::class);
-        $a->getGroups(new User());
+        $a->getGroups($this->getUser());
     }
 
     /**
@@ -110,20 +104,31 @@ final class AclProviderTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @return Client<mixed>
+     * @param callable $return
+     *
+     * @return RedisCache
      */
-    private function mockRedis(): Client
+    private function mockRedis(callable $return): RedisCache
     {
-        $c = self::createMock(Client::class);
+        $c = self::createMock(RedisCache::class);
         $c
-            ->expects(self::exactly(2))
-            ->method('__call')
-            ->willReturnOnConsecutiveCalls(
-                TRUE,
-                '{"groups":[{"owner":null,"id":"id","name":"nae","level":1,"rules":[{"id":"rid","property_mask":1,"action_mask":1,"resource":"user"}]}],"links":{"rid":"id"}}'
-            );
+            ->expects(self::exactly(1))
+            ->method('get')
+            ->willReturnCallback($return);
 
         return $c;
+    }
+
+    /**
+     * @return User
+     * @throws Exception
+     */
+    private function getUser(): User
+    {
+        $u = new User();
+        $this->setProperty($u, 'id', 'id');
+
+        return $u;
     }
 
 }

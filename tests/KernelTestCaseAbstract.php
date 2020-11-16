@@ -2,6 +2,7 @@
 
 namespace AclBundleTests;
 
+use Hanaboso\PhpCheckUtils\PhpUnit\Traits\CustomAssertTrait;
 use Hanaboso\PhpCheckUtils\PhpUnit\Traits\PrivateTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -14,6 +15,7 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
 {
 
     use PrivateTrait;
+    use CustomAssertTrait;
 
     /**
      *

@@ -10,5 +10,12 @@ services:
             - '@hbpf.database_manager_locator'
             - '@hbpf.user.provider.resource'
             - '%resource_enum%'
-            - '%acl_use_cache%'
+            - '@hbpf.acl.cache.null' #hbpf.acl.cache.redis|hbpf.acl.cache.null
+
+    hbpf.acl.cache.null:
+        class: Hanaboso\AclBundle\Cache\NullCache
+
+    hbpf.acl.cache.redis:
+        class: Hanaboso\AclBundle\Cache\RedisCache
+        arguments:
             - '%env(string:REDIS_DSN)%'

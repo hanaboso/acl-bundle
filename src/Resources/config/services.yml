@@ -1,6 +1,3 @@
-parameters:
-    acl_use_cache: false
-
 services:
     _defaults:
         public: '%public.services%'

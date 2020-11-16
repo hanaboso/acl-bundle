@@ -5,6 +5,7 @@ namespace Hanaboso\AclBundle\Provider\Impl;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
+use Hanaboso\AclBundle\Cache\ProviderCacheInterface;
 use Hanaboso\AclBundle\Document\Group as DmGroup;
 use Hanaboso\AclBundle\Entity\Group;
 use Hanaboso\AclBundle\Entity\GroupInterface;
@@ -17,11 +18,7 @@ use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
-use Hanaboso\Utils\String\DsnParser;
-use Hanaboso\Utils\String\Json;
-use JsonException;
 use LogicException;
-use Predis\Client;
 
 /**
  * Class AclProvider
@@ -50,14 +47,9 @@ final class AclProvider implements AclRuleProviderInterface
     protected string $resourceEnum;
 
     /**
-     * @var bool
+     * @var ProviderCacheInterface
      */
-    protected bool $useCache;
-
-    /**
-     * @var string
-     */
-    private string $redisDsn;
+    private ProviderCacheInterface $cache;
 
     /**
      * AclProvider constructor.
@@ -65,22 +57,19 @@ final class AclProvider implements AclRuleProviderInterface
      * @param DatabaseManagerLocator $dml
      * @param ResourceProvider       $provider
      * @param string                 $resourceEnum
-     * @param string                 $useCache
-     * @param string                 $redisDsn
+     * @param ProviderCacheInterface $cache
      */
     public function __construct(
         DatabaseManagerLocator $dml,
         ResourceProvider $provider,
         string $resourceEnum,
-        string $useCache,
-        string $redisDsn
+        ProviderCacheInterface $cache
     )
     {
         $this->dm           = $dml->get();
         $this->provider     = $provider;
         $this->resourceEnum = $resourceEnum;
-        $this->useCache     = boolval($useCache);
-        $this->redisDsn     = $redisDsn;
+        $this->cache        = $cache;
     }
 
     /**
@@ -89,7 +78,6 @@ final class AclProvider implements AclRuleProviderInterface
      *
      * @return RuleInterface[]
      * @throws AclException
-     * @throws JsonException
      */
     public function getRules(UserInterface $user, int &$userLvl): array
     {
@@ -113,16 +101,13 @@ final class AclProvider implements AclRuleProviderInterface
      *
      * @return GroupInterface[]
      * @throws AclException
-     * @throws JsonException
      */
     public function getGroups(UserInterface $user): array
     {
         try {
-            if ($this->useCache) {
-                $res = $this->load($user);
-                if ($res !== NULL) {
-                    return $res;
-                }
+            $res = $this->load($user);
+            if ($res !== NULL) {
+                return $res;
             }
 
             /** @phpstan-var class-string<Group|DmGroup> $groupClass */
@@ -131,9 +116,7 @@ final class AclProvider implements AclRuleProviderInterface
             $repo   = $this->dm->getRepository($groupClass);
             $groups = $repo->getUserGroups($user);
 
-            if ($this->useCache) {
-                $this->store($user, $groups);
-            }
+            $this->store($user, $groups);
 
             return $groups;
         } catch (ResourceProviderException | LogicException | MongoDBException $e) {
@@ -148,11 +131,8 @@ final class AclProvider implements AclRuleProviderInterface
      */
     public function invalid(array $userIds): void
     {
-        if ($this->useCache) {
-            $redis = $this->getClient();
-            foreach ($userIds as $userId) {
-                $redis->del([$this->getKeyById($userId)]);
-            }
+        foreach ($userIds as $userId) {
+            $this->cache->delete($this->getKeyById($userId));
         }
     }
 
@@ -170,16 +150,10 @@ final class AclProvider implements AclRuleProviderInterface
             $arr[] = $group->toArrayAcl($parentList);
         }
 
-        $redis = $this->getClient();
-        $redis->setex(
+        $this->cache->set(
             $this->getKey($user),
             86_400,
-            Json::encode(
-                [
-                    self::GROUPS => $arr,
-                    self::LINKS  => $parentList,
-                ]
-            )
+            [self::GROUPS => $arr, self::LINKS => $parentList]
         );
     }
 
@@ -188,19 +162,15 @@ final class AclProvider implements AclRuleProviderInterface
      *
      * @return GroupInterface[]|null
      * @throws AclException
-     * @throws JsonException
      */
     protected function load(UserInterface $user): ?array
     {
         try {
-            $redis = $this->getClient();
-            $key   = $this->getKey($user);
-            if (!$redis->exists($key)) {
+            $arr = $this->cache->get($this->getKey($user));
+            if ($arr === NULL) {
                 return NULL;
             }
 
-            $json   = $redis->get($key);
-            $arr    = Json::decode($json ?? '{}');
             $groups = [];
 
             $groupClass = $this->provider->getResource($this->resourceEnum::GROUP);
@@ -243,25 +213,6 @@ final class AclProvider implements AclRuleProviderInterface
     protected function getKeyById(string $id): string
     {
         return sprintf('%s_%s', self::PREFIX, $id);
-    }
-
-    /**
-     * @return Client<mixed>
-     * @throws LogicException
-     */
-    protected function getClient(): Client
-    {
-        $config = DsnParser::parseRedisDsn($this->redisDsn);
-
-        $redis = new Client(
-            [
-                'host' => $config[DsnParser::HOST],
-                'port' => $config[DsnParser::PORT] ?? 6_379,
-            ]
-        );
-        $redis->connect();
-
-        return $redis;
     }
 
 }
