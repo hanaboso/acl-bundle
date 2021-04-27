@@ -12,7 +12,6 @@ use Hanaboso\AclBundle\Factory\MaskFactory;
 use Hanaboso\AclBundle\Repository\Document\RuleRepository;
 use Hanaboso\PhpCheckUtils\PhpUnit\Traits\CustomAssertTrait;
 use LogicException;
-use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -88,11 +87,9 @@ final class RoleFixturesAbstractTest extends DatabaseTestCaseAbstract
      */
     private function mockContainer(): ContainerInterface
     {
-        /** @var ContainerInterface|MockObject $c */
         $c = self::createMock(ContainerInterface::class);
         $c->method('getParameter')->willReturn(TestActionEnum::class);
 
-        /** @var MaskFactory|MockObject $f */
         $f = self::createMock(MaskFactory::class);
         $c->method('get')->willReturn($f);
 

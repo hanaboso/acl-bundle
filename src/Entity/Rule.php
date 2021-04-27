@@ -23,28 +23,28 @@ class Rule implements RuleInterface
      *
      * @ORM\Column(type="string")
      */
-    private $resource;
+    private string $resource;
 
     /**
      * @var GroupInterface
      *
      * @ORM\ManyToOne(targetEntity="Hanaboso\AclBundle\Entity\Group", inversedBy="rules")
      */
-    private $group;
+    private GroupInterface $group;
 
     /**
      * @var int
      *
      * @ORM\Column(type="integer")
      */
-    private $actionMask;
+    private int $actionMask;
 
     /**
      * @var int
      *
      * @ORM\Column(type="integer")
      */
-    private $propertyMask;
+    private int $propertyMask;
 
     /**
      * @return string

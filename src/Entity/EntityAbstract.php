@@ -48,9 +48,9 @@ abstract class EntityAbstract
     /**
      * @param UserInterface|null $owner
      *
-     * @return EntityAbstract
+     * @return $this
      */
-    public function setOwner(?UserInterface $owner): ?EntityAbstract
+    public function setOwner(?UserInterface $owner): self
     {
         if (is_null($owner)) {
             $this->owner->clear();

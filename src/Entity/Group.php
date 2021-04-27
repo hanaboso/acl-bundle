@@ -53,14 +53,14 @@ class Group extends EntityAbstract implements GroupInterface
      *
      * @ORM\Column(type="integer")
      */
-    protected $level = 999;
+    protected int $level = 999;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string")
      */
-    private $name;
+    private string $name;
 
     /**
      * @var RuleInterface[]|Collection<int, RuleInterface>
@@ -125,7 +125,7 @@ class Group extends EntityAbstract implements GroupInterface
     /**
      * @return RuleInterface[]|Collection<int, RuleInterface>
      */
-    public function getRules()
+    public function getRules(): iterable
     {
         return $this->rules;
     }
@@ -157,7 +157,7 @@ class Group extends EntityAbstract implements GroupInterface
     /**
      * @return UserInterface[]|Collection<int, UserInterface>
      */
-    public function getUsers()
+    public function getUsers(): iterable
     {
         return $this->users;
     }
@@ -217,7 +217,7 @@ class Group extends EntityAbstract implements GroupInterface
     /**
      * @return UserInterface[]|Collection<int, UserInterface>
      */
-    public function getTmpUsers()
+    public function getTmpUsers(): iterable
     {
         return $this->tmpUsers;
     }
@@ -255,27 +255,27 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @param GroupInterface $parent
+     * @param GroupInterface $group
      *
      * @return Group
      */
-    public function addParent(GroupInterface $parent): GroupInterface
+    public function addParent(GroupInterface $group): GroupInterface
     {
-        if (!$this->parents->contains($parent)) {
-            $this->parents->add($parent);
+        if (!$this->parents->contains($group)) {
+            $this->parents->add($group);
         }
 
         return $this;
     }
 
     /**
-     * @param GroupInterface $parent
+     * @param GroupInterface $group
      *
      * @return Group
      */
-    public function removeParent(GroupInterface $parent): GroupInterface
+    public function removeParent(GroupInterface $group): GroupInterface
     {
-        $this->parents->removeElement($parent);
+        $this->parents->removeElement($group);
 
         return $this;
     }

@@ -26,17 +26,24 @@ final class GroupTest extends KernelTestCaseAbstract
     public function testGroup(): void
     {
         $g = new Group(NULL);
-        $g->setName('nae');
+        $g
+            ->setName('nae')
+            ->setLevel(1);
+        $this->setProperty($g, 'id', '1');
         self::assertEquals('nae', $g->getName());
 
         $r = new Rule();
-        $g->setRules([$r])
+        $g
+            ->setRules([$r])
             ->addRule($r);
+        $this->setProperty($r, 'id', '1');
         self::assertEquals(new ArrayCollection([$r, $r]), $g->getRules());
 
         $u = new User();
-        $g->setUsers([$u])
+        $g
+            ->setUsers([$u])
             ->addUser($u);
+        $this->setProperty($u, 'id', '1');
         self::assertEquals(new ArrayCollection([$u, $u]), $g->getUsers());
 
         self::assertEquals(Group::TYPE_ORM, $g->getType());
@@ -49,6 +56,7 @@ final class GroupTest extends KernelTestCaseAbstract
         self::assertEquals(new ArrayCollection([$u, $u]), $g->getTmpUsers());
 
         $par = new Group(NULL);
+        $par->setLevel(2);
         $g->addParent($par);
         self::assertEquals(new ArrayCollection([$par]), $g->getParents());
         $g->addParent($par);
@@ -70,7 +78,7 @@ final class GroupTest extends KernelTestCaseAbstract
         $arr   = [
             Group::ID    => 'groupId',
             Group::NAME  => 'onamae',
-            Group::LEVEL => 'll',
+            Group::LEVEL => 2,
             'owner'      => 'ownerId',
             Group::RULES => [
                 [

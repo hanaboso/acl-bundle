@@ -18,39 +18,27 @@ class MaskFactory
     public const RESOURCE_LIST   = 'resources';
 
     /**
-     * @var string
-     */
-    private string $actionEnum;
-
-    /**
-     * @var mixed[]
-     */
-    private array $allowedActions;
-
-    /**
-     * @var string
-     */
-    private string $resourceEnum;
-
-    /**
      * MaskFactory constructor.
      *
      * @param string  $actionEnum
      * @param string  $resourceEnum
      * @param mixed[] $allowedActions
      */
-    public function __construct(string $actionEnum, string $resourceEnum, array $allowedActions = [])
+    public function __construct(
+        private string $actionEnum,
+        private string $resourceEnum,
+        private array $allowedActions = []
+    )
     {
-        $this->actionEnum   = $actionEnum;
-        $this->resourceEnum = $resourceEnum;
+        $cloneAllowedActions = $allowedActions;
+        if (!array_key_exists(self::DEFAULT_ACTIONS, $cloneAllowedActions)) {
+            $cloneAllowedActions[self::DEFAULT_ACTIONS] = ['read', 'write', 'delete'];
+        }
+        if (!array_key_exists(self::RESOURCE_LIST, $cloneAllowedActions)) {
+            $cloneAllowedActions[self::RESOURCE_LIST] = [];
+        }
 
-        if (!array_key_exists(self::DEFAULT_ACTIONS, $allowedActions)) {
-            $allowedActions[self::DEFAULT_ACTIONS] = ['read', 'write', 'delete'];
-        }
-        if (!array_key_exists(self::RESOURCE_LIST, $allowedActions)) {
-            $allowedActions[self::RESOURCE_LIST] = [];
-        }
-        $this->allowedActions = $allowedActions;
+        $this->allowedActions = $cloneAllowedActions;
     }
 
     /**
@@ -74,7 +62,7 @@ class MaskFactory
                 $actName = $allow;
             }
 
-            if (boolval($isAllowed) && $this->isActionAllowed($actName, $resource)) {
+            if ($isAllowed && $this->isActionAllowed($actName, $resource)) {
                 $bit   = $this->actionEnum::getActionBit($actName);
                 $mask |= (1 << $bit);
             }
@@ -165,7 +153,7 @@ class MaskFactory
             throw new AclException('Missing data', AclException::MISSING_DATA);
         }
 
-        $mask = boolval($data[PropertyEnum::GROUP]) ? 2 : (boolval($data[PropertyEnum::OWNER]) ? 1 : 0);
+        $mask = $data[PropertyEnum::GROUP] ? 2 : ($data[PropertyEnum::OWNER] ? 1 : 0);
         if ($mask === 0) {
             throw new AclException('Sent mask has no value', AclException::ZERO_MASK);
         }

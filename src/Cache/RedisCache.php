@@ -4,7 +4,6 @@ namespace Hanaboso\AclBundle\Cache;
 
 use Hanaboso\Utils\String\DsnParser;
 use Hanaboso\Utils\String\Json;
-use JsonException;
 use Predis\Client;
 
 /**
@@ -16,25 +15,18 @@ final class RedisCache implements ProviderCacheInterface
 {
 
     /**
-     * @var string
-     */
-    private string $redisDsn;
-
-    /**
      * RedisCache constructor.
      *
      * @param string $redisDsn
      */
-    public function __construct(string $redisDsn)
+    public function __construct(private string $redisDsn)
     {
-        $this->redisDsn = $redisDsn;
     }
 
     /**
      * @param string $key
      *
      * @return mixed[]|null
-     * @throws JsonException
      */
     public function get(string $key): ?array
     {

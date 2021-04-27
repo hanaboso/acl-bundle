@@ -15,12 +15,11 @@ use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
-use Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
-use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 /**
  * Class Kernel
@@ -55,7 +54,6 @@ final class Kernel extends BaseKernel
             DoctrineMongoDBBundle::class  => ['all' => TRUE],
             HbPFCommonsBundle::class      => ['all' => TRUE],
             RabbitMqBundle::class         => ['all' => TRUE],
-            SwiftmailerBundle::class      => ['all' => TRUE],
             EmailServiceBundle::class     => ['all' => TRUE],
             HbPFUserBundle::class         => ['all' => TRUE],
             HbPFAclBundle::class          => ['all' => TRUE],
@@ -83,9 +81,9 @@ final class Kernel extends BaseKernel
     }
 
     /**
-     * @param RouteCollectionBuilder $routes
+     * @param RoutingConfigurator $routes
      */
-    protected function configureRoutes(RouteCollectionBuilder $routes): void
+    protected function configureRoutes(RoutingConfigurator $routes): void
     {
         $routes;
     }

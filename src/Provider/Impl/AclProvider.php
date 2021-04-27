@@ -34,22 +34,7 @@ final class AclProvider implements AclRuleProviderInterface
     /**
      * @var DocumentManager|EntityManager
      */
-    protected $dm;
-
-    /**
-     * @var ResourceProvider
-     */
-    protected ResourceProvider $provider;
-
-    /**
-     * @var string
-     */
-    protected string $resourceEnum;
-
-    /**
-     * @var ProviderCacheInterface
-     */
-    private ProviderCacheInterface $cache;
+    protected DocumentManager|EntityManager $dm;
 
     /**
      * AclProvider constructor.
@@ -61,15 +46,12 @@ final class AclProvider implements AclRuleProviderInterface
      */
     public function __construct(
         DatabaseManagerLocator $dml,
-        ResourceProvider $provider,
-        string $resourceEnum,
-        ProviderCacheInterface $cache
+        protected ResourceProvider $provider,
+        protected string $resourceEnum,
+        private ProviderCacheInterface $cache
     )
     {
-        $this->dm           = $dml->get();
-        $this->provider     = $provider;
-        $this->resourceEnum = $resourceEnum;
-        $this->cache        = $cache;
+        $this->dm = $dml->get();
     }
 
     /**
@@ -125,13 +107,13 @@ final class AclProvider implements AclRuleProviderInterface
     }
 
     /**
-     * @param mixed[] $userIds
+     * @param mixed[] $users
      *
      * @throws LogicException
      */
-    public function invalid(array $userIds): void
+    public function invalid(array $users): void
     {
-        foreach ($userIds as $userId) {
+        foreach ($users as $userId) {
             $this->cache->delete($this->getKeyById($userId));
         }
     }

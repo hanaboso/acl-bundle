@@ -28,25 +28,13 @@ final class GroupDto
     private array $rules = [];
 
     /**
-     * @var GroupInterface
-     */
-    private GroupInterface $group;
-
-    /**
-     * @var string|null
-     */
-    private ?string $name = NULL;
-
-    /**
      * GroupDto constructor.
      *
      * @param GroupInterface $group
      * @param string|null    $name
      */
-    function __construct(GroupInterface $group, ?string $name = NULL)
+    function __construct(private GroupInterface $group, private ?string $name = NULL)
     {
-        $this->group = $group;
-        $this->name  = $name;
     }
 
     /**

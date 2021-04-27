@@ -28,22 +28,12 @@ class RuleFactory
     /**
      * @var DocumentManager|EntityManager
      */
-    private $dm;
+    private DocumentManager|EntityManager $dm;
 
     /**
      * @var mixed
      */
-    private $resource;
-
-    /**
-     * @var ResourceProvider
-     */
-    private ResourceProvider $provider;
-
-    /**
-     * @var MaskFactory
-     */
-    private MaskFactory $maskFactory;
+    private mixed $resource;
 
     /**
      * RuleFactory constructor.
@@ -58,10 +48,10 @@ class RuleFactory
      */
     function __construct(
         DatabaseManagerLocator $userDml,
-        ResourceProvider $provider,
-        MaskFactory $maskFactory,
+        private ResourceProvider $provider,
+        private MaskFactory $maskFactory,
         array $rules,
-        $resEnum
+        mixed $resEnum
     )
     {
         if (!is_array($rules) || !array_key_exists('owner', $rules)) {
@@ -71,17 +61,15 @@ class RuleFactory
             );
         }
 
-        $this->dm          = $userDml->get();
-        $this->rules       = $rules['owner'];
-        $this->resource    = $resEnum;
-        $this->provider    = $provider;
-        $this->maskFactory = $maskFactory;
+        $this->dm       = $userDml->get();
+        $this->rules    = $rules['owner'];
+        $this->resource = $resEnum;
     }
 
     /**
      * @param GroupInterface $group
      *
-     * @return array|RuleInterface[]
+     * @return RuleInterface[]
      * @throws AclException
      */
     public function getDefaultRules(GroupInterface $group): array

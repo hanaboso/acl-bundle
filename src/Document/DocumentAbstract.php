@@ -43,9 +43,9 @@ abstract class DocumentAbstract
     /**
      * @param UserInterface|null $owner
      *
-     * @return DocumentAbstract
+     * @return $this
      */
-    public function setOwner(?UserInterface $owner): ?DocumentAbstract
+    public function setOwner(?UserInterface $owner): self
     {
         $this->owner = $owner;
 

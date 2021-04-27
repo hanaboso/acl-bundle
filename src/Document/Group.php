@@ -110,7 +110,7 @@ class Group extends DocumentAbstract implements GroupInterface
     /**
      * @return RuleInterface[]|Collection<int, RuleInterface>
      */
-    public function getRules()
+    public function getRules(): iterable
     {
         return $this->rules;
     }
@@ -142,7 +142,7 @@ class Group extends DocumentAbstract implements GroupInterface
     /**
      * @return UserInterface[]|Collection<int, UserInterface>
      */
-    public function getUsers()
+    public function getUsers(): iterable
     {
         return $this->users;
     }
@@ -202,7 +202,7 @@ class Group extends DocumentAbstract implements GroupInterface
     /**
      * @return UserInterface[]|Collection<int, UserInterface>
      */
-    public function getTmpUsers()
+    public function getTmpUsers(): iterable
     {
         return $this->tmpUsers;
     }
@@ -240,28 +240,28 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @param GroupInterface $parent
+     * @param GroupInterface $group
      *
      * @return Group
      */
-    public function addParent(GroupInterface $parent): GroupInterface
+    public function addParent(GroupInterface $group): GroupInterface
     {
-        if (!$this->parents->contains($parent)) {
-            $this->parents->add($parent);
-            $parent->addChild($this);
+        if (!$this->parents->contains($group)) {
+            $this->parents->add($group);
+            $group->addChild($this);
         }
 
         return $this;
     }
 
     /**
-     * @param GroupInterface $parent
+     * @param GroupInterface $group
      *
      * @return Group
      */
-    public function removeParent(GroupInterface $parent): GroupInterface
+    public function removeParent(GroupInterface $group): GroupInterface
     {
-        $this->parents->removeElement($parent);
+        $this->parents->removeElement($group);
 
         return $this;
     }

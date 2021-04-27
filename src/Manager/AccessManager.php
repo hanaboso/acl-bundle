@@ -27,7 +27,6 @@ use Hanaboso\UserBundle\Model\User\Event\ActivateUserEvent;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
-use JsonException;
 use LogicException;
 use ReflectionClass;
 use ReflectionException;
@@ -45,37 +44,7 @@ final class AccessManager implements EventSubscriberInterface
     /**
      * @var DocumentManager|EntityManager
      */
-    private $dm;
-
-    /**
-     * @var RuleFactory
-     */
-    private RuleFactory $factory;
-
-    /**
-     * @var AclProvider
-     */
-    private AclProvider $aclProvider;
-
-    /**
-     * @var ResourceProvider
-     */
-    private ResourceProvider $resProvider;
-
-    /**
-     * @var string
-     */
-    private string $resEnum;
-
-    /**
-     * @var string
-     */
-    private string $actionEnum;
-
-    /**
-     * @var MaskFactory
-     */
-    private MaskFactory $maskFactory;
+    private DocumentManager|EntityManager $dm;
 
     /**
      * AccessManager constructor.
@@ -90,21 +59,15 @@ final class AccessManager implements EventSubscriberInterface
      */
     function __construct(
         DatabaseManagerLocator $userDml,
-        RuleFactory $factory,
-        MaskFactory $maskFactory,
-        AclProvider $aclProvider,
-        ResourceProvider $resProvider,
-        string $resEnum,
-        string $actionEnum
+        private RuleFactory $factory,
+        private MaskFactory $maskFactory,
+        private AclProvider $aclProvider,
+        private ResourceProvider $resProvider,
+        private string $resEnum,
+        private string $actionEnum
     )
     {
-        $this->dm          = $userDml->get();
-        $this->factory     = $factory;
-        $this->aclProvider = $aclProvider;
-        $this->resProvider = $resProvider;
-        $this->resEnum     = $resEnum;
-        $this->actionEnum  = $actionEnum;
-        $this->maskFactory = $maskFactory;
+        $this->dm = $userDml->get();
     }
 
     /**
@@ -254,9 +217,8 @@ final class AccessManager implements EventSubscriberInterface
      *
      * @return mixed
      * @throws AclException
-     * @throws JsonException
      */
-    public function isAllowed(string $act, string $res, UserInterface $user, $object = NULL)
+    public function isAllowed(string $act, string $res, UserInterface $user, $object = NULL): mixed
     {
         $this->checkParams($act, $res);
         $userLvl = 999;
@@ -312,12 +274,12 @@ final class AccessManager implements EventSubscriberInterface
      */
     private function checkObjectPermission(
         RuleInterface $rule,
-        $obj,
+        mixed $obj,
         UserInterface $user,
         int $userLvl,
         string $res,
         bool $checkedGroup = FALSE
-    )
+    ): mixed
     {
         if (!$checkedGroup && $rule->getPropertyMask() === 1 && method_exists($obj, 'getOwner')) {
             if ($user->getId() !== (is_string($obj->getOwner()) ? $obj->getOwner() : $obj->getOwner()->getId())) {
@@ -342,7 +304,6 @@ final class AccessManager implements EventSubscriberInterface
      *
      * @return RuleInterface
      * @throws AclException
-     * @throws JsonException
      */
     private function selectRule(UserInterface $user, string $act, string $res, int &$userLvl): RuleInterface
     {
@@ -402,7 +363,7 @@ final class AccessManager implements EventSubscriberInterface
      * @return mixed
      * @throws AclException
      */
-    private function getObjectById(RuleInterface $rule, UserInterface $user, string $res, string $id)
+    private function getObjectById(RuleInterface $rule, UserInterface $user, string $res, string $id): mixed
     {
         try {
             $params = ['id' => $id];

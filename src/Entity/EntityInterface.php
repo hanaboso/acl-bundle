@@ -23,6 +23,6 @@ interface EntityInterface
      *
      * @return EntityAbstract|DocumentAbstract|null
      */
-    public function setOwner(?UserInterface $owner);
+    public function setOwner(?UserInterface $owner): EntityAbstract|DocumentAbstract|NULL;
 
 }

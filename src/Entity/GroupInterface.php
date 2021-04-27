@@ -37,7 +37,7 @@ interface GroupInterface extends EntityInterface
     /**
      * @return RuleInterface[]|Collection<int, RuleInterface>
      */
-    public function getRules();
+    public function getRules(): iterable;
 
     /**
      * @param mixed[] $rules
@@ -56,7 +56,7 @@ interface GroupInterface extends EntityInterface
     /**
      * @return UserInterface[]|Collection<int, UserInterface>
      */
-    public function getUsers();
+    public function getUsers(): iterable;
 
     /**
      * @param UserInterface[] $users
@@ -97,7 +97,7 @@ interface GroupInterface extends EntityInterface
     /**
      * @return UserInterface[]|Collection<int, UserInterface>
      */
-    public function getTmpUsers();
+    public function getTmpUsers(): iterable;
 
     /**
      * @param UserInterface $tmpUser

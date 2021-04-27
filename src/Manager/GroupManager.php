@@ -32,17 +32,7 @@ class GroupManager
     /**
      * @var DocumentManager|EntityManager
      */
-    protected $dm;
-
-    /**
-     * @var ResourceProvider
-     */
-    protected ResourceProvider $resourceProvider;
-
-    /**
-     * @var AclRuleProviderInterface
-     */
-    protected AclRuleProviderInterface $aclProvider;
+    protected DocumentManager|EntityManager $dm;
 
     /**
      * GroupManager constructor.
@@ -53,13 +43,11 @@ class GroupManager
      */
     public function __construct(
         DatabaseManagerLocator $dml,
-        ResourceProvider $resourceProvider,
-        AclRuleProviderInterface $aclProvider
+        protected ResourceProvider $resourceProvider,
+        protected AclRuleProviderInterface $aclProvider
     )
     {
-        $this->dm               = $dml->get();
-        $this->resourceProvider = $resourceProvider;
-        $this->aclProvider      = $aclProvider;
+        $this->dm = $dml->get();
     }
 
     /**

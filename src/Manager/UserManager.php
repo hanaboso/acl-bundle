@@ -7,7 +7,6 @@ use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\UserBundle\Enum\ResourceEnum;
 use Hanaboso\UserBundle\Model\User\Event\DeleteBeforeUserEvent;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
-use JsonException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -19,25 +18,18 @@ final class UserManager implements EventSubscriberInterface
 {
 
     /**
-     * @var AccessManager
-     */
-    private AccessManager $accessManager;
-
-    /**
      * UserManager constructor.
      *
      * @param AccessManager $accessManager
      */
-    public function __construct(AccessManager $accessManager)
+    public function __construct(private AccessManager $accessManager)
     {
-        $this->accessManager = $accessManager;
     }
 
     /**
      * @param UserEvent $userEvent
      *
      * @throws AclException
-     * @throws JsonException
      */
     public function checkPermission(UserEvent $userEvent): void
     {

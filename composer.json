@@ -1,18 +1,19 @@
 {
     "name": "hanaboso/acl-bundle",
-    "version": "1.4.0",
+    "description": "Hanaboso - acl-bundle",
+    "version": "1.5.0",
     "license": "Apache-2.0",
     "require": {
-        "php": "^7.4",
-        "hanaboso/user-bundle": "^1.3"
+        "php": "^8.0",
+        "hanaboso/user-bundle": "^1.4"
     },
     "require-dev": {
-        "doctrine/doctrine-bundle": "^2.2",
+        "doctrine/doctrine-bundle": "^2.3",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "doctrine/mongodb-odm-bundle": "^4.2",
-        "hanaboso/php-check-utils": "^1.1",
+        "doctrine/mongodb-odm-bundle": "^4.3",
+        "hanaboso/php-check-utils": "^1.2",
         "predis/predis": "^v1.1",
-        "symfony/security-bundle": "^5.1"
+        "symfony/security-bundle": "^v5.2"
     },
     "suggest": {
         "doctrine/doctrine-bundle": "Install me, if you using MySQL.",

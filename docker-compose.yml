@@ -1,7 +1,7 @@
 version: '3.5'
 services:
     app:
-        image: hanabosocom/php-dev:php-7.4-alpine
+        image: hanabosocom/php-dev:php-8.0-alpine
         user: ${DEV_UID}:${DEV_GID}
         volumes:
             - ./:/var/www:cached
@@ -13,10 +13,7 @@ services:
             - DEV_GID=${DEV_GID}
             - KERNEL_CLASS=AclBundleTests\Kernel
             - COMPOSER_HOME=${HOME}/dev/.composer
-            - SMTP_HOST=${SMTP_HOST}
-            - SMTP_PORT=${SMTP_PORT}
-            - SMTP_USER=${SMTP_USER}
-            - SMTP_PASSWORD=${SMTP_PASSWORD}
+            - SMTP_DSN=${SMTP_DSN}
             - REDIS_DSN=redis://redis/10
             - MONGODB_DSN=mongodb://mongo
             - MONGODB_DB=acl
@@ -29,15 +26,6 @@ services:
         image: mongo:latest
         volumes:
             - mongo:/data/db
-
-    rabbitmq:
-        image: rabbitmq:management-alpine
-        volumes:
-            - rabbit-mq:/var/lib/rabbitmq
-        environment:
-            - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
-            - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
-            - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}
 
     mariadb:
         image: mariadb:latest
