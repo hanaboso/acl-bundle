@@ -37,9 +37,9 @@ final class AclProviderTest extends KernelTestCaseAbstract
             ResourceEnum::class,
             $this->mockRedis(
                 static fn() => Json::decode(
-                    '{"groups":[{"owner":null,"id":"id","name":"nae","level":1,"rules":[{"id":"rid","property_mask":1,"action_mask":1,"resource":"user"}]}],"links":{"rid":"id"}}'
-                )
-            )
+                    '{"groups":[{"owner":null,"id":"id","name":"nae","level":1,"rules":[{"id":"rid","property_mask":1,"action_mask":1,"resource":"user"}]}],"links":{"rid":"id"}}',
+                ),
+            ),
         );
 
         $res = $a->getGroups($this->getUser());
@@ -57,12 +57,12 @@ final class AclProviderTest extends KernelTestCaseAbstract
                 self::$container->get('hbpf.user.provider.resource'),
                 ResourceEnum::class,
                 new NullCache(),
-            ]
+            ],
         )->onlyMethods(['load'])->getMock();
         $a->method('load')->willReturnCallback(
             static function (): void {
                 throw new ResourceProviderException();
-            }
+            },
         );
 
         self::expectException(AclException::class);
@@ -81,8 +81,8 @@ final class AclProviderTest extends KernelTestCaseAbstract
             $this->mockRedis(
                 static function (): void {
                     throw new ResourceProviderException();
-                }
-            )
+                },
+            ),
         );
 
         self::expectException(AclException::class);

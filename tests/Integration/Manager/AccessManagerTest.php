@@ -582,13 +582,13 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
                                 ActionEnum::WRITE  => 1,
                                 ActionEnum::DELETE => 1,
                             ],
-                            ResourceEnum::USER
+                            ResourceEnum::USER,
                         ),
                         'property_mask' => MaskFactory::maskProperty(
                             [
                                 PropertyEnum::OWNER => 1,
                                 PropertyEnum::GROUP => 1,
-                            ]
+                            ],
                         ),
                     ],
                     [
@@ -599,16 +599,16 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
                                 ActionEnum::WRITE  => 1,
                                 ActionEnum::DELETE => 1,
                             ],
-                            ResourceEnum::GROUP
+                            ResourceEnum::GROUP,
                         ),
                         'property_mask' => MaskFactory::maskProperty(
                             [
                                 PropertyEnum::OWNER => 1,
                                 PropertyEnum::GROUP => 1,
-                            ]
+                            ],
                         ),
                     ],
-                ]
+                ],
             );
         $group = $access->updateGroup($data);
 
@@ -683,7 +683,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
             [
                 'host' => $config[DsnParser::HOST],
                 'port' => $config[DsnParser::PORT] ?? 6_379,
-            ]
+            ],
         );
 
         $redis->connect();
@@ -705,7 +705,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         int $act = 7,
         string $res = 'group',
         int $prop = 2,
-        bool $extra = FALSE
+        bool $extra = FALSE,
     ): Rule
     {
         $group = new Group($user);

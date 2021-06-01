@@ -41,7 +41,7 @@ final class GroupDtoTest extends KernelTestCaseAbstract
                     Rule::ACTION_MASK   => 5,
                     Rule::RESOURCE      => 'ress',
                 ],
-            ]
+            ],
         );
 
         self::assertNotEmpty($d->getRules());

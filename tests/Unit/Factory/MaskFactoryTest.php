@@ -76,7 +76,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
                     ],
                 ],
             ],
-            $factory->getAllowedList(FALSE)
+            $factory->getAllowedList(FALSE),
         );
 
         self::assertEquals(
@@ -94,7 +94,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
                 ResourceEnum::RULE     => $baseList,
                 ResourceEnum::TMP_USER => $baseList,
             ],
-            $factory->getAllowedList()
+            $factory->getAllowedList(),
         );
     }
 
@@ -131,12 +131,12 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
         self::assertEquals(
             ['read', 'delete', 'test2'],
             $factory->getActionsFromMask(
-                $factory->maskAction(['read', 'write' => FALSE, 'delete', 'test2'], ResourceEnum::TOKEN)
-            )
+                $factory->maskAction(['read', 'write' => FALSE, 'delete', 'test2'], ResourceEnum::TOKEN),
+            ),
         );
         self::assertEquals(
             ['write', 'test', 'test2'],
-            $factory->getActionsFromMaskStatic(26, ExtActionEnum::getChoices())
+            $factory->getActionsFromMaskStatic(26, ExtActionEnum::getChoices()),
         );
     }
 
@@ -178,7 +178,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
             [
                 PropertyEnum::OWNER => [],
                 PropertyEnum::GROUP => [],
-            ]
+            ],
         );
     }
 
@@ -192,7 +192,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
         $f = new MaskFactory(
             ActionEnum::class,
             ResourceEnum::class,
-            []
+            [],
         );
 
         $res = $f->maskActionFromYmlArray(
@@ -200,7 +200,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
                 ActionEnum::READ,
                 ActionEnum::DELETE,
             ],
-            ResourceEnum::GROUP
+            ResourceEnum::GROUP,
         );
 
         self::assertEquals(5, $res);

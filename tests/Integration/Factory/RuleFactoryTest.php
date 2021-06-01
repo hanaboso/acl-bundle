@@ -58,9 +58,9 @@ final class RuleFactoryTest extends DatabaseTestCaseAbstract
                 'group' => $this->dm->getRepository(Group::class)->findOneBy(
                     [
                         'owner' => $user,
-                    ]
+                    ],
                 ),
-            ]
+            ],
         );
 
         self::assertCount(2, $res);

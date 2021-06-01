@@ -30,7 +30,7 @@ final class ResourceProviderTest extends TestCase
                     'one' => 'One',
                     'two' => 'Two',
                 ],
-            ]
+            ],
         );
 
         self::assertEquals(
@@ -38,7 +38,7 @@ final class ResourceProviderTest extends TestCase
                 'one' => 'One',
                 'two' => 'Two',
             ],
-            $resourceProvider->getResources()
+            $resourceProvider->getResources(),
         );
     }
 
@@ -77,7 +77,7 @@ final class ResourceProviderTest extends TestCase
                 'resources' => [
                     'one' => 'One',
                 ],
-            ]
+            ],
         );
 
         self::assertTrue($resourceProvider->hasResource('one'));
@@ -95,7 +95,7 @@ final class ResourceProviderTest extends TestCase
                 'resources' => [
                     'one' => 'One',
                 ],
-            ]
+            ],
         );
 
         self::assertSame('One', $resourceProvider->getResource('one'));
@@ -115,7 +115,7 @@ final class ResourceProviderTest extends TestCase
                 'resources' => [
                     'one' => 'One',
                 ],
-            ]
+            ],
         ))->getResource('two');
     }
 

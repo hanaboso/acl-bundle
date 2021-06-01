@@ -36,7 +36,7 @@ final class GroupManagerTest extends KernelTestCaseAbstract
         $g = new GroupManager(
             $this->mockDml(),
             $this->mockResProvider(TRUE),
-            $this->mockAclProvider()
+            $this->mockAclProvider(),
         );
 
         $g->addUserIntoGroup(new User(), 'a');
@@ -52,7 +52,7 @@ final class GroupManagerTest extends KernelTestCaseAbstract
         $g = new GroupManager(
             $this->mockDml(TRUE),
             $this->mockResProvider(),
-            $this->mockAclProvider()
+            $this->mockAclProvider(),
         );
 
         $g->addUserIntoGroup(new User(), 'a');
@@ -68,7 +68,7 @@ final class GroupManagerTest extends KernelTestCaseAbstract
         $g = new GroupManager(
             $this->mockDml(),
             $this->mockResProvider(TRUE),
-            $this->mockAclProvider()
+            $this->mockAclProvider(),
         );
 
         $g->getUserGroups(new User());
@@ -84,7 +84,7 @@ final class GroupManagerTest extends KernelTestCaseAbstract
         $g = new GroupManager(
             $this->mockDml(),
             $this->mockResProvider(TRUE),
-            $this->mockAclProvider()
+            $this->mockAclProvider(),
         );
 
         $g->removeUserFromGroup(new User(), 'a');
@@ -100,7 +100,7 @@ final class GroupManagerTest extends KernelTestCaseAbstract
         $g = new GroupManager(
             $this->mockDml(TRUE),
             $this->mockResProvider(),
-            $this->mockAclProvider()
+            $this->mockAclProvider(),
         );
 
         $g->removeUserFromGroup(new User(), 'a');
@@ -139,7 +139,7 @@ final class GroupManagerTest extends KernelTestCaseAbstract
             $r->method('getResource')->willReturnCallback(
                 static function (): void {
                     throw new ResourceProviderException('');
-                }
+                },
             );
         } else {
             $r->method('getResource')->willReturn(ResourceEnum::GROUP);

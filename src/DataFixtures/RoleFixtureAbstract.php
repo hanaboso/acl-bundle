@@ -130,8 +130,8 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
                             [
                                 PropertyEnum::GROUP => TRUE,
                                 PropertyEnum::OWNER => TRUE,
-                            ]
-                        )
+                            ],
+                        ),
                     );
                 }
             }
@@ -147,8 +147,8 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
                             [
                                 PropertyEnum::GROUP => FALSE,
                                 PropertyEnum::OWNER => TRUE,
-                            ]
-                        )
+                            ],
+                        ),
                     );
                 }
             }
@@ -196,7 +196,7 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
         array $rights,
         string $res,
         string $ruleClass,
-        int $propertyMask
+        int $propertyMask,
     ): void
     {
         /** @var RuleInterface $rule */

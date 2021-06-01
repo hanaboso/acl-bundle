@@ -49,7 +49,7 @@ final class AccessManagerTest extends KernelTestCaseAbstract
             $this->mockAcl(),
             $this->mockResProvider(TRUE),
             ResourceEnum::class,
-            ActionEnum::class
+            ActionEnum::class,
         );
 
         $a->addGroup('a');
@@ -71,7 +71,7 @@ final class AccessManagerTest extends KernelTestCaseAbstract
             $this->mockAcl(TRUE),
             $this->mockResProvider(),
             ResourceEnum::class,
-            ActionEnum::class
+            ActionEnum::class,
         );
 
         $dto = new GroupDto(new Group(NULL), 'nae');
@@ -95,7 +95,7 @@ final class AccessManagerTest extends KernelTestCaseAbstract
             $this->mockAcl(TRUE),
             $this->mockResProvider(),
             ResourceEnum::class,
-            ActionEnum::class
+            ActionEnum::class,
         );
 
         $a->removeGroup(new Group(NULL));
@@ -117,7 +117,7 @@ final class AccessManagerTest extends KernelTestCaseAbstract
             $this->mockAcl(TRUE),
             $this->mockResProvider(TRUE),
             ResourceEnum::class,
-            ActionEnum::class
+            ActionEnum::class,
         );
 
         $a->createGroup(new UserEvent(new User()));
@@ -137,7 +137,7 @@ final class AccessManagerTest extends KernelTestCaseAbstract
             $this->mockAcl(),
             $this->mockResProvider(),
             ResourceEnum::class,
-            ActionEnum::class
+            ActionEnum::class,
         );
 
         $a->createGroup(new UserEvent((new User())->setEmail('eml')));
@@ -161,7 +161,7 @@ final class AccessManagerTest extends KernelTestCaseAbstract
             $this->mockAcl(TRUE),
             $this->mockResProvider(TRUE),
             ResourceEnum::class,
-            ActionEnum::class
+            ActionEnum::class,
         );
 
         $this->invokeMethod($a, 'hasRightForUser', [new User(), 1]);
@@ -183,7 +183,7 @@ final class AccessManagerTest extends KernelTestCaseAbstract
             $this->mockAcl(TRUE),
             $this->mockResProvider(TRUE),
             ResourceEnum::class,
-            ActionEnum::class
+            ActionEnum::class,
         );
 
         $this->invokeMethod($a, 'getObjectById', [new Rule(), new User(), '', '']);
@@ -205,7 +205,7 @@ final class AccessManagerTest extends KernelTestCaseAbstract
             $this->mockAcl(TRUE),
             $this->mockResProvider(TRUE),
             ResourceEnum::class,
-            ActionEnum::class
+            ActionEnum::class,
         );
 
         $ii = 1;
@@ -234,7 +234,7 @@ final class AccessManagerTest extends KernelTestCaseAbstract
             $r->method('getResource')->willReturnCallback(
                 static function (): void {
                     throw new ResourceProviderException();
-                }
+                },
             );
         } else {
             $r->method('getResource')->willReturn(Group::class);
@@ -268,12 +268,12 @@ final class AccessManagerTest extends KernelTestCaseAbstract
             $a->method('invalid')->willReturnCallback(
                 static function (): void {
                     throw new LogicException();
-                }
+                },
             );
             $a->method('getRules')->willReturnCallback(
                 static function (): void {
                     throw new LogicException();
-                }
+                },
             );
         }
 

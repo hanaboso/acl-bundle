@@ -46,7 +46,7 @@ final class RuleTest extends KernelTestCaseAbstract
                 'action_mask'   => 2,
                 'resource'      => 'res',
             ],
-            $arr
+            $arr,
         );
 
         $arr = [

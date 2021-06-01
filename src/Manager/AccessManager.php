@@ -64,7 +64,7 @@ final class AccessManager implements EventSubscriberInterface
         private AclProvider $aclProvider,
         private ResourceProvider $resProvider,
         private string $resEnum,
-        private string $actionEnum
+        private string $actionEnum,
     )
     {
         $this->dm = $userDml->get();
@@ -116,8 +116,8 @@ final class AccessManager implements EventSubscriberInterface
             $this->aclProvider->invalid(
                 array_merge(
                     array_map(static fn(UserInterface $user): string => $user->getId(), $group->getUsers()->toArray()),
-                    array_map(static fn(UserInterface $user): string => $user->getId(), $data->getUsers())
-                )
+                    array_map(static fn(UserInterface $user): string => $user->getId(), $data->getUsers()),
+                ),
             );
 
             $group->setUsers($data->getUsers());
@@ -147,7 +147,7 @@ final class AccessManager implements EventSubscriberInterface
     {
         try {
             $this->aclProvider->invalid(
-                array_map(static fn(UserInterface $user): string => $user->getId(), $group->getUsers()->toArray())
+                array_map(static fn(UserInterface $user): string => $user->getId(), $group->getUsers()->toArray()),
             );
 
             foreach ($group->getRules() as $rule) {
@@ -231,7 +231,7 @@ final class AccessManager implements EventSubscriberInterface
                 $user,
                 $userLvl,
                 $res,
-                TRUE
+                TRUE,
             );
         } else if (is_object($object)) {
             return $this->checkObjectPermission($rule, $object, $user, $userLvl, $res);
@@ -239,14 +239,14 @@ final class AccessManager implements EventSubscriberInterface
 
             if (!in_array($act, $this->actionEnum::getGlobalActions(), TRUE) && $rule->getPropertyMask() !== 2) {
                 throw $this->getPermissionException(
-                    'For given action no group permission or non at all for global actions.'
+                    'For given action no group permission or non at all for global actions.',
                 );
             }
 
             return TRUE;
         } else {
             throw $this->getPermissionException(
-                'Given object should be entity or it\'s id or null in case of write permission.'
+                'Given object should be entity or it\'s id or null in case of write permission.',
             );
         }
     }
@@ -278,7 +278,7 @@ final class AccessManager implements EventSubscriberInterface
         UserInterface $user,
         int $userLvl,
         string $res,
-        bool $checkedGroup = FALSE
+        bool $checkedGroup = FALSE,
     ): mixed
     {
         if (!$checkedGroup && $rule->getPropertyMask() === 1 && method_exists($obj, 'getOwner')) {
@@ -333,7 +333,7 @@ final class AccessManager implements EventSubscriberInterface
             if (!$rule) {
                 throw $this->getPermissionException(
                     'User has no permission on [%s] resource for desired action.',
-                    $res
+                    $res,
                 );
             }
 
@@ -375,7 +375,7 @@ final class AccessManager implements EventSubscriberInterface
                 $reader          = new AnnotationReader();
                 $owner           = $reader->getPropertyAnnotation(
                     new ReflectionProperty($class, 'owner'),
-                    OwnerAnnotation::class
+                    OwnerAnnotation::class,
                 );
                 $params['owner'] = $owner ? $user : $user->getId();
             }
@@ -386,8 +386,8 @@ final class AccessManager implements EventSubscriberInterface
                 throw $this->getPermissionException(
                     sprintf(
                         'User has no permission on entity with [%s] id or it doesn\'t exist.',
-                        $id
-                    )
+                        $id,
+                    ),
                 );
             }
 
@@ -424,7 +424,7 @@ final class AccessManager implements EventSubscriberInterface
         if (!$this->maskFactory->isActionAllowed($act, $res)) {
             throw new AclException(
                 sprintf('Action [%s] is not allowed for resource [%s].', $act, $res),
-                AclException::INVALID_ACTION
+                AclException::INVALID_ACTION,
             );
         }
     }

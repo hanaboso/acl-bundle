@@ -44,7 +44,7 @@ class GroupManager
     public function __construct(
         DatabaseManagerLocator $dml,
         protected ResourceProvider $resourceProvider,
-        protected AclRuleProviderInterface $aclProvider
+        protected AclRuleProviderInterface $aclProvider,
     )
     {
         $this->dm = $dml->get();

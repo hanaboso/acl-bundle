@@ -29,7 +29,7 @@ final class UserManagerTest extends KernelTestCaseAbstract
     {
         self::assertEquals(
             [DeleteBeforeUserEvent::NAME => 'checkPermission'],
-            UserManager::getSubscribedEvents()
+            UserManager::getSubscribedEvents(),
         );
     }
 

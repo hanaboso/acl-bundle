@@ -1,7 +1,7 @@
 {
     "name": "hanaboso/acl-bundle",
     "description": "Hanaboso - acl-bundle",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "license": "Apache-2.0",
     "require": {
         "php": "^8.0",
@@ -13,7 +13,7 @@
         "doctrine/mongodb-odm-bundle": "^4.3",
         "hanaboso/php-check-utils": "^1.2",
         "predis/predis": "^v1.1",
-        "symfony/security-bundle": "^v5.2"
+        "symfony/security-bundle": "^v5.3"
     },
     "suggest": {
         "doctrine/doctrine-bundle": "Install me, if you using MySQL.",

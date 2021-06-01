@@ -45,12 +45,12 @@ final class DocumentTest extends DatabaseTestCaseAbstract
         self::assertCount(1, $group->getUsers());
         self::assertSame(
             $group->getUsers()->toArray()[0]->getEmail(),
-            $existingGroup->getUsers()->toArray()[0]->getEmail()
+            $existingGroup->getUsers()->toArray()[0]->getEmail(),
         );
         self::assertCount(1, $group->getRules());
         self::assertSame(
             $group->getRules()->toArray()[0]->getResource(),
-            $existingGroup->getRules()->toArray()[0]->getResource()
+            $existingGroup->getRules()->toArray()[0]->getResource(),
         );
     }
 

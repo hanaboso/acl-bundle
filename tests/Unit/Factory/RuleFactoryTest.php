@@ -38,7 +38,7 @@ final class RuleFactoryTest extends KernelTestCaseAbstract
             $this->mockResourceProvider(),
             new MaskFactory(ActionEnum::class, ResourceEnum::class, []),
             [],
-            ResourceEnum::class
+            ResourceEnum::class,
         );
     }
 
@@ -58,7 +58,7 @@ final class RuleFactoryTest extends KernelTestCaseAbstract
                     ResourceEnum::USER => [],
                 ],
             ],
-            ResourceEnum::class
+            ResourceEnum::class,
         );
 
         $f->getDefaultRules(new Group(NULL));
@@ -73,7 +73,7 @@ final class RuleFactoryTest extends KernelTestCaseAbstract
         $r->method('getResource')->willReturnCallback(
             static function (): void {
                 throw new ResourceProviderException('');
-            }
+            },
         );
 
         return $r;

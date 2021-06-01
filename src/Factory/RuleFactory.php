@@ -51,13 +51,13 @@ class RuleFactory
         private ResourceProvider $provider,
         private MaskFactory $maskFactory,
         array $rules,
-        mixed $resEnum
+        mixed $resEnum,
     )
     {
         if (!is_array($rules) || !array_key_exists('owner', $rules)) {
             throw new AclException(
                 'Missing \'owner\' key in acl_rules.yml for default ruleset.',
-                AclException::MISSING_DEFAULT_RULES
+                AclException::MISSING_DEFAULT_RULES,
             );
         }
 
@@ -110,7 +110,7 @@ class RuleFactory
         GroupInterface $group,
         int $actMask,
         int $propMask,
-        string $ruleClass
+        string $ruleClass,
     ): RuleInterface
     {
         /** @var RuleInterface $rule */

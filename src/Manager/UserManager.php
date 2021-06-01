@@ -37,7 +37,7 @@ final class UserManager implements EventSubscriberInterface
             ActionEnum::DELETE,
             ResourceEnum::USER,
             $userEvent->getLoggedUser(),
-            $userEvent->getUser()
+            $userEvent->getUser(),
         );
     }
 

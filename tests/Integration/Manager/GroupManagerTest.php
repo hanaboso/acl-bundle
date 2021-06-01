@@ -228,7 +228,7 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
         self::assertNotEmpty($res);
         self::assertEquals(
             ['name' => $group->getName(), 'id' => $group->getId(), 'level' => $group->getLevel()],
-            $res[0]
+            $res[0],
         );
     }
 
@@ -270,7 +270,7 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
         self::assertNotEmpty($res);
         self::assertEquals(
             ['name' => $group->getName(), 'id' => $group->getId(), 'level' => $group->getLevel()],
-            $res[0]
+            $res[0],
         );
     }
 

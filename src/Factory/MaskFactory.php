@@ -27,7 +27,7 @@ class MaskFactory
     public function __construct(
         private string $actionEnum,
         private string $resourceEnum,
-        private array $allowedActions = []
+        private array $allowedActions = [],
     )
     {
         $cloneAllowedActions = $allowedActions;

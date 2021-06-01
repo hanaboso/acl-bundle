@@ -73,7 +73,7 @@ final class RedisCache implements ProviderCacheInterface
             [
                 'host' => $config[DsnParser::HOST],
                 'port' => $config[DsnParser::PORT] ?? 6_379,
-            ]
+            ],
         );
         $redis->connect();
 

@@ -48,7 +48,7 @@ final class AclProvider implements AclRuleProviderInterface
         DatabaseManagerLocator $dml,
         protected ResourceProvider $provider,
         protected string $resourceEnum,
-        private ProviderCacheInterface $cache
+        private ProviderCacheInterface $cache,
     )
     {
         $this->dm = $dml->get();
@@ -135,7 +135,7 @@ final class AclProvider implements AclRuleProviderInterface
         $this->cache->set(
             $this->getKey($user),
             86_400,
-            [self::GROUPS => $arr, self::LINKS => $parentList]
+            [self::GROUPS => $arr, self::LINKS => $parentList],
         );
     }
 
