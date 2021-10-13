@@ -7,7 +7,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Exception\ORMException;
 use Hanaboso\AclBundle\Annotation\OwnerAnnotation;
 use Hanaboso\AclBundle\Document\Group as DmGroup;
 use Hanaboso\AclBundle\Dto\GroupDto;

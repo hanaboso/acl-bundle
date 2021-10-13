@@ -21,7 +21,7 @@ use Hanaboso\UserBundle\Provider\ResourceProvider;
 use LogicException;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Security\Core\Encoder\NativePasswordEncoder;
+use Symfony\Component\PasswordHasher\Hasher\NativePasswordHasher;
 
 /**
  * Class RoleFixtureAbstract
@@ -77,7 +77,7 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
             throw new LogicException('Amount of actions exceeded allowed 32!');
         }
 
-        $encoder    = new NativePasswordEncoder($this->encoderLevel);
+        $encoder    = new NativePasswordHasher($this->encoderLevel);
         $rules      = $this->container->getParameter('acl_rule')['fixture_groups'];
         $ownerRules = $this->container->getParameter('acl_rule')['owner'];
         $config     = $this->container->getParameter('db_res');
@@ -112,7 +112,7 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
                     /** @var UserInterface $user */
                     $user = new $userClass();
                     $user
-                        ->setPassword($encoder->encodePassword($row['password'], ''))
+                        ->setPassword($encoder->hash($row['password']))
                         ->setEmail($row['email']);
                     $manager->persist($user);
                     $group->addUser($user);

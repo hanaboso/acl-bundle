@@ -11,6 +11,9 @@ parameters:
 		- src/Factory/MaskFactory.php
 	ignoreErrors:
 		- '#Call to function in_array\(\) requires parameter \#3 to be true\.#'
+		- '#Cannot access constant GROUP on string#'
+		- '#Cannot access constant RULE on string#'
+		- '#Type mixed in generic type#'
 	symfony:
 		container_xml_path: %rootDir%/../../../var/cache/test/AclBundleTests_KernelTestDebugContainer.xml
 	ergebnis:

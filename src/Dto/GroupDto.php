@@ -2,7 +2,6 @@
 
 namespace Hanaboso\AclBundle\Dto;
 
-use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Exception\AclException;
@@ -79,10 +78,10 @@ final class GroupDto
                 throw new AclException('Missing data in sent rules', AclException::MISSING_DATA);
             }
             $this->rules[] = RuleFactory::createRule(
-                $rule[Rule::RESOURCE],
+                $rule[RuleInterface::RESOURCE],
                 $this->group,
-                $rule[Rule::ACTION_MASK],
-                $rule[Rule::PROPERTY_MASK],
+                $rule[RuleInterface::ACTION_MASK],
+                $rule[RuleInterface::PROPERTY_MASK],
                 sprintf('%s', $ruleClass),
             );
         }

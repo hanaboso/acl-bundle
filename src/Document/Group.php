@@ -332,7 +332,7 @@ class Group extends DocumentAbstract implements GroupInterface
             self::LEVEL => $this->level,
             self::NAME  => $this->name,
             self::RULES => $rules,
-            self::OWNER => $owner ? $owner->getId() : NULL,
+            self::OWNER => $owner?->getId(),
         ];
     }
 

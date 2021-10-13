@@ -346,7 +346,7 @@ class Group extends EntityAbstract implements GroupInterface
             self::LEVEL => $this->level,
             self::NAME  => $this->name,
             self::RULES => $rules,
-            self::OWNER => $owner ? $owner->getId() : NULL,
+            self::OWNER => $owner?->getId(),
         ];
     }
 
