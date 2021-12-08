@@ -190,9 +190,9 @@ class GroupManager
         }
 
         if ($user->getType() === UserTypeEnum::USER) {
-            $groups = $repo->getUserGroups($user) ?? [];
+            $groups = $repo->getUserGroups($user);
         } else {
-            $groups = $repo->getTmpUserGroups($user) ?? [];
+            $groups = $repo->getTmpUserGroups($user);
         }
 
         $res = [];

@@ -6,7 +6,6 @@ use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Hanaboso\AclBundle\Document\Group;
-use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\UserBundle\Entity\UserInterface;
 
 /**
@@ -34,13 +33,14 @@ class GroupRepository extends DocumentRepository
             ->getQuery()
             ->execute();
 
+        /** @var Group[] $groups */
         $groups = $query->toArray();
         $ids    = [];
         reset($groups);
 
         while ($group = current($groups)) {
             $ids[] = $group->getId();
-            /** @var GroupInterface $parent */
+            /** @var Group $parent */
             foreach ($group->getParents() as $parent) {
                 // phpcs:disable
                 if (!in_array($parent->getId(), $ids, FALSE)) {

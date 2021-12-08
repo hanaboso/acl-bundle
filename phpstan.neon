@@ -9,6 +9,7 @@ parameters:
 		- src/Factory/RuleFactory.php
 		- src/DataFixtures/RoleFixtureAbstract.php
 		- src/Factory/MaskFactory.php
+		- tests/Integration/Reposity/Entity/GroupRepositoryTest.php
 	ignoreErrors:
 		- '#Call to function in_array\(\) requires parameter \#3 to be true\.#'
 		- '#Cannot access constant GROUP on string#'

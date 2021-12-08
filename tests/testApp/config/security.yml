@@ -1,5 +1,6 @@
 security:
-    encoders:
+    enable_authenticator_manager: true
+    password_hashers:
         Hanaboso\UserBundle\Document\User:
             algorithm: auto
             cost: 12
@@ -25,6 +26,3 @@ security:
                 path: /user/logout
                 target: /
                 invalidate_session: true
-                success_handler: hbpf.user.handler.user
-        main:
-            anonymous: ~

@@ -22,7 +22,7 @@ class Group extends EntityAbstract implements GroupInterface
     use IdTrait;
 
     /**
-     * @var UserInterface[]|Collection<int, UserInterface>
+     * @var ArrayCollection<mixed, UserInterface>
      *
      * @ORM\ManyToMany(targetEntity="Hanaboso\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id", nullable=true)

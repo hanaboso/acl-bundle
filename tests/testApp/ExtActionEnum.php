@@ -18,7 +18,7 @@ final class ExtActionEnum extends ActionEnum
     public const TEST2 = 'test2';
 
     /**
-     * @var mixed[]
+     * @var string[]
      */
     protected static array $choices = [
         self::READ   => self::READ,
