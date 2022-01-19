@@ -87,7 +87,7 @@ final class GroupRepositoryTest extends DatabaseTestCaseAbstract
     {
         parent::setUp();
 
-        $this->em = self::$container->get('doctrine.orm.default_entity_manager');
+        $this->em = self::getContainer()->get('doctrine.orm.default_entity_manager');
         $this->clearMysql();
     }
 

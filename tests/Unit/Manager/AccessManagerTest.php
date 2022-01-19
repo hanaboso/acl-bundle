@@ -44,8 +44,8 @@ final class AccessManagerTest extends KernelTestCaseAbstract
 
         $a = new AccessManager(
             $this->mockDml(),
-            self::$container->get('hbpf.factory.rule'),
-            self::$container->get('hbpf.factory.mask'),
+            self::getContainer()->get('hbpf.factory.rule'),
+            self::getContainer()->get('hbpf.factory.mask'),
             $this->mockAcl(),
             $this->mockResProvider(TRUE),
             ResourceEnum::class,
@@ -66,8 +66,8 @@ final class AccessManagerTest extends KernelTestCaseAbstract
 
         $a = new AccessManager(
             $this->mockDml(),
-            self::$container->get('hbpf.factory.rule'),
-            self::$container->get('hbpf.factory.mask'),
+            self::getContainer()->get('hbpf.factory.rule'),
+            self::getContainer()->get('hbpf.factory.mask'),
             $this->mockAcl(TRUE),
             $this->mockResProvider(),
             ResourceEnum::class,
@@ -90,8 +90,8 @@ final class AccessManagerTest extends KernelTestCaseAbstract
 
         $a = new AccessManager(
             $this->mockDml(),
-            self::$container->get('hbpf.factory.rule'),
-            self::$container->get('hbpf.factory.mask'),
+            self::getContainer()->get('hbpf.factory.rule'),
+            self::getContainer()->get('hbpf.factory.mask'),
             $this->mockAcl(TRUE),
             $this->mockResProvider(),
             ResourceEnum::class,
@@ -112,8 +112,8 @@ final class AccessManagerTest extends KernelTestCaseAbstract
 
         $a = new AccessManager(
             $this->mockDml(),
-            self::$container->get('hbpf.factory.rule'),
-            self::$container->get('hbpf.factory.mask'),
+            self::getContainer()->get('hbpf.factory.rule'),
+            self::getContainer()->get('hbpf.factory.mask'),
             $this->mockAcl(TRUE),
             $this->mockResProvider(TRUE),
             ResourceEnum::class,
@@ -132,8 +132,8 @@ final class AccessManagerTest extends KernelTestCaseAbstract
     {
         $a = new AccessManager(
             $this->mockDml(),
-            self::$container->get('hbpf.factory.rule'),
-            self::$container->get('hbpf.factory.mask'),
+            self::getContainer()->get('hbpf.factory.rule'),
+            self::getContainer()->get('hbpf.factory.mask'),
             $this->mockAcl(),
             $this->mockResProvider(),
             ResourceEnum::class,
@@ -156,8 +156,8 @@ final class AccessManagerTest extends KernelTestCaseAbstract
 
         $a = new AccessManager(
             $this->mockDml(),
-            self::$container->get('hbpf.factory.rule'),
-            self::$container->get('hbpf.factory.mask'),
+            self::getContainer()->get('hbpf.factory.rule'),
+            self::getContainer()->get('hbpf.factory.mask'),
             $this->mockAcl(TRUE),
             $this->mockResProvider(TRUE),
             ResourceEnum::class,
@@ -178,8 +178,8 @@ final class AccessManagerTest extends KernelTestCaseAbstract
 
         $a = new AccessManager(
             $this->mockDml(),
-            self::$container->get('hbpf.factory.rule'),
-            self::$container->get('hbpf.factory.mask'),
+            self::getContainer()->get('hbpf.factory.rule'),
+            self::getContainer()->get('hbpf.factory.mask'),
             $this->mockAcl(TRUE),
             $this->mockResProvider(TRUE),
             ResourceEnum::class,
@@ -200,8 +200,8 @@ final class AccessManagerTest extends KernelTestCaseAbstract
 
         $a = new AccessManager(
             $this->mockDml(),
-            self::$container->get('hbpf.factory.rule'),
-            self::$container->get('hbpf.factory.mask'),
+            self::getContainer()->get('hbpf.factory.rule'),
+            self::getContainer()->get('hbpf.factory.mask'),
             $this->mockAcl(TRUE),
             $this->mockResProvider(TRUE),
             ResourceEnum::class,

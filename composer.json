@@ -2,7 +2,7 @@
     "name": "hanaboso/acl-bundle",
     "description": "Hanaboso - acl-bundle",
     "license": "Apache-2.0",
-    "version": "1.5.3",
+    "version": "1.5.4",
     "require": {
         "php": "^8.0",
         "hanaboso/user-bundle": "^1.5",

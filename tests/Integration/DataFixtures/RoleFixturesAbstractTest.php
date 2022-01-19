@@ -40,8 +40,8 @@ final class RoleFixturesAbstractTest extends DatabaseTestCaseAbstract
         $this->pfd($g);
 
         /** @var ObjectManager $b */
-        $b = self::$container->get('doctrine_mongodb.odm.default_document_manager');
-        $f->setContainer(self::$container);
+        $b = self::getContainer()->get('doctrine_mongodb.odm.default_document_manager');
+        $f->setContainer(self::getContainer());
         $this->setProperty($f, 'encoderLevel', 3);
 
         $f->load($b);
@@ -60,7 +60,7 @@ final class RoleFixturesAbstractTest extends DatabaseTestCaseAbstract
     {
         $f = new RoleFixtures();
         /** @var ObjectManager $b */
-        $b = self::$container->get('doctrine_mongodb.odm.default_document_manager');
+        $b = self::getContainer()->get('doctrine_mongodb.odm.default_document_manager');
 
         $f->load($b);
         self::assertFake();
@@ -75,7 +75,7 @@ final class RoleFixturesAbstractTest extends DatabaseTestCaseAbstract
         $f->setContainer($this->mockContainer());
 
         /** @var ObjectManager $b */
-        $b = self::$container->get('doctrine_mongodb.odm.default_document_manager');
+        $b = self::getContainer()->get('doctrine_mongodb.odm.default_document_manager');
 
         self::expectException(LogicException::class);
         self::expectExceptionMessage('Amount of actions exceeded allowed 32!');

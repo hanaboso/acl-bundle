@@ -33,7 +33,7 @@ final class AclProviderTest extends KernelTestCaseAbstract
     {
         $a = new AclProvider(
             $this->mockDml(),
-            self::$container->get('hbpf.user.provider.resource'),
+            self::getContainer()->get('hbpf.user.provider.resource'),
             ResourceEnum::class,
             $this->mockRedis(
                 static fn() => Json::decode(
@@ -54,7 +54,7 @@ final class AclProviderTest extends KernelTestCaseAbstract
         $a = self::getMockBuilder(AclProvider::class)->setConstructorArgs(
             [
                 $this->mockDml(),
-                self::$container->get('hbpf.user.provider.resource'),
+                self::getContainer()->get('hbpf.user.provider.resource'),
                 ResourceEnum::class,
                 new NullCache(),
             ],
@@ -76,7 +76,7 @@ final class AclProviderTest extends KernelTestCaseAbstract
     {
         $a = new AclProvider(
             $this->mockDml(),
-            self::$container->get('hbpf.user.provider.resource'),
+            self::getContainer()->get('hbpf.user.provider.resource'),
             ResourceEnum::class,
             $this->mockRedis(
                 static function (): void {
