@@ -15,7 +15,7 @@ abstract class EntityAbstract
 {
 
     /**
-     * @var ArrayCollection<mixed, UserInterface>
+     * @var ArrayCollection<int, UserInterface>
      * @OWNER()
      */
     protected $owner;
@@ -29,7 +29,7 @@ abstract class EntityAbstract
     {
         $this->owner = new ArrayCollection();
         if (!is_null($owner)) {
-            $this->owner[0] = $owner;
+            $this->owner->add($owner);
         }
     }
 
