@@ -110,7 +110,7 @@ final class AccessManager implements EventSubscriberInterface
             }
 
             if ($data->getName()) {
-                $group->setName((string) $data->getName());
+                $group->setName($data->getName());
             }
 
             $this->aclProvider->invalid(
@@ -252,7 +252,7 @@ final class AccessManager implements EventSubscriberInterface
     }
 
     /**
-     * @return mixed[]
+     * @return array<string, array<int|string, array<int|string, int|string>|int|string>|string>
      */
     public static function getSubscribedEvents(): array
     {

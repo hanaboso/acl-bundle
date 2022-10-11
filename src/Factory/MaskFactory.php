@@ -138,7 +138,7 @@ class MaskFactory
      */
     public function getActionsFromMask(int $mask): array
     {
-        return $this->getActionsFromMaskStatic($mask, $this->actionEnum::getChoices());
+        return self::getActionsFromMaskStatic($mask, $this->actionEnum::getChoices());
     }
 
     /**
