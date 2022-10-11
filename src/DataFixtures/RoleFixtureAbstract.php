@@ -12,6 +12,7 @@ use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\Rule;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Enum\PropertyEnum;
+use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Factory\MaskFactory;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository;
 use Hanaboso\UserBundle\Document\User as DmUser;
@@ -81,7 +82,8 @@ abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareIn
         $rules      = $this->container->getParameter('acl_rule')['fixture_groups'];
         $ownerRules = $this->container->getParameter('acl_rule')['owner'];
         $config     = $this->container->getParameter('db_res');
-        $enum       = $this->container->getParameter('resource_enum');
+        /** @var ResourceEnum $enum */
+        $enum = $this->container->getParameter('resource_enum');
 
         $provider = new ResourceProvider($config);
         /** @phpstan-var class-string<Group|DmGroup> $groupClass */

@@ -26,7 +26,7 @@ final class GroupRepositoryTest extends DatabaseTestCaseAbstract
      */
     public function testUserGroups(): void
     {
-        $this->markTestSkipped('Don\'t work with paralel run.');
+        self::markTestSkipped('Don\'t work with paralel run.');
         $user  = (new User())->setPassword('pwd')->setEmail('a@a.com');
         $user2 = (new User())->setPassword('pwd2')->setEmail('a2@a.com');
         $this->em->persist($user);
@@ -63,7 +63,7 @@ final class GroupRepositoryTest extends DatabaseTestCaseAbstract
      */
     public function testTmpUserGroups(): void
     {
-        $this->markTestSkipped('Don\'t work with paralel run.');
+        self::markTestSkipped('Don\'t work with paralel run.');
         $user = (new TmpUser())->setPassword('pwd')->setEmail('a@a.com');
         $this->pfe($user);
 
