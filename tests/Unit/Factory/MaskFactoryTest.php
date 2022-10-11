@@ -136,7 +136,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
         );
         self::assertEquals(
             ['write', 'test', 'test2'],
-            $factory->getActionsFromMaskStatic(26, ExtActionEnum::getChoices()),
+            MaskFactory::getActionsFromMaskStatic(26, ExtActionEnum::getChoices()),
         );
     }
 

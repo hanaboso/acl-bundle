@@ -2,19 +2,24 @@ includes:
 	- vendor/hanaboso/php-check-utils/phpstan.neon # hanaboso rules
 
 parameters:
-	excludes_analyse:
-		- tests/Unit/Factory/MaskFactoryTest.php
-		- tests/Unit/Enum/ActionEnumTest.php
-		- src/Manager/AccessManager.php
-		- src/Factory/RuleFactory.php
-		- src/DataFixtures/RoleFixtureAbstract.php
-		- src/Factory/MaskFactory.php
-		- tests/Integration/Reposity/Entity/GroupRepositoryTest.php
 	ignoreErrors:
-		- '#Call to function in_array\(\) requires parameter \#3 to be true\.#'
-		- '#Cannot access constant GROUP on string#'
-		- '#Cannot access constant RULE on string#'
-		- '#Type mixed in generic type#'
+		-
+			message: '#Call to function is_array\(\) with array.+ will always evaluate to true#'
+			path: src/DataFixtures/RoleFixtureAbstract.php
+		-
+			message: '#Cannot call method getOwner\(\) on class-string|object#'
+			path: src/Manager/AccessManager.php
+		-
+			message: '#Cannot access constant (GROUP|RULE) on string#'
+			path: src/Provider/Impl/AclProvider.php
+		-
+			message: '#Call to function in_array\(\) requires parameter \#3 to be true#'
+			paths:
+			    - src/Repository/Entity/GroupRepository.php
+			    - src/Repository/Document/GroupRepository.php
+		-
+			message: '#Unreachable statement - code above always terminates#'
+			path: tests/Integration/Reposity/Entity/GroupRepositoryTest.php
 	symfony:
 		container_xml_path: %rootDir%/../../../var/cache/test/AclBundleTests_KernelTestDebugContainer.xml
 	ergebnis:
@@ -23,6 +28,8 @@ parameters:
 			- Hanaboso\AclBundle\Document\Rule
 			- Hanaboso\AclBundle\Enum\ActionEnum
 			- Hanaboso\AclBundle\Enum\ResourceEnum
+			- Hanaboso\AclBundle\Factory\MaskFactory
+			- Hanaboso\AclBundle\Factory\RuleFactory
 			- Hanaboso\AclBundle\Manager\GroupManager
 			- Hanaboso\AclBundle\Repository\Document\GroupRepository
 			- Hanaboso\AclBundle\Repository\Document\RuleRepository
