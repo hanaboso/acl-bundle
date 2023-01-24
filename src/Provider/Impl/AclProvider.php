@@ -48,7 +48,7 @@ final class AclProvider implements AclRuleProviderInterface
         DatabaseManagerLocator $dml,
         protected ResourceProvider $provider,
         protected string $resourceEnum,
-        private ProviderCacheInterface $cache,
+        private readonly ProviderCacheInterface $cache,
     )
     {
         $this->dm = $dml->get();

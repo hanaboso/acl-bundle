@@ -48,8 +48,8 @@ class RuleFactory
      */
     function __construct(
         DatabaseManagerLocator $userDml,
-        private ResourceProvider $provider,
-        private MaskFactory $maskFactory,
+        private readonly ResourceProvider $provider,
+        private readonly MaskFactory $maskFactory,
         array $rules,
         mixed $resEnum,
     )

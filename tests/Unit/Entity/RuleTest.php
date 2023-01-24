@@ -5,6 +5,7 @@ namespace AclBundleTests\Unit\Entity;
 use AclBundleTests\KernelTestCaseAbstract;
 use Hanaboso\AclBundle\Entity\Group;
 use Hanaboso\AclBundle\Entity\Rule;
+use Hanaboso\AclBundle\Entity\RuleInterface;
 
 /**
  * Class RuleTest
@@ -50,10 +51,10 @@ final class RuleTest extends KernelTestCaseAbstract
         );
 
         $arr = [
-            Rule::ID            => '1',
-            Rule::PROPERTY_MASK => 1,
-            Rule::ACTION_MASK   => 5,
-            Rule::RESOURCE      => 'ress',
+            RuleInterface::ID            => '1',
+            RuleInterface::PROPERTY_MASK => 1,
+            RuleInterface::ACTION_MASK   => 5,
+            RuleInterface::RESOURCE      => 'ress',
         ];
 
         $doc->fromArrayAcl($arr);

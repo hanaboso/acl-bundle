@@ -25,8 +25,8 @@ class MaskFactory
      * @param mixed[] $allowedActions
      */
     public function __construct(
-        private string $actionEnum,
-        private string $resourceEnum,
+        private readonly string $actionEnum,
+        private readonly string $resourceEnum,
         private array $allowedActions = [],
     )
     {

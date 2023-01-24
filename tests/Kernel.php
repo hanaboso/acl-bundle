@@ -10,7 +10,6 @@ use Exception;
 use Hanaboso\AclBundle\HbPFAclBundle;
 use Hanaboso\CommonsBundle\HbPFCommonsBundle;
 use Hanaboso\UserBundle\HbPFUserBundle;
-use RabbitMqBundle\RabbitMqBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\MonologBundle\MonologBundle;
@@ -53,7 +52,6 @@ final class Kernel extends BaseKernel
             MonologBundle::class          => ['all' => TRUE],
             DoctrineMongoDBBundle::class  => ['all' => TRUE],
             HbPFCommonsBundle::class      => ['all' => TRUE],
-            RabbitMqBundle::class         => ['all' => TRUE],
             EmailServiceBundle::class     => ['all' => TRUE],
             HbPFUserBundle::class         => ['all' => TRUE],
             HbPFAclBundle::class          => ['all' => TRUE],

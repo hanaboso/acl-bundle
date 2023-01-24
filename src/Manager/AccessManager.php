@@ -59,12 +59,12 @@ final class AccessManager implements EventSubscriberInterface
      */
     function __construct(
         DatabaseManagerLocator $userDml,
-        private RuleFactory $factory,
-        private MaskFactory $maskFactory,
-        private AclProvider $aclProvider,
-        private ResourceProvider $resProvider,
-        private string $resEnum,
-        private string $actionEnum,
+        private readonly RuleFactory $factory,
+        private readonly MaskFactory $maskFactory,
+        private readonly AclProvider $aclProvider,
+        private readonly ResourceProvider $resProvider,
+        private readonly string $resEnum,
+        private readonly string $actionEnum,
     )
     {
         $this->dm = $userDml->get();

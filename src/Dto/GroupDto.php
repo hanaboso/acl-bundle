@@ -32,7 +32,7 @@ final class GroupDto
      * @param GroupInterface $group
      * @param string|null    $name
      */
-    function __construct(private GroupInterface $group, private ?string $name = NULL)
+    function __construct(private readonly GroupInterface $group, private ?string $name = NULL)
     {
     }
 

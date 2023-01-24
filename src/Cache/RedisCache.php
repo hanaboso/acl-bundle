@@ -19,7 +19,7 @@ final class RedisCache implements ProviderCacheInterface
      *
      * @param string $redisDsn
      */
-    public function __construct(private string $redisDsn)
+    public function __construct(private readonly string $redisDsn)
     {
     }
 

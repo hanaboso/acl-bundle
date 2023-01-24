@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
+use Hanaboso\AclBundle\Entity\GroupInterface;
+use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\UserBundle\Document\User;
 
 /**
@@ -39,7 +41,7 @@ final class GroupTest extends KernelTestCaseAbstract
             ->addUser($u);
         self::assertEquals(new ArrayCollection([$u, $u]), $g->getUsers());
 
-        self::assertEquals(Group::TYPE_ODM, $g->getType());
+        self::assertEquals(GroupInterface::TYPE_ODM, $g->getType());
 
         $g->setLevel(11);
         self::assertEquals(11, $g->getLevel());
@@ -64,16 +66,16 @@ final class GroupTest extends KernelTestCaseAbstract
         $g->setRules([]);
         $links = [];
         $arr   = [
-            Group::ID    => 'groupId',
-            Group::NAME  => 'onamae',
-            Group::LEVEL => 11,
-            'owner'      => 'ownerId',
-            Group::RULES => [
+            GroupInterface::ID    => 'groupId',
+            GroupInterface::NAME  => 'onamae',
+            GroupInterface::LEVEL => 11,
+            'owner'               => 'ownerId',
+            GroupInterface::RULES => [
                 [
-                    Rule::ID            => 'ruleId',
-                    Rule::PROPERTY_MASK => 1,
-                    Rule::ACTION_MASK   => 1,
-                    Rule::RESOURCE      => 'r',
+                    RuleInterface::ID            => 'ruleId',
+                    RuleInterface::PROPERTY_MASK => 1,
+                    RuleInterface::ACTION_MASK   => 1,
+                    RuleInterface::RESOURCE      => 'r',
                 ],
             ],
         ];

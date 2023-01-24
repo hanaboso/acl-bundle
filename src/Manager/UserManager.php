@@ -22,7 +22,7 @@ final class UserManager implements EventSubscriberInterface
      *
      * @param AccessManager $accessManager
      */
-    public function __construct(private AccessManager $accessManager)
+    public function __construct(private readonly AccessManager $accessManager)
     {
     }
 

@@ -6,7 +6,9 @@ use AclBundleTests\KernelTestCaseAbstract;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Hanaboso\AclBundle\Entity\Group;
+use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\Rule;
+use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\UserBundle\Entity\User;
 
 /**
@@ -46,7 +48,7 @@ final class GroupTest extends KernelTestCaseAbstract
         $this->setProperty($u, 'id', '1');
         self::assertEquals(new ArrayCollection([$u, $u]), $g->getUsers());
 
-        self::assertEquals(Group::TYPE_ORM, $g->getType());
+        self::assertEquals(GroupInterface::TYPE_ORM, $g->getType());
 
         $g->setLevel(11);
         self::assertEquals(11, $g->getLevel());
@@ -76,16 +78,16 @@ final class GroupTest extends KernelTestCaseAbstract
         $g->setRules([]);
         $links = [];
         $arr   = [
-            Group::ID    => 'groupId',
-            Group::NAME  => 'onamae',
-            Group::LEVEL => 2,
-            'owner'      => 'ownerId',
-            Group::RULES => [
+            GroupInterface::ID    => 'groupId',
+            GroupInterface::NAME  => 'onamae',
+            GroupInterface::LEVEL => 2,
+            'owner'               => 'ownerId',
+            GroupInterface::RULES => [
                 [
-                    Rule::ID            => 'ruleId',
-                    Rule::PROPERTY_MASK => 1,
-                    Rule::ACTION_MASK   => 1,
-                    Rule::RESOURCE      => 'r',
+                    RuleInterface::ID            => 'ruleId',
+                    RuleInterface::PROPERTY_MASK => 1,
+                    RuleInterface::ACTION_MASK   => 1,
+                    RuleInterface::RESOURCE      => 'r',
                 ],
             ],
         ];
