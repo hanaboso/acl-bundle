@@ -43,5 +43,5 @@ parameters:
 			- Hanaboso\AclBundle\Document\DocumentAbstract
 			- Hanaboso\AclBundle\Entity\EntityAbstract
 			- Hanaboso\AclBundle\Enum\ActionEnum
-			- Hanaboso\Utils\Enum\EnumAbstract
+			- Hanaboso\UserBundle\Enum\EnumAbstract
 			- Hanaboso\Utils\Exception\PipesFrameworkExceptionAbstract
