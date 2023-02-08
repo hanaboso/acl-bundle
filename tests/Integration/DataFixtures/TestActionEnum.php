@@ -2,7 +2,7 @@
 
 namespace AclBundleTests\Integration\DataFixtures;
 
-use Hanaboso\Utils\Enum\EnumAbstract;
+use Hanaboso\UserBundle\Enum\EnumAbstract;
 
 /**
  * Class TestActionEnum

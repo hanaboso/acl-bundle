@@ -2,7 +2,7 @@
 
 namespace Hanaboso\AclBundle\Enum;
 
-use Hanaboso\Utils\Enum\EnumAbstract;
+use Hanaboso\UserBundle\Enum\EnumAbstract;
 
 /**
  * Class ResourceEnum
