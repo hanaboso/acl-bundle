@@ -33,8 +33,8 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
 {
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::getPermissionException()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::getPermissionException
      *
      * @throws Exception
      */
@@ -47,8 +47,8 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::getPermissionException()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::getPermissionException
      *
      * @throws Exception
      */
@@ -61,7 +61,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
      *
      * @throws Exception
      */
@@ -74,8 +74,8 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
      *
      * @throws Exception
      */
@@ -88,8 +88,8 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
      *
      * @throws Exception
      */
@@ -102,10 +102,10 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
      *
      * @throws Exception
      */
@@ -117,10 +117,10 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
      *
      * @throws Exception
      */
@@ -133,10 +133,10 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
      *
      * @throws Exception
      */
@@ -148,10 +148,10 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
      *
      * @throws Exception
      */
@@ -164,10 +164,10 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
      *
      * @throws Exception
      */
@@ -179,10 +179,10 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
      *
      * @throws Exception
      */
@@ -195,10 +195,10 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
      *
      * @throws Exception
      */
@@ -211,10 +211,10 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
      *
      * @throws Exception
      */
@@ -227,10 +227,10 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
      *
      * @throws Exception
      */
@@ -243,8 +243,8 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
      *
      * @throws Exception
      */
@@ -257,8 +257,8 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
      *
      * @throws Exception
      */
@@ -271,11 +271,11 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission
      *
      * @throws Exception
      */
@@ -292,12 +292,12 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::getObjectById()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::getObjectById
      *
      * @throws Exception
      */
@@ -314,12 +314,12 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::getObjectById()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::getObjectById
      *
      * @throws Exception
      */
@@ -336,12 +336,12 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::getObjectById()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::getObjectById
      *
      * @throws Exception
      */
@@ -358,11 +358,11 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission
      *
      * @throws Exception
      */
@@ -377,13 +377,13 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::getObjectById()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkGroupLvl()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::getObjectById
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkGroupLvl
      *
      * @throws Exception
      */
@@ -400,12 +400,12 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkGroupLvl()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkGroupLvl
      *
      * @throws Exception
      */
@@ -420,12 +420,12 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRightForGroup()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRight
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRightForGroup
      *
      * @throws Exception
      */
@@ -440,11 +440,11 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRightForGroup()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRightForGroup
      *
      * @throws Exception
      */
@@ -460,10 +460,10 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
 
     /**
      * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRightForUser()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRightForUser
      *
      * @throws Exception
      */
@@ -478,10 +478,10 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
 
     /**
      * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRightForUser()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRightForUser
      *
      * @throws Exception
      */
@@ -511,11 +511,11 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRightForUser()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::hasRightForUser
      *
      * @throws Exception
      */
@@ -529,10 +529,10 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::isAllowed
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkParams
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::selectRule
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::checkObjectPermission
      *
      * @throws Exception
      */
@@ -545,8 +545,8 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::addGroup()
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::updateGroup()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::addGroup
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::updateGroup
      *
      * @throws Exception
      */
@@ -575,38 +575,38 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
                 Rule::class,
                 [
                     [
-                        'resource'      => ResourceEnum::USER,
                         'action_mask'   => $maskFactory->maskAction(
                             [
+                                ActionEnum::DELETE => 1,
                                 ActionEnum::READ   => 1,
                                 ActionEnum::WRITE  => 1,
-                                ActionEnum::DELETE => 1,
                             ],
                             ResourceEnum::USER,
                         ),
                         'property_mask' => MaskFactory::maskProperty(
                             [
-                                PropertyEnum::OWNER => 1,
                                 PropertyEnum::GROUP => 1,
+                                PropertyEnum::OWNER => 1,
                             ],
                         ),
+                        'resource'      => ResourceEnum::USER,
                     ],
                     [
-                        'resource'      => ResourceEnum::GROUP,
                         'action_mask'   => $maskFactory->maskAction(
                             [
+                                ActionEnum::DELETE => 1,
                                 ActionEnum::READ   => 1,
                                 ActionEnum::WRITE  => 1,
-                                ActionEnum::DELETE => 1,
                             ],
                             ResourceEnum::GROUP,
                         ),
                         'property_mask' => MaskFactory::maskProperty(
                             [
-                                PropertyEnum::OWNER => 1,
                                 PropertyEnum::GROUP => 1,
+                                PropertyEnum::OWNER => 1,
                             ],
                         ),
+                        'resource'      => ResourceEnum::GROUP,
                     ],
                 ],
             );
@@ -617,7 +617,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::removeGroup()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::removeGroup
      *
      * @throws Exception
      */
@@ -639,7 +639,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::removeGroup()
+     * @covers \Hanaboso\AclBundle\Manager\AccessManager::removeGroup
      *
      * @throws Exception
      */

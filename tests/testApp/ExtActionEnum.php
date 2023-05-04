@@ -12,14 +12,13 @@ use Hanaboso\AclBundle\Enum\ActionEnum;
 final class ExtActionEnum extends ActionEnum
 {
 
-    // phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
-
     public const TEST  = 'test';
     public const TEST2 = 'test2';
 
     /**
      * @var string[]
      */
+    // @codingStandardsIgnoreStart
     protected static array $choices = [
         self::READ   => self::READ,
         self::WRITE  => self::WRITE,
@@ -27,13 +26,16 @@ final class ExtActionEnum extends ActionEnum
         self::TEST   => self::TEST,
         self::TEST2  => self::TEST2,
     ];
+    // @codingStandardsIgnoreEnd
 
     /**
      * @var mixed[]
      */
+    // @codingStandardsIgnoreStart
     protected static array $globalActions = [
         self::WRITE => self::WRITE,
         self::TEST  => self::TEST,
     ];
+    // @codingStandardsIgnoreEnd
 
 }

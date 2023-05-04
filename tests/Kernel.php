@@ -46,16 +46,16 @@ final class Kernel extends BaseKernel
     public function registerBundles(): iterable
     {
         $contents = [
-            FrameworkBundle::class        => ['all' => TRUE],
-            SecurityBundle::class         => ['all' => TRUE],
             DoctrineBundle::class         => ['all' => TRUE],
-            MonologBundle::class          => ['all' => TRUE],
-            DoctrineMongoDBBundle::class  => ['all' => TRUE],
-            HbPFCommonsBundle::class      => ['all' => TRUE],
-            EmailServiceBundle::class     => ['all' => TRUE],
-            HbPFUserBundle::class         => ['all' => TRUE],
-            HbPFAclBundle::class          => ['all' => TRUE],
             DoctrineFixturesBundle::class => ['all' => TRUE],
+            DoctrineMongoDBBundle::class  => ['all' => TRUE],
+            EmailServiceBundle::class     => ['all' => TRUE],
+            FrameworkBundle::class        => ['all' => TRUE],
+            HbPFAclBundle::class          => ['all' => TRUE],
+            HbPFCommonsBundle::class      => ['all' => TRUE],
+            HbPFUserBundle::class         => ['all' => TRUE],
+            MonologBundle::class          => ['all' => TRUE],
+            SecurityBundle::class         => ['all' => TRUE],
         ];
 
         foreach ($contents as $class => $envs) {

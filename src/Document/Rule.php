@@ -148,9 +148,9 @@ class Rule implements RuleInterface
     public function toArrayAcl(): array
     {
         return [
+            self::ACTION_MASK   => $this->actionMask,
             self::ID            => $this->id,
             self::PROPERTY_MASK => $this->propertyMask,
-            self::ACTION_MASK   => $this->actionMask,
             self::RESOURCE      => $this->resource,
         ];
     }

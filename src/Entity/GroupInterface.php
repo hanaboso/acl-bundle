@@ -32,7 +32,7 @@ interface GroupInterface extends EntityInterface
      *
      * @return GroupInterface
      */
-    public function setName(string $name): GroupInterface;
+    public function setName(string $name): self;
 
     /**
      * @return RuleInterface[]|Collection<int, RuleInterface>
@@ -44,14 +44,14 @@ interface GroupInterface extends EntityInterface
      *
      * @return GroupInterface
      */
-    public function setRules(array $rules): GroupInterface;
+    public function setRules(array $rules): self;
 
     /**
      * @param RuleInterface $rule
      *
      * @return GroupInterface
      */
-    public function addRule(RuleInterface $rule): GroupInterface;
+    public function addRule(RuleInterface $rule): self;
 
     /**
      * @return UserInterface[]|Collection<int, UserInterface>
@@ -63,14 +63,14 @@ interface GroupInterface extends EntityInterface
      *
      * @return GroupInterface
      */
-    public function setUsers(array $users): GroupInterface;
+    public function setUsers(array $users): self;
 
     /**
      * @param UserInterface $user
      *
      * @return GroupInterface
      */
-    public function addUser(UserInterface $user): GroupInterface;
+    public function addUser(UserInterface $user): self;
 
     /**
      * @return string
@@ -92,7 +92,7 @@ interface GroupInterface extends EntityInterface
      *
      * @return GroupInterface
      */
-    public function setLevel(int $level): GroupInterface;
+    public function setLevel(int $level): self;
 
     /**
      * @return UserInterface[]|Collection<int, UserInterface>
@@ -104,14 +104,14 @@ interface GroupInterface extends EntityInterface
      *
      * @return GroupInterface
      */
-    public function addTmpUser(UserInterface $tmpUser): GroupInterface;
+    public function addTmpUser(UserInterface $tmpUser): self;
 
     /**
      * @param UserInterface[] $tmpUsers
      *
      * @return GroupInterface
      */
-    public function setTmpUsers(array $tmpUsers): GroupInterface;
+    public function setTmpUsers(array $tmpUsers): self;
 
     /**
      * @return GroupInterface[]|Collection<int, GroupInterface>
@@ -123,14 +123,14 @@ interface GroupInterface extends EntityInterface
      *
      * @return GroupInterface
      */
-    public function addParent(GroupInterface $group): GroupInterface;
+    public function addParent(self $group): self;
 
     /**
      * @param GroupInterface $group
      *
      * @return GroupInterface
      */
-    public function removeParent(GroupInterface $group): GroupInterface;
+    public function removeParent(self $group): self;
 
     /**
      * @return GroupInterface[]|Collection<int, GroupInterface>
@@ -142,7 +142,7 @@ interface GroupInterface extends EntityInterface
      *
      * @return GroupInterface
      */
-    public function addChild(GroupInterface $child): GroupInterface;
+    public function addChild(self $child): self;
 
     /**
      * @param mixed[] $data
@@ -151,7 +151,7 @@ interface GroupInterface extends EntityInterface
      *
      * @return GroupInterface
      */
-    public function fromArrayAcl(array $data, string $ruleClass, array &$rules): GroupInterface;
+    public function fromArrayAcl(array $data, string $ruleClass, array &$rules): self;
 
     /**
      * @param mixed[] $links

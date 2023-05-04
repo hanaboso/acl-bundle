@@ -37,9 +37,9 @@ final class GroupDtoTest extends KernelTestCaseAbstract
             Rule::class,
             [
                 [
+                    RuleInterface::ACTION_MASK   => 5,
                     RuleInterface::ID   => '1',
                     RuleInterface::PROPERTY_MASK => 1,
-                    RuleInterface::ACTION_MASK   => 5,
                     RuleInterface::RESOURCE      => 'ress',
                 ],
             ],

@@ -21,8 +21,8 @@ final class PropertyEnum extends EnumAbstract
      * @var string[]
      */
     protected static array $choices = [
-        self::OWNER => 'Owner',
         self::GROUP => 'Group',
+        self::OWNER => 'Owner',
     ];
 
 }

@@ -78,15 +78,15 @@ final class GroupTest extends KernelTestCaseAbstract
         $g->setRules([]);
         $links = [];
         $arr   = [
-            GroupInterface::ID    => 'groupId',
-            GroupInterface::NAME  => 'onamae',
-            GroupInterface::LEVEL => 2,
             'owner'               => 'ownerId',
+            GroupInterface::ID    => 'groupId',
+            GroupInterface::LEVEL => 2,
+            GroupInterface::NAME  => 'onamae',
             GroupInterface::RULES => [
                 [
+                    RuleInterface::ACTION_MASK   => 1,
                     RuleInterface::ID            => 'ruleId',
                     RuleInterface::PROPERTY_MASK => 1,
-                    RuleInterface::ACTION_MASK   => 1,
                     RuleInterface::RESOURCE      => 'r',
                 ],
             ],

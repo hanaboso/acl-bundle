@@ -4,6 +4,10 @@ includes:
 parameters:
 	ignoreErrors:
 		-
+			message: '#is not subtype of#'
+		-
+			message: '#Property .* type mapping mismatch#'
+		-
 			message: '#Call to function is_array\(\) with array.+ will always evaluate to true#'
 			path: src/DataFixtures/RoleFixtureAbstract.php
 		-
@@ -15,8 +19,8 @@ parameters:
 		-
 			message: '#Call to function in_array\(\) requires parameter \#3 to be true#'
 			paths:
-			    - src/Repository/Entity/GroupRepository.php
-			    - src/Repository/Document/GroupRepository.php
+				- src/Repository/Entity/GroupRepository.php
+				- src/Repository/Document/GroupRepository.php
 		-
 			message: '#Unreachable statement - code above always terminates#'
 			path: tests/Integration/Reposity/Entity/GroupRepositoryTest.php

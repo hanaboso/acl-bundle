@@ -49,7 +49,7 @@ final class GroupDto
      *
      * @return GroupDto
      */
-    public function addUser(UserInterface $user): GroupDto
+    public function addUser(UserInterface $user): self
     {
         $this->users[] = $user;
 
@@ -71,7 +71,7 @@ final class GroupDto
      * @return GroupDto
      * @throws AclException
      */
-    public function addRule(string $ruleClass, array $data): GroupDto
+    public function addRule(string $ruleClass, array $data): self
     {
         foreach ($data as $rule) {
             if (!isset($rule['resource']) || !isset($rule['action_mask']) || !isset($rule['property_mask'])) {
@@ -102,7 +102,7 @@ final class GroupDto
      *
      * @return GroupDto
      */
-    public function setName(string $name): GroupDto
+    public function setName(string $name): self
     {
         $this->name = $name;
 

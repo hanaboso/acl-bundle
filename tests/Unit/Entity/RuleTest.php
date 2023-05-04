@@ -42,18 +42,18 @@ final class RuleTest extends KernelTestCaseAbstract
         $arr = $doc->toArrayAcl();
         self::assertEquals(
             [
+                'action_mask'   => 2,
                 'id'            => '1',
                 'property_mask' => 3,
-                'action_mask'   => 2,
                 'resource'      => 'res',
             ],
             $arr,
         );
 
         $arr = [
+            RuleInterface::ACTION_MASK   => 5,
             RuleInterface::ID            => '1',
             RuleInterface::PROPERTY_MASK => 1,
-            RuleInterface::ACTION_MASK   => 5,
             RuleInterface::RESOURCE      => 'ress',
         ];
 

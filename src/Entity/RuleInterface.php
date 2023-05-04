@@ -30,7 +30,7 @@ interface RuleInterface
      *
      * @return RuleInterface
      */
-    public function setResource(string $resource): RuleInterface;
+    public function setResource(string $resource): self;
 
     /**
      * @return GroupInterface
@@ -42,7 +42,7 @@ interface RuleInterface
      *
      * @return RuleInterface
      */
-    public function setGroup(GroupInterface $group): RuleInterface;
+    public function setGroup(GroupInterface $group): self;
 
     /**
      * @return int
@@ -54,7 +54,7 @@ interface RuleInterface
      *
      * @return RuleInterface
      */
-    public function setActionMask(int $actionMask): RuleInterface;
+    public function setActionMask(int $actionMask): self;
 
     /**
      * @return int
@@ -66,14 +66,14 @@ interface RuleInterface
      *
      * @return RuleInterface
      */
-    public function setPropertyMask(int $propertyMask): RuleInterface;
+    public function setPropertyMask(int $propertyMask): self;
 
     /**
      * @param mixed[] $data
      *
      * @return RuleInterface
      */
-    public function fromArrayAcl(array $data): RuleInterface;
+    public function fromArrayAcl(array $data): self;
 
     /**
      * @return mixed[]

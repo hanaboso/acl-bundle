@@ -19,7 +19,7 @@ final class ResourceProviderTest extends TestCase
 {
 
     /**
-     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResources()
+     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResources
      * @throws Exception
      */
     public function testGetResources(): void
@@ -43,7 +43,7 @@ final class ResourceProviderTest extends TestCase
     }
 
     /**
-     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResources()
+     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResources
      * @throws Exception
      */
     public function testGetResourcesMissing(): void
@@ -55,7 +55,7 @@ final class ResourceProviderTest extends TestCase
     }
 
     /**
-     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResources()
+     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResources
      * @throws Exception
      */
     public function testGetResourcesNotArray(): void
@@ -67,7 +67,7 @@ final class ResourceProviderTest extends TestCase
     }
 
     /**
-     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::hasResource()
+     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::hasResource
      * @throws Exception
      */
     public function testHasResource(): void
@@ -85,7 +85,7 @@ final class ResourceProviderTest extends TestCase
     }
 
     /**
-     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResource()
+     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResource
      * @throws Exception
      */
     public function testGetResource(): void
@@ -102,7 +102,7 @@ final class ResourceProviderTest extends TestCase
     }
 
     /**
-     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResource()
+     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResource
      * @throws Exception
      */
     public function testGetResourceMissing(): void

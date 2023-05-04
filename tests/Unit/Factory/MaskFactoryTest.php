@@ -23,37 +23,34 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
 {
 
     /**
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskAction()
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskAction
      * @throws Exception
      */
     public function testMaskAction(): void
     {
         $factory = self::getContainer()->get('hbpf.factory.mask');
-        $data    = [
-            'read'   => FALSE,
-            'write',
-            'delete' => 'true',
-        ];
+        //@codingStandardsIgnoreLine
+        $data    = ['read'   => FALSE, 'write', 'delete' => 'true'];
 
         self::assertEquals(6, $factory->maskAction($data, ResourceEnum::TOKEN));
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskProperty()
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskProperty
      * @throws Exception
      */
     public function testMaskProperty(): void
     {
         $data = [
-            'owner' => '1',
             'group' => 1,
+            'owner' => '1',
         ];
 
         self::assertEquals(2, MaskFactory::maskProperty($data));
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::getAllowedList()
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::getAllowedList
      *
      * @throws Exception
      */
@@ -81,6 +78,10 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
 
         self::assertEquals(
             [
+                ResourceEnum::FILE     => $baseList,
+                ResourceEnum::GROUP    => $baseList,
+                ResourceEnum::RULE     => $baseList,
+                ResourceEnum::TMP_USER => $baseList,
                 ResourceEnum::TOKEN    => [
                     ActionEnum::READ,
                     ActionEnum::WRITE,
@@ -88,18 +89,14 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
                     ExtActionEnum::TEST,
                     ExtActionEnum::TEST2,
                 ],
-                ResourceEnum::GROUP    => $baseList,
                 ResourceEnum::USER     => $baseList,
-                ResourceEnum::FILE     => $baseList,
-                ResourceEnum::RULE     => $baseList,
-                ResourceEnum::TMP_USER => $baseList,
             ],
             $factory->getAllowedList(),
         );
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::isActionAllowed()
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::isActionAllowed
      *
      * @throws Exception
      */
@@ -114,8 +111,8 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::getActionsFromMask()
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::getActionsFromMaskStatic()
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::getActionsFromMask
+     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::getActionsFromMaskStatic
      *
      * @throws Exception
      */
@@ -131,6 +128,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
         self::assertEquals(
             ['read', 'delete', 'test2'],
             $factory->getActionsFromMask(
+                //@codingStandardsIgnoreLine
                 $factory->maskAction(['read', 'write' => FALSE, 'delete', 'test2'], ResourceEnum::TOKEN),
             ),
         );
@@ -176,8 +174,8 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
         self::expectExceptionCode(AclException::ZERO_MASK);
         MaskFactory::maskProperty(
             [
-                PropertyEnum::OWNER => [],
                 PropertyEnum::GROUP => [],
+                PropertyEnum::OWNER => [],
             ],
         );
     }
