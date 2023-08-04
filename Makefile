@@ -70,7 +70,7 @@ phpcontroller:
 	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p $$(nproc) --runner=WrapperRunner tests/Controller
 
 phpcoverage:
-	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p $$(nproc) --coverage-html var/coverage --whitelist src tests
+	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p $$(nproc) --coverage-html var/coverage --coverage-filter src tests
 
 phpcoverage-ci:
 	$(DE) ./vendor/hanaboso/php-check-utils/bin/coverage.sh -c 95 -p $$(nproc)
