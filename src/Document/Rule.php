@@ -11,9 +11,8 @@ use Hanaboso\CommonsBundle\Database\Traits\Document\IdTrait;
  * Class Rule
  *
  * @package Hanaboso\AclBundle\Document
- *
- * @ODM\Document(repositoryClass="Hanaboso\AclBundle\Repository\Document\RuleRepository")
  */
+#[ODM\Document(repositoryClass: 'Hanaboso\AclBundle\Repository\Document\RuleRepository')]
 class Rule implements RuleInterface
 {
 
@@ -21,30 +20,26 @@ class Rule implements RuleInterface
 
     /**
      * @var string
-     *
-     * @ODM\Field(type="string")
      */
+    #[ODM\Field(type: 'string')]
     private string $resource;
 
     /**
      * @var GroupInterface
-     *
-     * @ODM\ReferenceOne(targetDocument="Hanaboso\AclBundle\Document\Group")
      */
+    #[ODM\ReferenceOne(targetDocument: 'Hanaboso\AclBundle\Document\Group')]
     private GroupInterface $group;
 
     /**
      * @var int
-     *
-     * @ODM\Field(type="int")
      */
+    #[ODM\Field(type: 'int')]
     private int $actionMask = 0;
 
     /**
      * @var int
-     *
-     * @ODM\Field(type="int")
      */
+    #[ODM\Field(type: 'int')]
     private int $propertyMask = 0;
 
     /**

@@ -20,22 +20,22 @@ doctrine_mongodb:
         default:
             mappings:
                 UserDocument:
-                    type: annotation
+                    type: attribute
                     is_bundle: false
                     dir: "%src_dir%/src/Document"
                     prefix: Hanaboso\UserBundle\Document
                 AclDocument:
-                    type: annotation
+                    type: attribute
                     is_bundle: false
                     dir: "%src_dir%/src/Document"
                     prefix: Hanaboso\AclBundle\Document
                 FileDocument:
-                    type: annotation
+                    type: attribute
                     is_bundle: false
                     dir: "%kernel.project_dir%/vendor/hanaboso/commons-bundle/src/FileStorage/Document"
                     prefix: Hanaboso\CommonsBundle\FileStorage\Document
                 FileMongo:
-                    type: annotation
+                    type: attribute
                     is_bundle: false
                     dir: "%kernel.project_dir%/vendor/hanaboso/commons-bundle/src/FileStorage/Driver"
                     prefix: Hanaboso\CommonsBundle\FileStorage\Driver

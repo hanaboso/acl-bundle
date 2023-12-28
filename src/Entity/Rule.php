@@ -9,10 +9,9 @@ use Hanaboso\CommonsBundle\Database\Traits\Entity\IdTrait;
  * Class Rule
  *
  * @package Hanaboso\AclBundle\Entity
- *
- * @ORM\Table(name="rule")
- * @ORM\Entity(repositoryClass="Hanaboso\AclBundle\Repository\Entity\RuleRepository")
  */
+#[ORM\Entity(repositoryClass: 'Hanaboso\AclBundle\Repository\Entity\RuleRepository')]
+#[ORM\Table(name: 'rule')]
 class Rule implements RuleInterface
 {
 
@@ -20,30 +19,27 @@ class Rule implements RuleInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private string $resource;
 
     /**
      * @var GroupInterface
-     *
-     * @ORM\ManyToOne(targetEntity="Hanaboso\AclBundle\Entity\Group", inversedBy="rules")
      */
+    #[ORM\ManyToOne(targetEntity: 'Hanaboso\AclBundle\Entity\Group', inversedBy: 'rules')]
     private GroupInterface $group;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer")
+
      */
+    #[ORM\Column(type: 'integer')]
     private int $actionMask;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Column(type: 'integer')]
     private int $propertyMask;
 
     /**

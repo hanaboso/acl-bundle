@@ -17,9 +17,9 @@ abstract class DocumentAbstract
     /**
      * @var UserInterface|null
      *
-     * @ODM\ReferenceOne(targetDocument="Hanaboso\UserBundle\Document\User", strategy="set")
      * @OWNER()
      */
+    #[ODM\ReferenceOne(strategy: 'set', targetDocument: 'Hanaboso\UserBundle\Document\User')]
     protected ?UserInterface $owner;
 
     /**

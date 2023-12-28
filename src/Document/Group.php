@@ -14,9 +14,8 @@ use Hanaboso\UserBundle\Entity\UserInterface;
  * Class Group
  *
  * @package Hanaboso\AclBundle\Document
- *
- * @ODM\Document(repositoryClass="Hanaboso\AclBundle\Repository\Document\GroupRepository")
  */
+#[ODM\Document(repositoryClass: 'Hanaboso\AclBundle\Repository\Document\GroupRepository')]
 class Group extends DocumentAbstract implements GroupInterface
 {
 
@@ -24,51 +23,44 @@ class Group extends DocumentAbstract implements GroupInterface
 
     /**
      * @var GroupInterface[]|Collection<int, GroupInterface>
-     *
-     * @ODM\ReferenceMany(targetDocument="Hanaboso\AclBundle\Document\Group", inversedBy="children")
      */
+    #[ODM\ReferenceMany(targetDocument: 'Hanaboso\AclBundle\Document\Group', inversedBy: 'children')]
     protected $parents;
 
     /**
      * @var GroupInterface[]|Collection<int, GroupInterface>
-     *
-     * @ODM\ReferenceMany(targetDocument="Hanaboso\AclBundle\Document\Group", mappedBy="parents")
      */
+    #[ODM\ReferenceMany(targetDocument: 'Hanaboso\AclBundle\Document\Group', inversedBy: 'parents')]
     protected $children;
 
     /**
      * @var int
-     *
-     * @ODM\Field(type="int")
      */
+    #[ODM\Field(type: 'int')]
     protected int $level = 999;
 
     /**
      * @var string
-     *
-     * @ODM\Field(type="string")
      */
+    #[ODM\Field(type: 'string')]
     private string $name;
 
     /**
      * @var RuleInterface[]|Collection<int, RuleInterface>
-     *
-     * @ODM\ReferenceMany(targetDocument="Hanaboso\AclBundle\Document\Rule", strategy="set")
      */
+    #[ODM\ReferenceMany(strategy: 'set', targetDocument: 'Hanaboso\AclBundle\Document\Rule')]
     private $rules;
 
     /**
      * @var UserInterface[]|Collection<int, UserInterface>
-     *
-     * @ODM\ReferenceMany(targetDocument="Hanaboso\UserBundle\Document\User", strategy="set")
      */
+    #[ODM\ReferenceMany(strategy: 'set', targetDocument: 'Hanaboso\UserBundle\Document\User')]
     private $users;
 
     /**
      * @var UserInterface[]|Collection<int, UserInterface>
-     *
-     * @ODM\ReferenceMany(targetDocument="Hanaboso\UserBundle\Document\TmpUser", strategy="set")
      */
+    #[ODM\ReferenceMany(strategy: 'set', targetDocument: 'Hanaboso\UserBundle\Document\TmpUser')]
     private $tmpUsers;
 
     /**

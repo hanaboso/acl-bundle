@@ -20,7 +20,6 @@ use Hanaboso\UserBundle\Entity\User;
 use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use LogicException;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\PasswordHasher\Hasher\NativePasswordHasher;
 
@@ -29,7 +28,7 @@ use Symfony\Component\PasswordHasher\Hasher\NativePasswordHasher;
  *
  * @package Hanaboso\AclBundle\DataFixtures
  */
-abstract class RoleFixtureAbstract implements FixtureInterface, ContainerAwareInterface
+abstract class RoleFixtureAbstract implements FixtureInterface
 {
 
     /**

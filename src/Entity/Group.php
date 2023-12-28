@@ -12,10 +12,9 @@ use Hanaboso\UserBundle\Entity\UserInterface;
  * Class Group
  *
  * @package Hanaboso\AclBundle\Entity
- *
- * @ORM\Table(name="`group`")
- * @ORM\Entity(repositoryClass="Hanaboso\AclBundle\Repository\Entity\GroupRepository")
  */
+#[ORM\Entity(repositoryClass: 'Hanaboso\AclBundle\Repository\Entity\GroupRepository')]
+#[ORM\Table(name: '`group`')]
 class Group extends EntityAbstract implements GroupInterface
 {
 
@@ -23,67 +22,65 @@ class Group extends EntityAbstract implements GroupInterface
 
     /**
      * @var ArrayCollection<int, UserInterface>
-     *
-     * @ORM\ManyToMany(targetEntity="Hanaboso\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="group_id", referencedColumnName="id", nullable=true)
-     * @ORM\JoinTable(name="group_owner")
      */
+    #[ORM\JoinTable(name: 'group_owner')]
+    #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id', nullable: TRUE)]
+    #[ORM\ManyToMany(targetEntity: 'Hanaboso\UserBundle\Entity\User')]
     protected $owner;
 
     /**
      * @var GroupInterface[]|Collection<int, GroupInterface>
-     *
-     * @ORM\ManyToMany(targetEntity="Hanaboso\AclBundle\Entity\Group", inversedBy="children")
-     * @ORM\JoinTable(name="group_inheritance",
-     *      joinColumns={@ORM\JoinColumn(name="parent_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="child_id", referencedColumnName="id")}
-     *      )
      */
+    #[ORM\JoinTable(
+        name: 'group_inheritance',
+        joinColumns: [
+            new ORM\JoinColumn(
+                name: 'parent_id',
+                referencedColumnName: 'id',
+            ),
+        ],
+        inverseJoinColumns: [new ORM\JoinColumn(name: 'child_id', referencedColumnName: 'id')],
+    )]
+    #[ORM\ManyToMany(targetEntity: 'Hanaboso\AclBundle\Entity\Group', inversedBy: 'children')]
     protected $parents;
 
     /**
      * @var GroupInterface[]|Collection<int, GroupInterface>
-     *
-     * @ORM\ManyToMany(targetEntity="Hanaboso\AclBundle\Entity\Group", mappedBy="parents")
      */
+    #[ORM\ManyToMany(targetEntity: 'Hanaboso\AclBundle\Entity\Group', mappedBy: 'parents')]
     protected $children;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Column(type: 'integer')]
     protected int $level = 999;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private string $name;
 
     /**
      * @var RuleInterface[]|Collection<int, RuleInterface>
-     *
-     * @ORM\OneToMany(targetEntity="Hanaboso\AclBundle\Entity\Rule", mappedBy="group")
      */
+    #[ORM\OneToMany(mappedBy: 'group', targetEntity: 'Hanaboso\AclBundle\Entity\Rule')]
     private $rules;
 
     /**
      * @var UserInterface[]|Collection<int, UserInterface>
-     *
-     * @ORM\ManyToMany(targetEntity="Hanaboso\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: 'Hanaboso\UserBundle\Entity\User')]
     private $users;
 
     /**
      * @var UserInterface[]|Collection<int, UserInterface>
-     *
-     * @ORM\ManyToMany(targetEntity="Hanaboso\UserBundle\Entity\TmpUser")
-     * @ORM\JoinColumn(name="tmp_user_id", referencedColumnName="id", nullable=true)
-     * @ORM\JoinTable(name="group_tmp_user")
      */
+    #[ORM\JoinTable(name: 'group_tmp_user')]
+    #[ORM\JoinColumn(name: 'tmp_user_id', referencedColumnName: 'id', nullable: TRUE)]
+    #[ORM\ManyToMany(targetEntity: 'Hanaboso\UserBundle\Entity\TmpUser')]
     private $tmpUsers;
 
     /**
