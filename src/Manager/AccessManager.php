@@ -2,13 +2,11 @@
 
 namespace Hanaboso\AclBundle\Manager;
 
-use Doctrine\Common\Annotations\AnnotationException;
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
-use Hanaboso\AclBundle\Annotation\OwnerAnnotation;
+use Hanaboso\AclBundle\Attribute\OwnerAttribute;
 use Hanaboso\AclBundle\Document\Group as DmGroup;
 use Hanaboso\AclBundle\Dto\GroupDto;
 use Hanaboso\AclBundle\Entity\Group;
@@ -30,7 +28,6 @@ use Hanaboso\UserBundle\Provider\ResourceProviderException;
 use LogicException;
 use ReflectionClass;
 use ReflectionException;
-use ReflectionProperty;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -347,7 +344,7 @@ final class AccessManager implements EventSubscriberInterface
      * @param RuleInterface|null $old
      * @param RuleInterface      $new
      */
-    private function checkGroupLvl(?RuleInterface &$old, RuleInterface $new): void
+    private function checkGroupLvl(?RuleInterface &$old, RuleInterface $new): void // @phpstan-ignore-line
     {
         if (is_null($old) || ($old->getGroup()->getLevel() > $new->getGroup()->getLevel())) {
             $old = $new;
@@ -369,14 +366,10 @@ final class AccessManager implements EventSubscriberInterface
             $params = ['id' => $id];
 
             /** @phpstan-var class-string<object> $class */
-            $class = $this->resProvider->getResource($res);
-            if ((new ReflectionClass($class))->hasProperty('owner') && $rule->getPropertyMask() === 1) {
-
-                $reader          = new AnnotationReader();
-                $owner           = $reader->getPropertyAnnotation(
-                    new ReflectionProperty($class, 'owner'),
-                    OwnerAnnotation::class,
-                );
+            $class           = $this->resProvider->getResource($res);
+            $reflectionClass = new ReflectionClass($class);
+            if ($reflectionClass->hasProperty('owner') && $rule->getPropertyMask() === 1) {
+                $owner           = $reflectionClass->getProperty('owner')->getAttributes(OwnerAttribute::class);
                 $params['owner'] = $owner ? $user : $user->getId();
             }
 
@@ -392,7 +385,7 @@ final class AccessManager implements EventSubscriberInterface
             }
 
             return $res;
-        } catch (ResourceProviderException | AnnotationException | ReflectionException $e) {
+        } catch (ResourceProviderException | ReflectionException $e) {
             throw new AclException($e->getMessage(), $e->getCode());
         }
     }

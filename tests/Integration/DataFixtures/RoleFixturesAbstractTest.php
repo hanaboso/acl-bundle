@@ -6,29 +6,28 @@ use AclBundleTests\DatabaseTestCaseAbstract;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
 use Hanaboso\AclBundle\DataFixtures\MongoDB\RoleFixtures;
+use Hanaboso\AclBundle\DataFixtures\RoleFixtureAbstract;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\AclBundle\Factory\MaskFactory;
 use Hanaboso\AclBundle\Repository\Document\RuleRepository;
 use Hanaboso\PhpCheckUtils\PhpUnit\Traits\CustomAssertTrait;
 use LogicException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class RoleFixturesAbstractTest
  *
  * @package AclBundleTests\Integration\DataFixtures
- *
- * @covers  \Hanaboso\AclBundle\DataFixtures\RoleFixtureAbstract
  */
+#[CoversClass(RoleFixtureAbstract::class)]
 final class RoleFixturesAbstractTest extends DatabaseTestCaseAbstract
 {
 
     use CustomAssertTrait;
 
     /**
-     * @covers \Hanaboso\AclBundle\DataFixtures\RoleFixtureAbstract::load
-     *
      * @throws Exception
      */
     public function testFixtures(): void

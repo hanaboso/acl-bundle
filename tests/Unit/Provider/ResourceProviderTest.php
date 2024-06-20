@@ -5,6 +5,7 @@ namespace AclBundleTests\Unit\Provider;
 use Exception;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -12,14 +13,12 @@ use stdClass;
  * Class ResourceProviderTest
  *
  * @package AclBundleTests\Unit\Provider
- *
- * @covers \Hanaboso\UserBundle\Provider\ResourceProvider
  */
+#[CoversClass(ResourceProvider::class)]
 final class ResourceProviderTest extends TestCase
 {
 
     /**
-     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResources
      * @throws Exception
      */
     public function testGetResources(): void
@@ -43,7 +42,6 @@ final class ResourceProviderTest extends TestCase
     }
 
     /**
-     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResources
      * @throws Exception
      */
     public function testGetResourcesMissing(): void
@@ -55,7 +53,6 @@ final class ResourceProviderTest extends TestCase
     }
 
     /**
-     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResources
      * @throws Exception
      */
     public function testGetResourcesNotArray(): void
@@ -67,7 +64,6 @@ final class ResourceProviderTest extends TestCase
     }
 
     /**
-     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::hasResource
      * @throws Exception
      */
     public function testHasResource(): void
@@ -85,7 +81,6 @@ final class ResourceProviderTest extends TestCase
     }
 
     /**
-     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResource
      * @throws Exception
      */
     public function testGetResource(): void
@@ -102,7 +97,6 @@ final class ResourceProviderTest extends TestCase
     }
 
     /**
-     * @covers \Hanaboso\UserBundle\Provider\ResourceProvider::getResource
      * @throws Exception
      */
     public function testGetResourceMissing(): void

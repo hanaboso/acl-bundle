@@ -3,7 +3,7 @@
 namespace Hanaboso\AclBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Hanaboso\AclBundle\Annotation\OwnerAnnotation as OWNER;
+use Hanaboso\AclBundle\Attribute\OwnerAttribute;
 use Hanaboso\UserBundle\Entity\UserInterface;
 
 /**
@@ -16,8 +16,8 @@ abstract class EntityAbstract
 
     /**
      * @var ArrayCollection<int, UserInterface>
-     * @OWNER()
      */
+    #[OwnerAttribute]
     protected $owner;
 
     /**

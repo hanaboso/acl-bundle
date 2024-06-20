@@ -38,8 +38,7 @@ clear-cache:
 
 database-create:
 	$(DM) /bin/bash -c 'while ! mysql -uroot -proot <<< "DROP DATABASE IF EXISTS acl;" > /dev/null 2>&1; do sleep 1; done'
-	$(DE) php tests/testApp/bin/console doctrine:database:drop --force || true --env=test
-	$(DE) php tests/testApp/bin/console doctrine:database:create --env=test
+	$(DM) /bin/bash -c "mysql -uroot -proot <<< 'CREATE DATABASE acl CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'" ; \
 	$(DE) php tests/testApp/bin/console doctrine:schema:create --env=test
 	for i in `seq 1 $$(nproc)`; do \
 		$(DM) /bin/bash -c "mysql -uroot -proot <<< 'DROP DATABASE IF EXISTS acl$$i;'" ; \
@@ -69,7 +68,7 @@ phpcontroller:
 	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p $$(nproc) --runner=WrapperRunner tests/Controller
 
 phpcoverage:
-	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p $$(nproc) --coverage-html var/coverage --coverage-filter src tests
+	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p $$(nproc) --coverage-html var/coverage --cache-directory var/cache/coverage --coverage-filter src tests
 
 phpcoverage-ci:
 	$(DE) ./vendor/hanaboso/php-check-utils/bin/coverage.sh -c 95 -p $$(nproc)

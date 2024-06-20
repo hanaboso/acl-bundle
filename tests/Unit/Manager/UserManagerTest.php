@@ -9,21 +9,21 @@ use Hanaboso\AclBundle\Manager\UserManager;
 use Hanaboso\PhpCheckUtils\PhpUnit\Traits\CustomAssertTrait;
 use Hanaboso\UserBundle\Model\User\Event\DeleteBeforeUserEvent;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class UserManagerTest
  *
  * @package AclBundleTests\Unit\Manager
- *
- * @covers  \Hanaboso\AclBundle\Manager\UserManager
  */
+#[CoversClass(UserManager::class)]
 final class UserManagerTest extends KernelTestCaseAbstract
 {
 
     use CustomAssertTrait;
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\UserManager::getSubscribedEvents
+     * @return void
      */
     public function testArray(): void
     {
@@ -34,8 +34,6 @@ final class UserManagerTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\UserManager::checkPermission
-     *
      * @throws Exception
      */
     public function testCheckPermission(): void

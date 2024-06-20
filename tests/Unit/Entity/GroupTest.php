@@ -5,20 +5,21 @@ namespace AclBundleTests\Unit\Entity;
 use AclBundleTests\KernelTestCaseAbstract;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
+use Hanaboso\AclBundle\Entity\EntityAbstract;
 use Hanaboso\AclBundle\Entity\Group;
 use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\Rule;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\UserBundle\Entity\User;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class GroupTest
  *
  * @package AclBundleTests\Unit\Entity
- *
- * @covers  \Hanaboso\AclBundle\Entity\Group
- * @covers  \Hanaboso\AclBundle\Entity\EntityAbstract
  */
+#[CoversClass(Group::class)]
+#[CoversClass(EntityAbstract::class)]
 final class GroupTest extends KernelTestCaseAbstract
 {
 

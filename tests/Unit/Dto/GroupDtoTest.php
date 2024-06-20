@@ -10,14 +10,14 @@ use Hanaboso\AclBundle\Dto\GroupDto;
 use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\UserBundle\Document\User;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class GroupDtoTest
  *
  * @package AclBundleTests\Unit\Dto
- *
- * @covers  \Hanaboso\AclBundle\Dto\GroupDto
  */
+#[CoversClass(GroupDto::class)]
 final class GroupDtoTest extends KernelTestCaseAbstract
 {
 

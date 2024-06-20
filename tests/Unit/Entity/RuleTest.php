@@ -3,18 +3,19 @@
 namespace AclBundleTests\Unit\Entity;
 
 use AclBundleTests\KernelTestCaseAbstract;
+use Hanaboso\AclBundle\Entity\EntityAbstract;
 use Hanaboso\AclBundle\Entity\Group;
 use Hanaboso\AclBundle\Entity\Rule;
 use Hanaboso\AclBundle\Entity\RuleInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class RuleTest
  *
  * @package AclBundleTests\Unit\Entity
- *
- * @covers  \Hanaboso\AclBundle\Entity\Rule
- * @covers  \Hanaboso\AclBundle\Entity\EntityAbstract
  */
+#[CoversClass(Rule::class)]
+#[CoversClass(EntityAbstract::class)]
 final class RuleTest extends KernelTestCaseAbstract
 {
 

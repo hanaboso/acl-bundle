@@ -3,6 +3,7 @@
 namespace AclBundleTests\Controller;
 
 use AclBundleTests\ControllerTestCaseAbstract;
+use Hanaboso\PhpCheckUtils\PhpUnit\Traits\CustomAssertTrait;
 
 /**
  * Class EmptyControllerTest
@@ -12,12 +13,14 @@ use AclBundleTests\ControllerTestCaseAbstract;
 final class EmptyControllerTest extends ControllerTestCaseAbstract
 {
 
+    use CustomAssertTrait;
+
     /**
      *
      */
     public function testEmpty(): void
     {
-        self::assertCount(0, []);
+        self::assertFake();
     }
 
 }

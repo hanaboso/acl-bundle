@@ -14,14 +14,14 @@ use Hanaboso\AclBundle\Factory\RuleFactory;
 use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class RuleFactoryTest
  *
  * @package AclBundleTests\Unit\Factory
- *
- * @covers  \Hanaboso\AclBundle\Factory\RuleFactory
  */
+#[CoversClass(RuleFactory::class)]
 final class RuleFactoryTest extends KernelTestCaseAbstract
 {
 

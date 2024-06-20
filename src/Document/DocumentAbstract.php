@@ -3,7 +3,7 @@
 namespace Hanaboso\AclBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use Hanaboso\AclBundle\Annotation\OwnerAnnotation as OWNER;
+use Hanaboso\AclBundle\Attribute\OwnerAttribute;
 use Hanaboso\UserBundle\Entity\UserInterface;
 
 /**
@@ -16,10 +16,9 @@ abstract class DocumentAbstract
 
     /**
      * @var UserInterface|null
-     *
-     * @OWNER()
      */
     #[ODM\ReferenceOne(strategy: 'set', targetDocument: 'Hanaboso\UserBundle\Document\User')]
+    #[OwnerAttribute]
     protected ?UserInterface $owner;
 
     /**

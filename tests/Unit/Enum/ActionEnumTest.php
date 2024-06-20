@@ -6,21 +6,18 @@ use AclBundleTests\KernelTestCaseAbstract;
 use Exception;
 use Hanaboso\AclBundle\Enum\ActionEnum;
 use LogicException;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class ActionEnumTest
  *
  * @package AclBundleTests\Unit\Enum
- *
- * @covers  \Hanaboso\AclBundle\Enum\ActionEnum
  */
+#[CoversClass(ActionEnum::class)]
 final class ActionEnumTest extends KernelTestCaseAbstract
 {
 
     /**
-     * @covers \Hanaboso\AclBundle\Enum\ActionEnum::getActionBit
-     * @covers \Hanaboso\AclBundle\Enum\ActionEnum::getGlobalActions
-     *
      * @throws Exception
      */
     public function testActionEnum(): void
@@ -32,8 +29,6 @@ final class ActionEnumTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Enum\ActionEnum::getActionBit
-     *
      * @throws Exception
      */
     public function testActionLimit(): void

@@ -11,19 +11,18 @@ use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Factory\MaskFactory;
 use LogicException;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class MaskFactoryTest
  *
  * @package AclBundleTests\Unit\Factory
- *
- * @covers  \Hanaboso\AclBundle\Factory\MaskFactory
  */
+#[CoversClass(MaskFactory::class)]
 final class MaskFactoryTest extends KernelTestCaseAbstract
 {
 
     /**
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskAction
      * @throws Exception
      */
     public function testMaskAction(): void
@@ -36,7 +35,6 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskProperty
      * @throws Exception
      */
     public function testMaskProperty(): void
@@ -50,8 +48,6 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::getAllowedList
-     *
      * @throws Exception
      */
     public function testAllowedList(): void
@@ -96,8 +92,6 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::isActionAllowed
-     *
      * @throws Exception
      */
     public function testAllowedActions(): void
@@ -111,9 +105,6 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::getActionsFromMask
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::getActionsFromMaskStatic
-     *
      * @throws Exception
      */
     public function testPropertiesFromMask(): void
@@ -140,8 +131,6 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskAction
      */
     public function testMaskActionZero(): void
     {
@@ -153,8 +142,6 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskProperty
      */
     public function testMissingData(): void
     {
@@ -165,8 +152,6 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskProperty
      */
     public function testMissingValue(): void
     {
@@ -182,8 +167,6 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::maskActionFromYmlArray
      */
     public function testMaskFromYaml(): void
     {
@@ -205,7 +188,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Factory\MaskFactory::getPropertyFromMask
+     * @return void
      */
     public function test3(): void
     {

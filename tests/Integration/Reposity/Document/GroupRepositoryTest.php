@@ -8,20 +8,18 @@ use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Repository\Document\GroupRepository;
 use Hanaboso\UserBundle\Document\User;
 use Hanaboso\UserBundle\Repository\Document\UserRepository;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class GroupRepositoryTest
  *
  * @package AclBundleTests\Integration\Reposity\Document
- *
- * @covers  \Hanaboso\AclBundle\Repository\Document\GroupRepository
  */
+#[CoversClass(GroupRepository::class)]
 final class GroupRepositoryTest extends DatabaseTestCaseAbstract
 {
 
     /**
-     * @covers \Hanaboso\AclBundle\Repository\Document\GroupRepository::getUserGroups
-     *
      * @throws Exception
      */
     public function testUserGroups(): void

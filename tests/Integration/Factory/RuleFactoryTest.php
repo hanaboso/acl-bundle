@@ -9,20 +9,18 @@ use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\AclBundle\Factory\RuleFactory;
 use Hanaboso\UserBundle\Document\User;
 use Hanaboso\UserBundle\Model\User\Event\ActivateUserEvent;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class RuleFactoryTest
  *
  * @package AclBundleTests\Integration\Factory
- *
- * @covers  \Hanaboso\AclBundle\Factory\RuleFactory
- * @coversDefaultClass \Hanaboso\AclBundle\Factory\RuleFactory
  */
+#[CoversClass(RuleFactory::class)]
 final class RuleFactoryTest extends DatabaseTestCaseAbstract
 {
 
     /**
-     * @covers ::createRule
      * @throws Exception
      */
     public function testRuleFactory(): void
@@ -40,7 +38,6 @@ final class RuleFactoryTest extends DatabaseTestCaseAbstract
     }
 
     /**
-     * @covers ::getDefaultRules
      * @throws Exception
      */
     public function testSetDefaultRules(): void

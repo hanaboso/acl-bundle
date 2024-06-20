@@ -20,22 +20,20 @@ use Hanaboso\UserBundle\Model\User\Event\UserEvent;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
 use LogicException;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class AccessManagerTest
  *
  * @package AclBundleTests\Unit\Manager
- *
- * @covers  \Hanaboso\AclBundle\Manager\AccessManager
  */
+#[CoversClass(AccessManager::class)]
 final class AccessManagerTest extends KernelTestCaseAbstract
 {
 
     use CustomAssertTrait;
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::addGroup
-     *
      * @throws Exception
      */
     public function testAddGroupErr(): void
@@ -56,8 +54,6 @@ final class AccessManagerTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::updateGroup
-     *
      * @throws Exception
      */
     public function testUpdateGroupErr(): void
@@ -80,8 +76,6 @@ final class AccessManagerTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::removeGroup
-     *
      * @throws Exception
      */
     public function testRemoveGroupErr(): void
@@ -102,8 +96,6 @@ final class AccessManagerTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::createGroup
-     *
      * @throws Exception
      */
     public function testCreateGroupErr(): void
@@ -124,8 +116,6 @@ final class AccessManagerTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::createGroup
-     *
      * @throws Exception
      */
     public function testCreateGroup(): void
@@ -146,8 +136,6 @@ final class AccessManagerTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::removeGroup
-     *
      * @throws Exception
      */
     public function testHasRightErr(): void
@@ -168,8 +156,6 @@ final class AccessManagerTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::removeGroup
-     *
      * @throws Exception
      */
     public function testGetObjectByIdErr(): void
@@ -190,8 +176,6 @@ final class AccessManagerTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::removeGroup
-     *
      * @throws Exception
      */
     public function testSelectRuleErr(): void
@@ -213,8 +197,6 @@ final class AccessManagerTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \Hanaboso\AclBundle\Manager\AccessManager::getSubscribedEvents
-     *
      * @throws Exception
      */
     public function testGetSubscribedEvents(): void
