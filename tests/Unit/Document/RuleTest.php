@@ -28,7 +28,7 @@ final class RuleTest extends KernelTestCaseAbstract
         $doc = new Rule();
         $doc->setResource('res');
         $this->setProperty($doc, 'id', '123');
-        self::assertEquals('res', $doc->getResource());
+        self::assertSame('res', $doc->getResource());
 
         $g = new Group(NULL);
         $this->setProperty($g, 'id', '456');
@@ -36,10 +36,10 @@ final class RuleTest extends KernelTestCaseAbstract
         self::assertEquals($g, $doc->getGroup());
 
         $doc->setActionMask(2);
-        self::assertEquals(2, $doc->getActionMask());
+        self::assertSame(2, $doc->getActionMask());
 
         $doc->setPropertyMask(3);
-        self::assertEquals(3, $doc->getPropertyMask());
+        self::assertSame(3, $doc->getPropertyMask());
 
         $arr = $doc->toArrayAcl();
         self::assertEquals(

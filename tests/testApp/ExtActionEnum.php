@@ -12,8 +12,8 @@ use Hanaboso\AclBundle\Enum\ActionEnum;
 final class ExtActionEnum extends ActionEnum
 {
 
-    public const TEST  = 'test';
-    public const TEST2 = 'test2';
+    public const string TEST  = 'test';
+    public const string TEST2 = 'test2';
 
     /**
      * @var string[]

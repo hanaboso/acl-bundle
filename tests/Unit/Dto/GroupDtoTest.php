@@ -47,9 +47,9 @@ final class GroupDtoTest extends KernelTestCaseAbstract
 
         self::assertNotEmpty($d->getRules());
 
-        self::assertEquals('nae', $d->getName());
+        self::assertSame('nae', $d->getName());
         $d->setName('namae');
-        self::assertEquals('namae', $d->getName());
+        self::assertSame('namae', $d->getName());
 
         self::assertEquals($g, $d->getGroup());
 

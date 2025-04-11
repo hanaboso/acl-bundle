@@ -14,7 +14,7 @@ use Hanaboso\UserBundle\Entity\UserInterface;
 interface AclRuleProviderInterface
 {
 
-    public const PREFIX = 'acl_user';
+    public const string PREFIX = 'acl_user';
 
     /**
      * @param UserInterface $user

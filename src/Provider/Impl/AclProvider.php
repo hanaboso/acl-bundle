@@ -28,8 +28,8 @@ use LogicException;
 final class AclProvider implements AclRuleProviderInterface
 {
 
-    protected const GROUPS = 'groups';
-    protected const LINKS  = 'links';
+    protected const string GROUPS = 'groups';
+    protected const string LINKS  = 'links';
 
     /**
      * @var DocumentManager|EntityManager

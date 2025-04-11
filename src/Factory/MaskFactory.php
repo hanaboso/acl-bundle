@@ -14,8 +14,8 @@ use LogicException;
 class MaskFactory
 {
 
-    public const DEFAULT_ACTIONS = 'default_actions';
-    public const RESOURCE_LIST   = 'resources';
+    public const string DEFAULT_ACTIONS = 'default_actions';
+    public const string RESOURCE_LIST   = 'resources';
 
     /**
      * MaskFactory constructor.

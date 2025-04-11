@@ -29,7 +29,7 @@ final class GroupRepositoryTest extends DatabaseTestCaseAbstract
         $this->pfd($user);
         $this->pfd($user2);
 
-        $group4 = (new Group(NULL));
+        $group4 = new Group(NULL);
         $group3 = (new Group(NULL))->addParent($group4)->setName('qwe');
         $group  = (new Group($user))->addUser($user)->addParent($group3)->addParent($group4);
         $group2 = (new Group($user))->addUser($user2);

@@ -13,14 +13,14 @@ use Hanaboso\UserBundle\Entity\UserInterface;
 interface GroupInterface extends EntityInterface
 {
 
-    public const TYPE_ODM = 'odm';
-    public const TYPE_ORM = 'orm';
+    public const string TYPE_ODM = 'odm';
+    public const string TYPE_ORM = 'orm';
 
-    public const ID    = 'id';
-    public const OWNER = 'owner';
-    public const LEVEL = 'level';
-    public const NAME  = 'name';
-    public const RULES = 'rules';
+    public const string ID    = 'id';
+    public const string OWNER = 'owner';
+    public const string LEVEL = 'level';
+    public const string NAME  = 'name';
+    public const string RULES = 'rules';
 
     /**
      * @return string

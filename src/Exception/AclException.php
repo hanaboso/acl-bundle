@@ -12,14 +12,14 @@ use Hanaboso\Utils\Exception\PipesFrameworkExceptionAbstract;
 final class AclException extends PipesFrameworkExceptionAbstract
 {
 
-    public const MISSING_DATA          = self::OFFSET + 1;
-    public const ZERO_MASK             = self::OFFSET + 2;
-    public const MISSING_DEFAULT_RULES = self::OFFSET + 3;
-    public const PERMISSION            = self::OFFSET + 4;
-    public const INVALID_RESOURCE      = self::OFFSET + 5;
-    public const INVALID_ACTION        = self::OFFSET + 6;
-    public const GROUP_NOT_FOUND       = self::OFFSET + 7;
+    public const int MISSING_DATA          = self::OFFSET + 1;
+    public const int ZERO_MASK             = self::OFFSET + 2;
+    public const int MISSING_DEFAULT_RULES = self::OFFSET + 3;
+    public const int PERMISSION            = self::OFFSET + 4;
+    public const int INVALID_RESOURCE      = self::OFFSET + 5;
+    public const int INVALID_ACTION        = self::OFFSET + 6;
+    public const int GROUP_NOT_FOUND       = self::OFFSET + 7;
 
-    protected const OFFSET = 2_100;
+    protected const int OFFSET = 2_100;
 
 }

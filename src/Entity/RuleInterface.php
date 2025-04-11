@@ -10,10 +10,10 @@ namespace Hanaboso\AclBundle\Entity;
 interface RuleInterface
 {
 
-    public const ID            = 'id';
-    public const RESOURCE      = 'resource';
-    public const PROPERTY_MASK = 'property_mask';
-    public const ACTION_MASK   = 'action_mask';
+    public const string ID            = 'id';
+    public const string RESOURCE      = 'resource';
+    public const string PROPERTY_MASK = 'property_mask';
+    public const string ACTION_MASK   = 'action_mask';
 
     /**
      * @return string

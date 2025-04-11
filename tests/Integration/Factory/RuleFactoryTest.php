@@ -32,9 +32,9 @@ final class RuleFactoryTest extends DatabaseTestCaseAbstract
         /** @var Rule $rule */
         $rule = RuleFactory::createRule('user', $group, 3, 2, Rule::class);
 
-        self::assertEquals(3, $rule->getActionMask());
-        self::assertEquals(2, $rule->getPropertyMask());
-        self::assertEquals('user', $rule->getResource());
+        self::assertSame(3, $rule->getActionMask());
+        self::assertSame(2, $rule->getPropertyMask());
+        self::assertSame('user', $rule->getResource());
     }
 
     /**
@@ -61,8 +61,8 @@ final class RuleFactoryTest extends DatabaseTestCaseAbstract
         );
 
         self::assertCount(2, $res);
-        self::assertEquals(3, $res[0]->getActionMask());
-        self::assertEquals(3, $res[1]->getActionMask());
+        self::assertSame(3, $res[0]->getActionMask());
+        self::assertSame(3, $res[1]->getActionMask());
     }
 
 }

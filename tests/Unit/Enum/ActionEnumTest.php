@@ -24,8 +24,8 @@ final class ActionEnumTest extends KernelTestCaseAbstract
     {
         self::assertEquals([ActionEnum::WRITE => ActionEnum::WRITE], ActionEnum::getGlobalActions());
 
-        self::assertEquals(0, ActionEnum::getActionBit(ActionEnum::READ));
-        self::assertEquals(1, ActionEnum::getActionBit(ActionEnum::WRITE));
+        self::assertSame(0, ActionEnum::getActionBit(ActionEnum::READ));
+        self::assertSame(1, ActionEnum::getActionBit(ActionEnum::WRITE));
     }
 
     /**

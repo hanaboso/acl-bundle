@@ -30,7 +30,7 @@ final class GroupTest extends KernelTestCaseAbstract
     {
         $g = new Group(NULL);
         $g->setName('nae');
-        self::assertEquals('nae', $g->getName());
+        self::assertSame('nae', $g->getName());
 
         $r = new Rule();
         $g->setRules([$r])
@@ -42,10 +42,10 @@ final class GroupTest extends KernelTestCaseAbstract
             ->addUser($u);
         self::assertEquals(new ArrayCollection([$u, $u]), $g->getUsers());
 
-        self::assertEquals(GroupInterface::TYPE_ODM, $g->getType());
+        self::assertSame(GroupInterface::TYPE_ODM, $g->getType());
 
         $g->setLevel(11);
-        self::assertEquals(11, $g->getLevel());
+        self::assertSame(11, $g->getLevel());
 
         $g->setTmpUsers([$u])
             ->addTmpUser($u);

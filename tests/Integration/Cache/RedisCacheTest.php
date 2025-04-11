@@ -14,8 +14,8 @@ use Hanaboso\AclBundle\Cache\RedisCache;
 final class RedisCacheTest extends DatabaseTestCaseAbstract
 {
 
-    private const KEY   = 'key';
-    private const KEY_2 = 'key2';
+    private const string KEY   = 'key';
+    private const string KEY_2 = 'key2';
 
     /**
      * @throws Exception

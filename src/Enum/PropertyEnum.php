@@ -14,8 +14,8 @@ final class PropertyEnum extends EnumAbstract
 
     // phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
 
-    public const OWNER = 'owner';
-    public const GROUP = 'group';
+    public const string OWNER = 'owner';
+    public const string GROUP = 'group';
 
     /**
      * @var string[]

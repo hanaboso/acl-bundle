@@ -33,7 +33,7 @@ final class GroupTest extends KernelTestCaseAbstract
             ->setName('nae')
             ->setLevel(1);
         $this->setProperty($g, 'id', '1');
-        self::assertEquals('nae', $g->getName());
+        self::assertSame('nae', $g->getName());
 
         $r = new Rule();
         $g
@@ -49,10 +49,10 @@ final class GroupTest extends KernelTestCaseAbstract
         $this->setProperty($u, 'id', '1');
         self::assertEquals(new ArrayCollection([$u, $u]), $g->getUsers());
 
-        self::assertEquals(GroupInterface::TYPE_ORM, $g->getType());
+        self::assertSame(GroupInterface::TYPE_ORM, $g->getType());
 
         $g->setLevel(11);
-        self::assertEquals(11, $g->getLevel());
+        self::assertSame(11, $g->getLevel());
 
         $g->setTmpUsers([$u])
             ->addTmpUser($u);

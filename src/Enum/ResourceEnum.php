@@ -14,12 +14,12 @@ class ResourceEnum extends EnumAbstract
 
     // phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
 
-    public const GROUP    = 'group';
-    public const USER     = 'user';
-    public const TMP_USER = 'tmp_user';
-    public const TOKEN    = 'token';
-    public const FILE     = 'file';
-    public const RULE     = 'rule';
+    public const string GROUP    = 'group';
+    public const string USER     = 'user';
+    public const string TMP_USER = 'tmp_user';
+    public const string TOKEN    = 'token';
+    public const string FILE     = 'file';
+    public const string RULE     = 'rule';
 
     /**
      * @var string[]

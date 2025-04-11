@@ -12,7 +12,7 @@ use Hanaboso\AclBundle\Enum\ActionEnum;
 final class TestActionEnum extends ActionEnum
 {
 
-    public const CONST = 'CONST';
+    public const string CONST = 'CONST';
 
     /**
      * @var string[]

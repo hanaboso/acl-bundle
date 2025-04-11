@@ -461,7 +461,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $group = $access->updateGroup($data);
 
         self::assertInstanceOf(Group::class, $group);
-        self::assertEquals(2, count($group->getRules()));
+        self::assertCount(2, $group->getRules());
     }
 
     /**

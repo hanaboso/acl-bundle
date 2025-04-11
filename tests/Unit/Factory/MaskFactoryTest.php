@@ -31,7 +31,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
         //@codingStandardsIgnoreLine
         $data    = ['read'   => FALSE, 'write', 'delete' => 'true'];
 
-        self::assertEquals(6, $factory->maskAction($data, ResourceEnum::TOKEN));
+        self::assertSame(6, $factory->maskAction($data, ResourceEnum::TOKEN));
     }
 
     /**
@@ -44,7 +44,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
             'owner' => '1',
         ];
 
-        self::assertEquals(2, MaskFactory::maskProperty($data));
+        self::assertSame(2, MaskFactory::maskProperty($data));
     }
 
     /**
@@ -112,8 +112,8 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
         /** @var MaskFactory $factory */
         $factory = self::getContainer()->get('hbpf.factory.mask');
 
-        self::assertEquals(PropertyEnum::GROUP, $factory::getPropertyFromMask(2));
-        self::assertEquals(PropertyEnum::OWNER, $factory::getPropertyFromMask(1));
+        self::assertSame(PropertyEnum::GROUP, $factory::getPropertyFromMask(2));
+        self::assertSame(PropertyEnum::OWNER, $factory::getPropertyFromMask(1));
 
         self::assertEquals(['read', 'delete', 'test2'], $factory->getActionsFromMask(21));
         self::assertEquals(
@@ -184,7 +184,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
             ResourceEnum::GROUP,
         );
 
-        self::assertEquals(5, $res);
+        self::assertSame(5, $res);
     }
 
     /**

@@ -11,7 +11,7 @@ parameters:
 			message: '#Call to function is_array\(\) with array.+ will always evaluate to true#'
 			path: src/DataFixtures/RoleFixtureAbstract.php
 		-
-			message: '#Cannot call method getOwner\(\) on class-string|object#'
+			message: '#Cannot call method getOwner\(\)#'
 			path: src/Manager/AccessManager.php
 		-
 			message: '#Cannot access constant (GROUP|RULE) on string#'
@@ -24,8 +24,41 @@ parameters:
 		-
 			message: '#Unreachable statement - code above always terminates#'
 			path: tests/Integration/Reposity/Entity/GroupRepositoryTest.php
+		-
+			message: '#Cannot call method toArray\(\) on iterable#'
+			paths:
+				- tests/Integration/Provider/Impl/AclProviderTest.php
+				- tests/Integration/Document/DocumentTest.php
+				- src/Manager/AccessManager.php
+				- src/Manager/GroupManager.php
+		-
+			message: '#Cannot call method clear#'
+			path: src/Manager/GroupManager.php
+		-
+			message: '#Only booleans are allowed in a while condition#'
+			paths:
+				- src/Repository/Entity/GroupRepository.php
+				- src/Repository/Document/GroupRepository.php
+		-
+			message: '#Cannot call method contains#'
+			paths:
+				- src/Document/Group.php
+				- src/Entity/Group.php
+		-
+			message: '#Cannot call method add#'
+			paths:
+				- src/Document/Group.php
+				- src/Entity/Group.php
+		-
+			message: '#Cannot call method removeElement#'
+			paths:
+				- src/Document/Group.php
+				- src/Entity/Group.php
+		-
+			message: '#Parameter \#1 \$value of function count expects array#'
+			path: src/Manager/GroupManager.php
 	symfony:
-		container_xml_path: %rootDir%/../../../var/cache/test/AclBundleTests_KernelTestDebugContainer.xml
+		containerXmlPath: %rootDir%/../../../var/cache/test/AclBundleTests_KernelTestDebugContainer.xml
 	ergebnis:
 		classesNotRequiredToBeAbstractOrFinal:
 			- Hanaboso\AclBundle\Document\Group

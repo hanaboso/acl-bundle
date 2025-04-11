@@ -14,9 +14,9 @@ use LogicException;
 class ActionEnum extends EnumAbstract
 {
 
-    public const READ   = 'read';
-    public const WRITE  = 'write';
-    public const DELETE = 'delete';
+    public const string READ   = 'read';
+    public const string WRITE  = 'write';
+    public const string DELETE = 'delete';
 
     /**
      * !! Important !!

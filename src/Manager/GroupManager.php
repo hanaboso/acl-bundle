@@ -72,7 +72,7 @@ class GroupManager
             $query['name'] = $groupName;
         }
 
-        if (empty($query)) {
+        if ($query === []) {
             throw new AclException('Insert [name] or [id] of Group!', AclException::GROUP_NOT_FOUND);
         }
 
@@ -124,7 +124,7 @@ class GroupManager
             $query['name'] = $groupName;
         }
 
-        if (empty($query)) {
+        if ($query === []) {
             throw new AclException('Insert [name] or [id] of Group!', AclException::GROUP_NOT_FOUND);
         }
 

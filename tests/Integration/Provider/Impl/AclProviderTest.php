@@ -63,10 +63,10 @@ final class AclProviderTest extends DatabaseTestCaseAbstract
         self::assertLessThanOrEqual(9_999, $int);
 
         self::assertEquals(4, count($rules));
-        self::assertEquals($ruleOne->getResource(), $rules[0]->getResource());
-        self::assertEquals($ruleOne->getGroup()->getName(), $rules[0]->getGroup()->getName());
-        self::assertEquals(1, count($rules[0]->getGroup()->getUsers()));
-        self::assertEquals(
+        self::assertSame($ruleOne->getResource(), $rules[0]->getResource());
+        self::assertSame($ruleOne->getGroup()->getName(), $rules[0]->getGroup()->getName());
+        self::assertCount(1, $rules[0]->getGroup()->getUsers());
+        self::assertSame(
             $ruleOne->getGroup()->getUsers()->toArray()[0]->getEmail(),
             $rules[0]->getGroup()->getUsers()->toArray()[0]->getEmail(),
         );
