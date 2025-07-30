@@ -8,8 +8,9 @@ use Exception;
 use Hanaboso\AclBundle\Document\DocumentAbstract;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
-use Hanaboso\AclBundle\Entity\GroupInterface;
-use Hanaboso\AclBundle\Entity\RuleInterface;
+use Hanaboso\AclBundle\Entity\Group as EntityGroup;
+use Hanaboso\AclBundle\Entity\Rule as EntityRule;
+use Hanaboso\UserBundle\Document\TmpUser;
 use Hanaboso\UserBundle\Document\User;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -42,14 +43,15 @@ final class GroupTest extends KernelTestCaseAbstract
             ->addUser($u);
         self::assertEquals(new ArrayCollection([$u, $u]), $g->getUsers());
 
-        self::assertSame(GroupInterface::TYPE_ODM, $g->getType());
+        self::assertSame(EntityGroup::TYPE_ODM, $g->getType());
 
         $g->setLevel(11);
         self::assertSame(11, $g->getLevel());
 
-        $g->setTmpUsers([$u])
-            ->addTmpUser($u);
-        self::assertEquals(new ArrayCollection([$u, $u]), $g->getTmpUsers());
+        $t = new TmpUser();
+        $g->setTmpUsers([$t])
+            ->addTmpUser($t);
+        self::assertEquals(new ArrayCollection([$t, $t]), $g->getTmpUsers());
 
         $par = new Group(NULL);
         $g->addParent($par);
@@ -68,15 +70,15 @@ final class GroupTest extends KernelTestCaseAbstract
         $links = [];
         $arr   = [
             'owner'               => 'ownerId',
-            GroupInterface::ID    => 'groupId',
-            GroupInterface::LEVEL => 11,
-            GroupInterface::NAME  => 'onamae',
-            GroupInterface::RULES => [
+            EntityGroup::ID    => 'groupId',
+            EntityGroup::LEVEL => 11,
+            EntityGroup::NAME  => 'onamae',
+            EntityGroup::RULES => [
                 [
-                    RuleInterface::ACTION_MASK   => 1,
-                    RuleInterface::ID            => 'ruleId',
-                    RuleInterface::PROPERTY_MASK => 1,
-                    RuleInterface::RESOURCE      => 'r',
+                    EntityRule::ACTION_MASK   => 1,
+                    EntityRule::ID            => 'ruleId',
+                    EntityRule::PROPERTY_MASK => 1,
+                    EntityRule::RESOURCE      => 'r',
                 ],
             ],
         ];

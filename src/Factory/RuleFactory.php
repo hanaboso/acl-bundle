@@ -5,8 +5,10 @@ namespace Hanaboso\AclBundle\Factory;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
-use Hanaboso\AclBundle\Entity\GroupInterface;
-use Hanaboso\AclBundle\Entity\RuleInterface;
+use Hanaboso\AclBundle\Document\Group as DmGroup;
+use Hanaboso\AclBundle\Document\Rule as DmRule;
+use Hanaboso\AclBundle\Entity\Group;
+use Hanaboso\AclBundle\Entity\Rule;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
@@ -67,12 +69,12 @@ class RuleFactory
     }
 
     /**
-     * @param GroupInterface $group
+     * @param Group|DmGroup $group
      *
-     * @return RuleInterface[]
+     * @return Rule[]|DmRule[]
      * @throws AclException
      */
-    public function getDefaultRules(GroupInterface $group): array
+    public function getDefaultRules(Group|DmGroup $group): array
     {
         try {
             $this->dm->persist($group);
@@ -97,23 +99,23 @@ class RuleFactory
     }
 
     /**
-     * @param string         $resource
-     * @param GroupInterface $group
-     * @param int            $actMask
-     * @param int            $propMask
-     * @param string         $ruleClass
+     * @param string        $resource
+     * @param Group|DmGroup $group
+     * @param int           $actMask
+     * @param int           $propMask
+     * @param string        $ruleClass
      *
-     * @return RuleInterface
+     * @return Rule|DmRule
      */
     public static function createRule(
         string $resource,
-        GroupInterface $group,
+        Group|DmGroup $group,
         int $actMask,
         int $propMask,
         string $ruleClass,
-    ): RuleInterface
+    ): Rule|DmRule
     {
-        /** @var RuleInterface $rule */
+        /** @var Rule|DmRule $rule */
         $rule = new $ruleClass();
 
         $rule

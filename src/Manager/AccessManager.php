@@ -8,10 +8,10 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Hanaboso\AclBundle\Attribute\OwnerAttribute;
 use Hanaboso\AclBundle\Document\Group as DmGroup;
+use Hanaboso\AclBundle\Document\Rule as DmRule;
 use Hanaboso\AclBundle\Dto\GroupDto;
 use Hanaboso\AclBundle\Entity\Group;
-use Hanaboso\AclBundle\Entity\GroupInterface;
-use Hanaboso\AclBundle\Entity\RuleInterface;
+use Hanaboso\AclBundle\Entity\Rule;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Factory\MaskFactory;
@@ -20,7 +20,8 @@ use Hanaboso\AclBundle\Provider\Impl\AclProvider;
 use Hanaboso\AclBundle\Repository\Document\GroupRepository as DocumentGroupRepository;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository as EntityGroupRepository;
 use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
-use Hanaboso\UserBundle\Entity\UserInterface;
+use Hanaboso\UserBundle\Document\User as DmUser;
+use Hanaboso\UserBundle\Entity\User;
 use Hanaboso\UserBundle\Model\User\Event\ActivateUserEvent;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
@@ -70,15 +71,15 @@ final class AccessManager implements EventSubscriberInterface
     /**
      * @param string $name
      *
-     * @return GroupInterface
+     * @return Group|DmGroup
      * @throws AclException
      * @throws MongoDBException
      */
-    public function addGroup(string $name): GroupInterface
+    public function addGroup(string $name): Group|DmGroup
     {
         try {
             $class = $this->resProvider->getResource(ResourceEnum::GROUP);
-            /** @var GroupInterface $group */
+            /** @var Group|DmGroup $group */
             $group = new $class(NULL);
             $group->setName($name);
             $this->dm->persist($group);
@@ -93,11 +94,11 @@ final class AccessManager implements EventSubscriberInterface
     /**
      * @param GroupDto $data
      *
-     * @return GroupInterface
+     * @return Group|DmGroup
      * @throws AclException
      * @throws MongoDBException
      */
-    public function updateGroup(GroupDto $data): GroupInterface
+    public function updateGroup(GroupDto $data): Group|DmGroup
     {
         try {
             $group = $data->getGroup();
@@ -112,8 +113,8 @@ final class AccessManager implements EventSubscriberInterface
 
             $this->aclProvider->invalid(
                 array_merge(
-                    array_map(static fn(UserInterface $user): string => $user->getId(), $group->getUsers()->toArray()),
-                    array_map(static fn(UserInterface $user): string => $user->getId(), $data->getUsers()),
+                    array_map(static fn(User|DmUser $user) => $user->getId(), $group->getUsers()->toArray()),
+                    array_map(static fn(User|DmUser $user) => $user->getId(), $data->getUsers()),
                 ),
             );
 
@@ -135,22 +136,22 @@ final class AccessManager implements EventSubscriberInterface
     }
 
     /**
-     * @param GroupInterface $group
+     * @param Group|DmGroup $group
      *
      * @throws AclException
      * @throws MongoDBException
      */
-    public function removeGroup(GroupInterface $group): void
+    public function removeGroup(Group|DmGroup $group): void
     {
         try {
             $this->aclProvider->invalid(
-                array_map(static fn(UserInterface $user): string => $user->getId(), $group->getUsers()->toArray()),
+                array_map(static fn(User|DmUser $user) => $user->getId(), $group->getUsers()->toArray()),
             );
 
             foreach ($group->getRules() as $rule) {
                 $this->dm->remove($rule);
             }
-            /** @var GroupInterface $child */
+            /** @var Group|DmGroup $child */
             foreach ($group->getChildren() as $child) {
                 $child->removeParent($group);
             }
@@ -171,9 +172,10 @@ final class AccessManager implements EventSubscriberInterface
     public function createGroup(UserEvent $event): void
     {
         try {
+            /** @var User|DmUser $user */
             $user  = $event->getUser();
             $class = $this->resProvider->getResource(ResourceEnum::GROUP);
-            /** @var GroupInterface $group */
+            /** @var Group|DmGroup $group */
             $group = new $class($user);
             $group
                 ->setName($user->getEmail())
@@ -207,15 +209,15 @@ final class AccessManager implements EventSubscriberInterface
      *
      *  - other formats like array or int will only throws an exception
      *
-     * @param string        $act
-     * @param string        $res
-     * @param UserInterface $user
-     * @param mixed|null    $object
+     * @param string      $act
+     * @param string      $res
+     * @param User|DmUser $user
+     * @param mixed|null  $object
      *
      * @return mixed
      * @throws AclException
      */
-    public function isAllowed(string $act, string $res, UserInterface $user, $object = NULL): mixed
+    public function isAllowed(string $act, string $res, User|DmUser $user, $object = NULL): mixed
     {
         $this->checkParams($act, $res);
         $userLvl = 999;
@@ -259,20 +261,20 @@ final class AccessManager implements EventSubscriberInterface
     }
 
     /**
-     * @param RuleInterface $rule
-     * @param mixed         $obj
-     * @param UserInterface $user
-     * @param int           $userLvl
-     * @param string        $res
-     * @param bool          $checkedGroup
+     * @param Rule|DmRule $rule
+     * @param mixed       $obj
+     * @param User|DmUser $user
+     * @param int         $userLvl
+     * @param string      $res
+     * @param bool        $checkedGroup
      *
      * @return mixed
      * @throws AclException
      */
     private function checkObjectPermission(
-        RuleInterface $rule,
+        Rule|DmRule $rule,
         mixed $obj,
-        UserInterface $user,
+        User|DmUser $user,
         int $userLvl,
         string $res,
         bool $checkedGroup = FALSE,
@@ -294,15 +296,15 @@ final class AccessManager implements EventSubscriberInterface
     }
 
     /**
-     * @param UserInterface $user
-     * @param string        $act
-     * @param string        $res
-     * @param int           $userLvl
+     * @param User|DmUser $user
+     * @param string      $act
+     * @param string      $res
+     * @param int         $userLvl
      *
-     * @return RuleInterface
+     * @return Rule|DmRule
      * @throws AclException
      */
-    private function selectRule(UserInterface $user, string $act, string $res, int &$userLvl): RuleInterface
+    private function selectRule(User|DmUser $user, string $act, string $res, int &$userLvl): Rule|DmRule
     {
         try {
             $rules     = $this->aclProvider->getRules($user, $userLvl);
@@ -341,10 +343,10 @@ final class AccessManager implements EventSubscriberInterface
     }
 
     /**
-     * @param RuleInterface|null $old
-     * @param RuleInterface      $new
+     * @param Rule|DmRule|null $old
+     * @param Rule|DmRule      $new
      */
-    private function checkGroupLvl(?RuleInterface &$old, RuleInterface $new): void // @phpstan-ignore-line
+    private function checkGroupLvl(Rule|DmRule|null &$old, Rule|DmRule $new): void // @phpstan-ignore-line
     {
         if (is_null($old) || ($old->getGroup()->getLevel() > $new->getGroup()->getLevel())) {
             $old = $new;
@@ -352,15 +354,15 @@ final class AccessManager implements EventSubscriberInterface
     }
 
     /**
-     * @param RuleInterface $rule
-     * @param UserInterface $user
-     * @param string        $res
-     * @param string        $id
+     * @param Rule|DmRule $rule
+     * @param User|DmUser $user
+     * @param string      $res
+     * @param string      $id
      *
      * @return mixed
      * @throws AclException
      */
-    private function getObjectById(RuleInterface $rule, UserInterface $user, string $res, string $id): mixed
+    private function getObjectById(Rule|DmRule $rule, User|DmUser $user, string $res, string $id): mixed
     {
         try {
             $params = ['id' => $id];
@@ -396,7 +398,7 @@ final class AccessManager implements EventSubscriberInterface
      *
      * @return AclException
      */
-    private function getPermissionException(string $message, ?string $id = NULL): AclException
+    private function getPermissionException(string $message, string|int|null $id = NULL): AclException
     {
         $message = is_null($id) ? $message : sprintf($message, $id);
 
@@ -423,25 +425,25 @@ final class AccessManager implements EventSubscriberInterface
     }
 
     /**
-     * @param RuleInterface $rule
-     * @param string        $res
-     * @param int           $byte
+     * @param Rule|DmRule $rule
+     * @param string      $res
+     * @param int         $byte
      *
      * @return bool
      */
-    private function hasRight(RuleInterface $rule, string $res, int $byte): bool
+    private function hasRight(Rule|DmRule $rule, string $res, int $byte): bool
     {
         return $rule->getResource() === $res && $rule->getActionMask() >> $byte & 1;
     }
 
     /**
-     * @param UserInterface $user
-     * @param int           $userLvl
+     * @param User|DmUser $user
+     * @param int         $userLvl
      *
-     * @return UserInterface
+     * @return User|DmUser
      * @throws AclException
      */
-    private function hasRightForUser(UserInterface $user, int $userLvl): UserInterface
+    private function hasRightForUser(User|DmUser $user, int $userLvl): User|DmUser
     {
         try {
             /** @phpstan-var class-string<Group|DmGroup> $groupClass */
@@ -463,13 +465,13 @@ final class AccessManager implements EventSubscriberInterface
     }
 
     /**
-     * @param GroupInterface $group
-     * @param int            $userLvl
+     * @param Group|DmGroup $group
+     * @param int           $userLvl
      *
-     * @return GroupInterface
+     * @return Group|DmGroup
      * @throws AclException
      */
-    private function hasRightForGroup(GroupInterface $group, int $userLvl): GroupInterface
+    private function hasRightForGroup(Group|DmGroup $group, int $userLvl): Group|DmGroup
     {
         if ($group->getLevel() < $userLvl) {
             throw $this->getPermissionException('User has lower permission than [%s] group.', $group->getId());

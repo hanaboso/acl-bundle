@@ -21,15 +21,16 @@ final class DocumentTest extends DatabaseTestCaseAbstract
      */
     public function testReferences(): void
     {
-        $user = (new User())->setEmail('email@example.com');
+        $user = new User();
+        $user->setEmail('email@example.com');
         $this->pfd($user);
 
-        $group = (new Group($user))
+        $group = new Group($user)
             ->setName('Group')
             ->addUser($user);
         $this->pfd($group);
 
-        $rule = (new Rule())
+        $rule = new Rule()
             ->setResource('R1')
             ->setGroup($group);
         $this->pfd($rule);

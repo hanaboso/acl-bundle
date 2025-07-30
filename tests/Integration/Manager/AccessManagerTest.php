@@ -8,7 +8,6 @@ use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\AclBundle\Dto\GroupDto;
 use Hanaboso\AclBundle\Entity\Group as ORMGroup;
-use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Enum\ActionEnum;
 use Hanaboso\AclBundle\Enum\PropertyEnum;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
@@ -402,8 +401,8 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     {
         $user = new User();
         $user
-            ->setEmail('test@test.com')
-            ->setPassword('pwd');
+            ->setPassword('pwd')
+            ->setEmail('test@test.com');
         $this->pfd($user);
 
         $this->createRule($user);
@@ -478,7 +477,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $this->dm->flush();
         $this->dm->clear();
 
-        /** @var GroupInterface $gp */
+        /** @var Group $gp */
         $gp = $this->dm->find(Group::class, $rule->getGroup()->getId());
         self::getContainer()->get('hbpf.access.manager')->removeGroup($gp);
         self::assertEmpty($this->dm->getRepository(Rule::class)->findAll());
@@ -503,11 +502,11 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $access = self::getContainer()->get('hbpf.access.manager');
         $this->setProperty($access, 'dm', $this->em);
 
-        /** @var GroupInterface $gp */
+        /** @var Group $gp */
         $gp = $this->em->find(ORMGroup::class, $group2->getId());
         $access->removeGroup($gp);
 
-        /** @var GroupInterface $gp2 */
+        /** @var Group $gp2 */
         $gp2 = $this->em->find(ORMGroup::class, $group->getId());
         self::assertEmpty($gp2->getParents());
     }
@@ -596,8 +595,8 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     {
         $user = new User();
         $user
-            ->setEmail($usr)
-            ->setPassword('pwd');
+            ->setPassword('pwd')
+            ->setEmail($usr);
         $this->pfd($user);
 
         return $user;
@@ -614,8 +613,8 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
     {
         $user = new User();
         $user
-            ->setEmail($usr)
-            ->setPassword('pwd');
+            ->setPassword('pwd')
+            ->setEmail($usr);
         $this->pfd($user);
 
         $group = new Group($user);

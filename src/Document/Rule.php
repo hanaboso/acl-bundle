@@ -3,8 +3,7 @@
 namespace Hanaboso\AclBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use Hanaboso\AclBundle\Entity\GroupInterface;
-use Hanaboso\AclBundle\Entity\RuleInterface;
+use Hanaboso\AclBundle\Entity\Rule as EntityRule;
 use Hanaboso\CommonsBundle\Database\Traits\Document\IdTrait;
 
 /**
@@ -13,7 +12,7 @@ use Hanaboso\CommonsBundle\Database\Traits\Document\IdTrait;
  * @package Hanaboso\AclBundle\Document
  */
 #[ODM\Document(repositoryClass: 'Hanaboso\AclBundle\Repository\Document\RuleRepository')]
-class Rule implements RuleInterface
+class Rule
 {
 
     use IdTrait;
@@ -25,10 +24,10 @@ class Rule implements RuleInterface
     private string $resource;
 
     /**
-     * @var GroupInterface
+     * @var Group
      */
     #[ODM\ReferenceOne(targetDocument: 'Hanaboso\AclBundle\Document\Group')]
-    private GroupInterface $group;
+    private Group $group;
 
     /**
      * @var int
@@ -53,9 +52,9 @@ class Rule implements RuleInterface
     /**
      * @param string $resource
      *
-     * @return RuleInterface
+     * @return self
      */
-    public function setResource(string $resource): RuleInterface
+    public function setResource(string $resource): self
     {
         $this->resource = $resource;
 
@@ -63,19 +62,19 @@ class Rule implements RuleInterface
     }
 
     /**
-     * @return GroupInterface
+     * @return Group
      */
-    public function getGroup(): GroupInterface
+    public function getGroup(): Group
     {
         return $this->group;
     }
 
     /**
-     * @param GroupInterface $group
+     * @param Group $group
      *
-     * @return RuleInterface
+     * @return self
      */
-    public function setGroup(GroupInterface $group): RuleInterface
+    public function setGroup(Group $group): self
     {
         $this->group = $group;
 
@@ -93,9 +92,9 @@ class Rule implements RuleInterface
     /**
      * @param int $actionMask
      *
-     * @return RuleInterface
+     * @return self
      */
-    public function setActionMask(int $actionMask): RuleInterface
+    public function setActionMask(int $actionMask): self
     {
         $this->actionMask = $actionMask;
 
@@ -113,9 +112,9 @@ class Rule implements RuleInterface
     /**
      * @param int $propertyMask
      *
-     * @return RuleInterface
+     * @return self
      */
-    public function setPropertyMask(int $propertyMask): RuleInterface
+    public function setPropertyMask(int $propertyMask): self
     {
         $this->propertyMask = $propertyMask;
 
@@ -125,14 +124,14 @@ class Rule implements RuleInterface
     /**
      * @param mixed[] $data
      *
-     * @return RuleInterface
+     * @return self
      */
-    public function fromArrayAcl(array $data): RuleInterface
+    public function fromArrayAcl(array $data): self
     {
-        $this->id           = $data[self::ID];
-        $this->propertyMask = $data[self::PROPERTY_MASK];
-        $this->actionMask   = $data[self::ACTION_MASK];
-        $this->resource     = $data[self::RESOURCE];
+        $this->id           = $data[EntityRule::ID];
+        $this->propertyMask = $data[EntityRule::PROPERTY_MASK];
+        $this->actionMask   = $data[EntityRule::ACTION_MASK];
+        $this->resource     = $data[EntityRule::RESOURCE];
 
         return $this;
     }
@@ -143,10 +142,10 @@ class Rule implements RuleInterface
     public function toArrayAcl(): array
     {
         return [
-            self::ACTION_MASK   => $this->actionMask,
-            self::ID            => $this->id,
-            self::PROPERTY_MASK => $this->propertyMask,
-            self::RESOURCE      => $this->resource,
+            EntityRule::ACTION_MASK   => $this->actionMask,
+            EntityRule::ID            => $this->id,
+            EntityRule::PROPERTY_MASK => $this->propertyMask,
+            EntityRule::RESOURCE      => $this->resource,
         ];
     }
 

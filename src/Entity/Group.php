@@ -6,7 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Hanaboso\CommonsBundle\Database\Traits\Entity\IdTrait;
-use Hanaboso\UserBundle\Entity\UserInterface;
+use Hanaboso\UserBundle\Entity\TmpUser;
+use Hanaboso\UserBundle\Entity\User;
 
 /**
  * Class Group
@@ -15,13 +16,22 @@ use Hanaboso\UserBundle\Entity\UserInterface;
  */
 #[ORM\Entity(repositoryClass: 'Hanaboso\AclBundle\Repository\Entity\GroupRepository')]
 #[ORM\Table(name: '`group`')]
-class Group extends EntityAbstract implements GroupInterface
+class Group extends EntityAbstract
 {
 
     use IdTrait;
 
+    public const string TYPE_ODM = 'odm';
+    public const string TYPE_ORM = 'orm';
+
+    public const string ID    = 'id';
+    public const string OWNER = 'owner';
+    public const string LEVEL = 'level';
+    public const string NAME  = 'name';
+    public const string RULES = 'rules';
+
     /**
-     * @var ArrayCollection<int, UserInterface>
+     * @var ArrayCollection<int, User>
      */
     #[ORM\JoinTable(name: 'group_owner')]
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id', nullable: TRUE)]
@@ -29,7 +39,7 @@ class Group extends EntityAbstract implements GroupInterface
     protected $owner;
 
     /**
-     * @var GroupInterface[]|Collection<int, GroupInterface>
+     * @var self[]|Collection<int, self>
      */
     #[ORM\JoinTable(
         name: 'group_inheritance',
@@ -45,7 +55,7 @@ class Group extends EntityAbstract implements GroupInterface
     protected $parents;
 
     /**
-     * @var GroupInterface[]|Collection<int, GroupInterface>
+     * @var self[]|Collection<int, self>
      */
     #[ORM\ManyToMany(targetEntity: 'Hanaboso\AclBundle\Entity\Group', mappedBy: 'parents')]
     protected $children;
@@ -63,20 +73,20 @@ class Group extends EntityAbstract implements GroupInterface
     private string $name;
 
     /**
-     * @var RuleInterface[]|Collection<int, RuleInterface>
+     * @var Rule[]|Collection<int, Rule>
      */
     #[ORM\OneToMany(mappedBy: 'group', targetEntity: 'Hanaboso\AclBundle\Entity\Rule')]
     private $rules;
 
     /**
-     * @var UserInterface[]|Collection<int, UserInterface>
+     * @var User[]|Collection<int, User>
      */
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: 'Hanaboso\UserBundle\Entity\User')]
     private $users;
 
     /**
-     * @var UserInterface[]|Collection<int, UserInterface>
+     * @var TmpUser[]|Collection<int, TmpUser>
      */
     #[ORM\JoinTable(name: 'group_tmp_user')]
     #[ORM\JoinColumn(name: 'tmp_user_id', referencedColumnName: 'id', nullable: TRUE)]
@@ -86,9 +96,9 @@ class Group extends EntityAbstract implements GroupInterface
     /**
      * Group constructor.
      *
-     * @param UserInterface|null $owner
+     * @param User|null $owner
      */
-    public function __construct(?UserInterface $owner)
+    public function __construct(?User $owner)
     {
         parent::__construct($owner);
 
@@ -110,9 +120,9 @@ class Group extends EntityAbstract implements GroupInterface
     /**
      * @param string $name
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function setName(string $name): GroupInterface
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -120,7 +130,7 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @return RuleInterface[]|Collection<int, RuleInterface>
+     * @return Rule[]|Collection<int, Rule>
      */
     public function getRules(): iterable
     {
@@ -130,9 +140,9 @@ class Group extends EntityAbstract implements GroupInterface
     /**
      * @param mixed[] $rules
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function setRules(array $rules): GroupInterface
+    public function setRules(array $rules): self
     {
         $this->rules = new ArrayCollection($rules);
 
@@ -140,11 +150,11 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @param RuleInterface $rule
+     * @param Rule $rule
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function addRule(RuleInterface $rule): GroupInterface
+    public function addRule(Rule $rule): self
     {
         $this->rules[] = $rule;
 
@@ -152,7 +162,7 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @return UserInterface[]|Collection<int, UserInterface>
+     * @return User[]|Collection<int, User>
      */
     public function getUsers(): iterable
     {
@@ -160,11 +170,11 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @param UserInterface[] $users
+     * @param User[] $users
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function setUsers(array $users): GroupInterface
+    public function setUsers(array $users): self
     {
         $this->users = new ArrayCollection($users);
 
@@ -172,11 +182,11 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @param UserInterface $user
+     * @param User $user
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function addUser(UserInterface $user): GroupInterface
+    public function addUser(User $user): self
     {
         $this->users[] = $user;
 
@@ -202,9 +212,9 @@ class Group extends EntityAbstract implements GroupInterface
     /**
      * @param int $level
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function setLevel(int $level): GroupInterface
+    public function setLevel(int $level): self
     {
         $this->level = $level;
 
@@ -212,7 +222,7 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @return UserInterface[]|Collection<int, UserInterface>
+     * @return TmpUser[]|Collection<int, TmpUser>
      */
     public function getTmpUsers(): iterable
     {
@@ -220,11 +230,11 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @param UserInterface $tmpUser
+     * @param TmpUser $tmpUser
      *
-     * @return Group
+     * @return self
      */
-    public function addTmpUser(UserInterface $tmpUser): GroupInterface
+    public function addTmpUser(TmpUser $tmpUser): self
     {
         $this->tmpUsers[] = $tmpUser;
 
@@ -232,11 +242,11 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @param UserInterface[] $tmpUsers
+     * @param TmpUser[] $tmpUsers
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function setTmpUsers(array $tmpUsers): GroupInterface
+    public function setTmpUsers(array $tmpUsers): self
     {
         $this->tmpUsers = new ArrayCollection($tmpUsers);
 
@@ -244,7 +254,7 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @return GroupInterface[]|Collection<int, GroupInterface>
+     * @return self[]|Collection<int, self>
      */
     public function getParents(): iterable
     {
@@ -252,11 +262,11 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @param GroupInterface $group
+     * @param self $group
      *
      * @return Group
      */
-    public function addParent(GroupInterface $group): GroupInterface
+    public function addParent(self $group): self
     {
         if (!$this->parents->contains($group)) {
             $this->parents->add($group);
@@ -266,11 +276,11 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @param GroupInterface $group
+     * @param self $group
      *
      * @return Group
      */
-    public function removeParent(GroupInterface $group): GroupInterface
+    public function removeParent(self $group): self
     {
         $this->parents->removeElement($group);
 
@@ -278,7 +288,7 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @return GroupInterface[]|Collection<int, GroupInterface>
+     * @return self[]|Collection<int, self>
      */
     public function getChildren(): iterable
     {
@@ -286,11 +296,11 @@ class Group extends EntityAbstract implements GroupInterface
     }
 
     /**
-     * @param GroupInterface $child
+     * @param self $child
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function addChild(GroupInterface $child): GroupInterface
+    public function addChild(self $child): self
     {
         if (!$this->children->contains($child)) {
             $this->children->add($child);
@@ -305,15 +315,15 @@ class Group extends EntityAbstract implements GroupInterface
      * @param string  $ruleClass
      * @param mixed[] $rules
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function fromArrayAcl(array $data, string $ruleClass, array &$rules): GroupInterface
+    public function fromArrayAcl(array $data, string $ruleClass, array &$rules): self
     {
         $this->id    = $data[self::ID];
         $this->name  = $data[self::NAME];
         $this->level = $data[self::LEVEL];
         foreach ($data[self::RULES] as $ruleData) {
-            /** @var RuleInterface $rule */
+            /** @var Rule $rule */
             $rule = new $ruleClass();
             $rule->fromArrayAcl($ruleData);
             $this->addRule($rule);

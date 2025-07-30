@@ -5,7 +5,6 @@ namespace AclBundleTests\Unit\Provider;
 use Exception;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -14,7 +13,6 @@ use stdClass;
  *
  * @package AclBundleTests\Unit\Provider
  */
-#[CoversClass(ResourceProvider::class)]
 final class ResourceProviderTest extends TestCase
 {
 

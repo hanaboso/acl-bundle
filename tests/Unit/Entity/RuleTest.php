@@ -6,7 +6,7 @@ use AclBundleTests\KernelTestCaseAbstract;
 use Hanaboso\AclBundle\Entity\EntityAbstract;
 use Hanaboso\AclBundle\Entity\Group;
 use Hanaboso\AclBundle\Entity\Rule;
-use Hanaboso\AclBundle\Entity\RuleInterface;
+use Hanaboso\AclBundle\Entity\Rule as EntityRule;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
@@ -26,12 +26,12 @@ final class RuleTest extends KernelTestCaseAbstract
     {
         $doc = new Rule();
         $doc->setResource('res');
-        $this->setProperty($doc, 'id', '1');
+        $this->setProperty($doc, 'id', 1);
         self::assertSame('res', $doc->getResource());
 
         $g = new Group(NULL);
         $doc->setGroup($g);
-        $this->setProperty($g, 'id', '1');
+        $this->setProperty($g, 'id', 1);
         self::assertEquals($g, $doc->getGroup());
 
         $doc->setActionMask(2);
@@ -44,7 +44,7 @@ final class RuleTest extends KernelTestCaseAbstract
         self::assertEquals(
             [
                 'action_mask'   => 2,
-                'id'            => '1',
+                'id'            => 1,
                 'property_mask' => 3,
                 'resource'      => 'res',
             ],
@@ -52,10 +52,10 @@ final class RuleTest extends KernelTestCaseAbstract
         );
 
         $arr = [
-            RuleInterface::ACTION_MASK   => 5,
-            RuleInterface::ID            => '1',
-            RuleInterface::PROPERTY_MASK => 1,
-            RuleInterface::RESOURCE      => 'ress',
+            EntityRule::ACTION_MASK   => 5,
+            EntityRule::ID            => 1,
+            EntityRule::PROPERTY_MASK => 1,
+            EntityRule::RESOURCE      => 'ress',
         ];
 
         $doc->fromArrayAcl($arr);

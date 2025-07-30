@@ -2,9 +2,12 @@
 
 namespace Hanaboso\AclBundle\Provider;
 
-use Hanaboso\AclBundle\Entity\GroupInterface;
-use Hanaboso\AclBundle\Entity\RuleInterface;
-use Hanaboso\UserBundle\Entity\UserInterface;
+use Hanaboso\AclBundle\Document\Group as DmGroup;
+use Hanaboso\AclBundle\Document\Rule as DmRule;
+use Hanaboso\AclBundle\Entity\Group;
+use Hanaboso\AclBundle\Entity\Rule;
+use Hanaboso\UserBundle\Document\User as DmUser;
+use Hanaboso\UserBundle\Entity\User;
 
 /**
  * Interface AclRuleProviderInterface
@@ -17,22 +20,22 @@ interface AclRuleProviderInterface
     public const string PREFIX = 'acl_user';
 
     /**
-     * @param UserInterface $user
+     * @param User|DmUser $user
      *
-     * @return GroupInterface[]
+     * @return Group[]|DmGroup[]
      */
-    public function getGroups(UserInterface $user): array;
+    public function getGroups(User|DmUser $user): array;
 
     /**
-     * @param UserInterface $user
-     * @param int           $userLvl
+     * @param User|DmUser $user
+     * @param int         $userLvl
      *
-     * @return RuleInterface[]
+     * @return Rule[]|DmRule[]
      */
-    public function getRules(UserInterface $user, int &$userLvl): array;
+    public function getRules(User|DmUser $user, int &$userLvl): array;
 
     /**
-     * @param string[] $users
+     * @param string[]|int[] $users
      */
     public function invalid(array $users): void;
 

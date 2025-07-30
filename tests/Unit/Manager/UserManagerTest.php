@@ -7,6 +7,7 @@ use Exception;
 use Hanaboso\AclBundle\Manager\AccessManager;
 use Hanaboso\AclBundle\Manager\UserManager;
 use Hanaboso\PhpCheckUtils\PhpUnit\Traits\CustomAssertTrait;
+use Hanaboso\UserBundle\Entity\User;
 use Hanaboso\UserBundle\Model\User\Event\DeleteBeforeUserEvent;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -57,7 +58,12 @@ final class UserManagerTest extends KernelTestCaseAbstract
      */
     private function mockUserEvent(): UserEvent
     {
-        return self::createMock(UserEvent::class);
+        $user  = new User();
+        $event = self::createMock(UserEvent::class);
+        $event->method('getLoggedUser')->willReturn($user);
+        $event->method('getUser')->willReturn($user);
+
+        return $event;
     }
 
 }

@@ -5,9 +5,9 @@ namespace Hanaboso\AclBundle\Repository\Entity;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-use Hanaboso\AclBundle\Document\Group;
-use Hanaboso\AclBundle\Entity\GroupInterface;
-use Hanaboso\UserBundle\Entity\UserInterface;
+use Hanaboso\AclBundle\Entity\Group;
+use Hanaboso\UserBundle\Entity\TmpUser;
+use Hanaboso\UserBundle\Entity\User;
 
 /**
  * Class GroupRepository
@@ -20,13 +20,13 @@ class GroupRepository extends EntityRepository
 {
 
     /**
-     * @param UserInterface $user
+     * @param User $user
      *
-     * @return GroupInterface[]
+     * @return Group[]
      */
-    public function getUserGroups(UserInterface $user): array
+    public function getUserGroups(User $user): array
     {
-        /** @var GroupInterface[] $groups */
+        /** @var Group[] $groups */
         $groups = $this->createQueryBuilder('g')
             ->join('g.users', 'u')
             ->where('u = :user')
@@ -55,11 +55,11 @@ class GroupRepository extends EntityRepository
     }
 
     /**
-     * @param UserInterface $user
+     * @param TmpUser $user
      *
      * @return Group[]
      */
-    public function getTmpUserGroups(UserInterface $user): array
+    public function getTmpUserGroups(TmpUser $user): array
     {
         return $this->createQueryBuilder('g')
             ->join('g.tmpUsers', 'u')

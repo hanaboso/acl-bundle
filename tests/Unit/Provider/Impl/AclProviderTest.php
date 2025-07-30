@@ -126,7 +126,7 @@ final class AclProviderTest extends KernelTestCaseAbstract
     private function getUser(): User
     {
         $u = new User();
-        $this->setProperty($u, 'id', 'id');
+        $this->setProperty($u, 'id', 1);
 
         return $u;
     }

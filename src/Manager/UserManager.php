@@ -4,6 +4,8 @@ namespace Hanaboso\AclBundle\Manager;
 
 use Hanaboso\AclBundle\Enum\ActionEnum;
 use Hanaboso\AclBundle\Exception\AclException;
+use Hanaboso\UserBundle\Document\User as DmUser;
+use Hanaboso\UserBundle\Entity\User;
 use Hanaboso\UserBundle\Enum\ResourceEnum;
 use Hanaboso\UserBundle\Model\User\Event\DeleteBeforeUserEvent;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
@@ -33,10 +35,12 @@ final class UserManager implements EventSubscriberInterface
      */
     public function checkPermission(UserEvent $userEvent): void
     {
+        /** @var User|DmUser $user */
+        $user = $userEvent->getLoggedUser();
         $this->accessManager->isAllowed(
             ActionEnum::DELETE,
             ResourceEnum::USER,
-            $userEvent->getLoggedUser(),
+            $user,
             $userEvent->getUser(),
         );
     }

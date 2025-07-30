@@ -5,15 +5,13 @@ namespace Hanaboso\AclBundle\DependencyInjection;
 use Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * Class HbPFAclExtension
  *
  * @package Hanaboso\AclBundle\DependencyInjection
- *
- * @codeCoverageIgnore
  */
 final class HbPFAclExtension extends Extension
 {

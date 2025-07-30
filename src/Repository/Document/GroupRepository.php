@@ -6,7 +6,8 @@ use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Hanaboso\AclBundle\Document\Group;
-use Hanaboso\UserBundle\Entity\UserInterface;
+use Hanaboso\UserBundle\Document\TmpUser;
+use Hanaboso\UserBundle\Document\User;
 
 /**
  * Class GroupRepository
@@ -19,12 +20,12 @@ class GroupRepository extends DocumentRepository
 {
 
     /**
-     * @param UserInterface $user
+     * @param User $user
      *
      * @return Group[]
      * @throws MongoDBException
      */
-    public function getUserGroups(UserInterface $user): array
+    public function getUserGroups(User $user): array
     {
         /** @var Iterator<Group> $query */
         $query = $this->createQueryBuilder()
@@ -57,12 +58,12 @@ class GroupRepository extends DocumentRepository
     }
 
     /**
-     * @param UserInterface $user
+     * @param TmpUser $user
      *
      * @return Group[]
      * @throws MongoDBException
      */
-    public function getTmpUserGroups(UserInterface $user): array
+    public function getTmpUserGroups(TmpUser $user): array
     {
         /** @var Iterator<Group> $query */
         $query = $this->createQueryBuilder()

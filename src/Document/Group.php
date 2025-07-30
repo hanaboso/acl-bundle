@@ -5,10 +5,10 @@ namespace Hanaboso\AclBundle\Document;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use Hanaboso\AclBundle\Entity\GroupInterface;
-use Hanaboso\AclBundle\Entity\RuleInterface;
+use Hanaboso\AclBundle\Entity\Group as EntityGroup;
 use Hanaboso\CommonsBundle\Database\Traits\Document\IdTrait;
-use Hanaboso\UserBundle\Entity\UserInterface;
+use Hanaboso\UserBundle\Document\TmpUser;
+use Hanaboso\UserBundle\Document\User;
 
 /**
  * Class Group
@@ -16,19 +16,19 @@ use Hanaboso\UserBundle\Entity\UserInterface;
  * @package Hanaboso\AclBundle\Document
  */
 #[ODM\Document(repositoryClass: 'Hanaboso\AclBundle\Repository\Document\GroupRepository')]
-class Group extends DocumentAbstract implements GroupInterface
+class Group extends DocumentAbstract
 {
 
     use IdTrait;
 
     /**
-     * @var GroupInterface[]|Collection<int, GroupInterface>
+     * @var self[]|Collection<int, self>
      */
     #[ODM\ReferenceMany(targetDocument: 'Hanaboso\AclBundle\Document\Group', inversedBy: 'children')]
     protected $parents;
 
     /**
-     * @var GroupInterface[]|Collection<int, GroupInterface>
+     * @var self[]|Collection<int, self>
      */
     #[ODM\ReferenceMany(targetDocument: 'Hanaboso\AclBundle\Document\Group', inversedBy: 'parents')]
     protected $children;
@@ -46,19 +46,19 @@ class Group extends DocumentAbstract implements GroupInterface
     private string $name;
 
     /**
-     * @var RuleInterface[]|Collection<int, RuleInterface>
+     * @var Rule[]|Collection<int, Rule>
      */
     #[ODM\ReferenceMany(strategy: 'set', targetDocument: 'Hanaboso\AclBundle\Document\Rule')]
     private $rules;
 
     /**
-     * @var UserInterface[]|Collection<int, UserInterface>
+     * @var User[]|Collection<int, User>
      */
     #[ODM\ReferenceMany(strategy: 'set', targetDocument: 'Hanaboso\UserBundle\Document\User')]
     private $users;
 
     /**
-     * @var UserInterface[]|Collection<int, UserInterface>
+     * @var TmpUser[]|Collection<int, TmpUser>
      */
     #[ODM\ReferenceMany(strategy: 'set', targetDocument: 'Hanaboso\UserBundle\Document\TmpUser')]
     private $tmpUsers;
@@ -66,9 +66,9 @@ class Group extends DocumentAbstract implements GroupInterface
     /**
      * Group constructor.
      *
-     * @param UserInterface|null $owner
+     * @param User|null $owner
      */
-    public function __construct(?UserInterface $owner)
+    public function __construct(?User $owner)
     {
         parent::__construct($owner);
 
@@ -90,9 +90,9 @@ class Group extends DocumentAbstract implements GroupInterface
     /**
      * @param string $name
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function setName(string $name): GroupInterface
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -100,7 +100,7 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @return RuleInterface[]|Collection<int, RuleInterface>
+     * @return Rule[]|Collection<int, Rule>
      */
     public function getRules(): iterable
     {
@@ -110,9 +110,9 @@ class Group extends DocumentAbstract implements GroupInterface
     /**
      * @param mixed[] $rules
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function setRules(array $rules): GroupInterface
+    public function setRules(array $rules): self
     {
         $this->rules = new ArrayCollection($rules);
 
@@ -120,11 +120,11 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @param RuleInterface $rule
+     * @param Rule $rule
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function addRule(RuleInterface $rule): GroupInterface
+    public function addRule(Rule $rule): self
     {
         $this->rules[] = $rule;
 
@@ -132,7 +132,7 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @return UserInterface[]|Collection<int, UserInterface>
+     * @return User[]|Collection<int, User>
      */
     public function getUsers(): iterable
     {
@@ -140,11 +140,11 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @param UserInterface[] $users
+     * @param User[] $users
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function setUsers(array $users): GroupInterface
+    public function setUsers(array $users): self
     {
         $this->users = new ArrayCollection($users);
 
@@ -152,11 +152,11 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @param UserInterface $user
+     * @param User $user
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function addUser(UserInterface $user): GroupInterface
+    public function addUser(User $user): self
     {
         $this->users[] = $user;
 
@@ -168,7 +168,7 @@ class Group extends DocumentAbstract implements GroupInterface
      */
     public function getType(): string
     {
-        return self::TYPE_ODM;
+        return EntityGroup::TYPE_ODM;
     }
 
     /**
@@ -182,9 +182,9 @@ class Group extends DocumentAbstract implements GroupInterface
     /**
      * @param int $level
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function setLevel(int $level): GroupInterface
+    public function setLevel(int $level): self
     {
         $this->level = $level;
 
@@ -192,7 +192,7 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @return UserInterface[]|Collection<int, UserInterface>
+     * @return TmpUser[]|Collection<int, TmpUser>
      */
     public function getTmpUsers(): iterable
     {
@@ -200,11 +200,11 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @param UserInterface $tmpUser
+     * @param TmpUser $tmpUser
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function addTmpUser(UserInterface $tmpUser): GroupInterface
+    public function addTmpUser(TmpUser $tmpUser): self
     {
         $this->tmpUsers[] = $tmpUser;
 
@@ -212,11 +212,11 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @param UserInterface[] $tmpUsers
+     * @param TmpUser[] $tmpUsers
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function setTmpUsers(array $tmpUsers): GroupInterface
+    public function setTmpUsers(array $tmpUsers): self
     {
         $this->tmpUsers = new ArrayCollection($tmpUsers);
 
@@ -224,7 +224,7 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @return GroupInterface[]|Collection<int, GroupInterface>
+     * @return self[]|Collection<int, self>
      */
     public function getParents(): iterable
     {
@@ -232,11 +232,11 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @param GroupInterface $group
+     * @param self $group
      *
      * @return Group
      */
-    public function addParent(GroupInterface $group): GroupInterface
+    public function addParent(self $group): self
     {
         if (!$this->parents->contains($group)) {
             $this->parents->add($group);
@@ -247,11 +247,11 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @param GroupInterface $group
+     * @param self $group
      *
-     * @return Group
+     * @return self
      */
-    public function removeParent(GroupInterface $group): GroupInterface
+    public function removeParent(self $group): self
     {
         $this->parents->removeElement($group);
 
@@ -259,7 +259,7 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @return GroupInterface[]|Collection<int, GroupInterface>
+     * @return self[]|Collection<int, self>
      */
     public function getChildren(): iterable
     {
@@ -267,11 +267,11 @@ class Group extends DocumentAbstract implements GroupInterface
     }
 
     /**
-     * @param GroupInterface $child
+     * @param self $child
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function addChild(GroupInterface $child): GroupInterface
+    public function addChild(self $child): self
     {
         if (!$this->children->contains($child)) {
             $this->children->add($child);
@@ -286,15 +286,15 @@ class Group extends DocumentAbstract implements GroupInterface
      * @param string  $ruleClass
      * @param mixed[] $rules
      *
-     * @return GroupInterface
+     * @return self
      */
-    public function fromArrayAcl(array $data, string $ruleClass, array &$rules): GroupInterface
+    public function fromArrayAcl(array $data, string $ruleClass, array &$rules): self
     {
-        $this->id    = $data[self::ID];
-        $this->name  = $data[self::NAME];
-        $this->level = $data[self::LEVEL];
-        foreach ($data[self::RULES] as $ruleData) {
-            /** @var RuleInterface $rule */
+        $this->id    = $data[EntityGroup::ID];
+        $this->name  = $data[EntityGroup::NAME];
+        $this->level = $data[EntityGroup::LEVEL];
+        foreach ($data[EntityGroup::RULES] as $ruleData) {
+            /** @var Rule $rule */
             $rule = new $ruleClass();
             $rule->fromArrayAcl($ruleData)
                 ->setGroup($this);
@@ -320,11 +320,11 @@ class Group extends DocumentAbstract implements GroupInterface
         }
 
         return [
-            self::ID    => $this->id,
-            self::LEVEL => $this->level,
-            self::NAME  => $this->name,
-            self::OWNER => $owner?->getId(),
-            self::RULES => $rules,
+            EntityGroup::ID    => $this->id,
+            EntityGroup::LEVEL => $this->level,
+            EntityGroup::NAME  => $this->name,
+            EntityGroup::OWNER => $owner?->getId(),
+            EntityGroup::RULES => $rules,
         ];
     }
 

@@ -7,7 +7,7 @@ use Exception;
 use Hanaboso\AclBundle\Document\Group;
 use Hanaboso\AclBundle\Document\Rule;
 use Hanaboso\AclBundle\Dto\GroupDto;
-use Hanaboso\AclBundle\Entity\RuleInterface;
+use Hanaboso\AclBundle\Entity\Rule as EntityRule;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\UserBundle\Document\User;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -37,10 +37,10 @@ final class GroupDtoTest extends KernelTestCaseAbstract
             Rule::class,
             [
                 [
-                    RuleInterface::ACTION_MASK   => 5,
-                    RuleInterface::ID   => '1',
-                    RuleInterface::PROPERTY_MASK => 1,
-                    RuleInterface::RESOURCE      => 'ress',
+                    EntityRule::ACTION_MASK   => 5,
+                    EntityRule::ID   => '1',
+                    EntityRule::PROPERTY_MASK => 1,
+                    EntityRule::RESOURCE      => 'ress',
                 ],
             ],
         );

@@ -2,11 +2,14 @@
 
 namespace Hanaboso\AclBundle\Dto;
 
-use Hanaboso\AclBundle\Entity\GroupInterface;
-use Hanaboso\AclBundle\Entity\RuleInterface;
+use Hanaboso\AclBundle\Document\Group as DmGroup;
+use Hanaboso\AclBundle\Document\Rule as DmRule;
+use Hanaboso\AclBundle\Entity\Group;
+use Hanaboso\AclBundle\Entity\Rule;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Factory\RuleFactory;
-use Hanaboso\UserBundle\Entity\UserInterface;
+use Hanaboso\UserBundle\Document\User as DmUser;
+use Hanaboso\UserBundle\Entity\User;
 
 /**
  * Class GroupDto
@@ -17,27 +20,27 @@ final class GroupDto
 {
 
     /**
-     * @var UserInterface[]
+     * @var User[]|DmUser[]
      */
     private array $users = [];
 
     /**
-     * @var RuleInterface[]
+     * @var Rule[]|DmRule[]
      */
     private array $rules = [];
 
     /**
      * GroupDto constructor.
      *
-     * @param GroupInterface $group
-     * @param string|null    $name
+     * @param Group|DmGroup $group
+     * @param string|null   $name
      */
-    function __construct(private readonly GroupInterface $group, private ?string $name = NULL)
+    function __construct(private readonly Group|DmGroup $group, private ?string $name = NULL)
     {
     }
 
     /**
-     * @return UserInterface[]
+     * @return User[]|DmUser[]
      */
     public function getUsers(): array
     {
@@ -45,11 +48,11 @@ final class GroupDto
     }
 
     /**
-     * @param UserInterface $user
+     * @param User|DmUser $user
      *
      * @return GroupDto
      */
-    public function addUser(UserInterface $user): self
+    public function addUser(User|DmUser $user): self
     {
         $this->users[] = $user;
 
@@ -57,7 +60,7 @@ final class GroupDto
     }
 
     /**
-     * @return RuleInterface[]
+     * @return Rule[]|DmRule[]
      */
     public function getRules(): array
     {
@@ -78,10 +81,10 @@ final class GroupDto
                 throw new AclException('Missing data in sent rules', AclException::MISSING_DATA);
             }
             $this->rules[] = RuleFactory::createRule(
-                $rule[RuleInterface::RESOURCE],
+                $rule[Rule::RESOURCE],
                 $this->group,
-                $rule[RuleInterface::ACTION_MASK],
-                $rule[RuleInterface::PROPERTY_MASK],
+                $rule[Rule::ACTION_MASK],
+                $rule[Rule::PROPERTY_MASK],
                 sprintf('%s', $ruleClass),
             );
         }
@@ -110,9 +113,9 @@ final class GroupDto
     }
 
     /**
-     * @return GroupInterface
+     * @return Group|DmGroup
      */
-    public function getGroup(): GroupInterface
+    public function getGroup(): Group|DmGroup
     {
         return $this->group;
     }

@@ -44,8 +44,9 @@ final class RuleFactoryTest extends DatabaseTestCaseAbstract
     {
         $user = new User();
         $user
-            ->setEmail('test@test.com')
-            ->setPassword('pass');
+            ->setPassword('pass')
+            ->setEmail('test@test.com');
+
         $this->pfd($user);
         $a = self::getContainer()->get('event_dispatcher');
         $a->dispatch(new ActivateUserEvent($user), ActivateUserEvent::NAME);

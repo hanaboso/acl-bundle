@@ -8,16 +8,13 @@ use Exception;
 use Hanaboso\AclBundle\Document\Group as DmGroup;
 use Hanaboso\AclBundle\Document\Rule as DmRule;
 use Hanaboso\AclBundle\Entity\Group;
-use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Entity\Rule;
-use Hanaboso\AclBundle\Entity\RuleInterface;
 use Hanaboso\AclBundle\Enum\PropertyEnum;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Factory\MaskFactory;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository;
 use Hanaboso\UserBundle\Document\User as DmUser;
 use Hanaboso\UserBundle\Entity\User;
-use Hanaboso\UserBundle\Entity\UserInterface;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use LogicException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -101,7 +98,7 @@ abstract class RoleFixtureAbstract implements FixtureInterface
                 continue;
             }
 
-            /** @var GroupInterface $group */
+            /** @var Group|DmGroup $group */
             $group = new $groupClass(NULL);
             $group
                 ->setName($key)
@@ -110,7 +107,7 @@ abstract class RoleFixtureAbstract implements FixtureInterface
 
             if (is_array($val['users'] ?? NULL)) {
                 foreach ($val['users'] as $row) {
-                    /** @var UserInterface $user */
+                    /** @var User|DmUser $user */
                     $user = new $userClass();
                     $user
                         ->setPassword($encoder->hash($row['password']))
@@ -163,14 +160,14 @@ abstract class RoleFixtureAbstract implements FixtureInterface
         }
 
         foreach ($parentMap as $data) {
-            /** @var GroupInterface $group */
+            /** @var Group|DmGroup $group */
             $group = $data['pointer'];
             foreach ($data['parents'] as $parentName) {
                 if (isset($parentMap[$parentName]['pointer'])) {
-                    /** @var GroupInterface|null $parent */
+                    /** @var Group|DmGroup|null $parent */
                     $parent = $parentMap[$parentName]['pointer'];
                 } else {
-                    /** @var GroupInterface|null $parent */
+                    /** @var Group|DmGroup|null $parent */
                     $parent = $manager->getRepository($groupClass)->findOneBy(['name' => $parentName]);
                 }
 
@@ -184,23 +181,23 @@ abstract class RoleFixtureAbstract implements FixtureInterface
     }
 
     /**
-     * @param ObjectManager  $manager
-     * @param GroupInterface $group
-     * @param mixed[]        $rights
-     * @param string         $res
-     * @param string         $ruleClass
-     * @param int            $propertyMask
+     * @param ObjectManager $manager
+     * @param Group|DmGroup $group
+     * @param mixed[]       $rights
+     * @param string        $res
+     * @param string        $ruleClass
+     * @param int           $propertyMask
      */
     private function createRule(
         ObjectManager $manager,
-        GroupInterface $group,
+        Group|DmGroup $group,
         array $rights,
         string $res,
         string $ruleClass,
         int $propertyMask,
     ): void
     {
-        /** @var RuleInterface $rule */
+        /** @var Rule|DmRule $rule */
         $rule = new $ruleClass();
         $rule
             ->setGroup($group)

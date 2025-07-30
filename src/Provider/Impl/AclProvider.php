@@ -7,15 +7,16 @@ use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManager;
 use Hanaboso\AclBundle\Cache\ProviderCacheInterface;
 use Hanaboso\AclBundle\Document\Group as DmGroup;
+use Hanaboso\AclBundle\Document\Rule as DmRule;
 use Hanaboso\AclBundle\Entity\Group;
-use Hanaboso\AclBundle\Entity\GroupInterface;
-use Hanaboso\AclBundle\Entity\RuleInterface;
+use Hanaboso\AclBundle\Entity\Rule;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Provider\AclRuleProviderInterface;
 use Hanaboso\AclBundle\Repository\Document\GroupRepository as OdmRepo;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository as OrmRepo;
 use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
-use Hanaboso\UserBundle\Entity\UserInterface;
+use Hanaboso\UserBundle\Document\User as DmUser;
+use Hanaboso\UserBundle\Entity\User;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
 use LogicException;
@@ -55,13 +56,13 @@ final class AclProvider implements AclRuleProviderInterface
     }
 
     /**
-     * @param UserInterface $user
-     * @param int           $userLvl
+     * @param User|DmUser $user
+     * @param int         $userLvl
      *
-     * @return RuleInterface[]
+     * @return Rule[]|DmRule[]
      * @throws AclException
      */
-    public function getRules(UserInterface $user, int &$userLvl): array
+    public function getRules(User|DmUser $user, int &$userLvl): array
     {
         $rules  = [];
         $groups = $this->getGroups($user);
@@ -79,12 +80,12 @@ final class AclProvider implements AclRuleProviderInterface
     }
 
     /**
-     * @param UserInterface $user
+     * @param User|DmUser $user
      *
-     * @return GroupInterface[]
+     * @return Group[]|DmGroup[]
      * @throws AclException
      */
-    public function getGroups(UserInterface $user): array
+    public function getGroups(User|DmUser $user): array
     {
         try {
             $res = $this->load($user);
@@ -119,12 +120,12 @@ final class AclProvider implements AclRuleProviderInterface
     }
 
     /**
-     * @param UserInterface    $user
-     * @param GroupInterface[] $groups
+     * @param User|DmUser       $user
+     * @param Group[]|DmGroup[] $groups
      *
      * @throws LogicException
      */
-    protected function store(UserInterface $user, array $groups): void
+    protected function store(User|DmUser $user, array $groups): void
     {
         $arr        = [];
         $parentList = [];
@@ -140,12 +141,12 @@ final class AclProvider implements AclRuleProviderInterface
     }
 
     /**
-     * @param UserInterface $user
+     * @param User|DmUser $user
      *
-     * @return GroupInterface[]|null
+     * @return Group[]|DmGroup[]|null
      * @throws AclException
      */
-    protected function load(UserInterface $user): ?array
+    protected function load(User|DmUser $user): ?array
     {
         try {
             $arr = $this->cache->get($this->getKey($user));
@@ -157,12 +158,12 @@ final class AclProvider implements AclRuleProviderInterface
 
             $groupClass = $this->provider->getResource($this->resourceEnum::GROUP);
             $ruleClass  = $this->provider->getResource($this->resourceEnum::RULE);
-            /** @var RuleInterface[] $rulesList */
+            /** @var Rule[]|DmRule[] $rulesList */
             $rulesList = [];
 
             foreach ($arr[self::GROUPS] as $groupData) {
-                $owner = $groupData[GroupInterface::OWNER] === $user->getId() ? $user : NULL;
-                /** @var GroupInterface $g */
+                $owner = $groupData[Group::OWNER] === $user->getId() ? $user : NULL;
+                /** @var Group|DmGroup $g */
                 $g = new $groupClass($owner);
                 $g->fromArrayAcl($groupData, $ruleClass, $rulesList);
                 $groups[$g->getId()] = $g;
@@ -178,21 +179,21 @@ final class AclProvider implements AclRuleProviderInterface
     }
 
     /**
-     * @param UserInterface $user
+     * @param User|DmUser $user
      *
      * @return string
      */
-    protected function getKey(UserInterface $user): string
+    protected function getKey(User|DmUser $user): string
     {
         return $this->getKeyById($user->getId());
     }
 
     /**
-     * @param string $id
+     * @param string|int $id
      *
      * @return string
      */
-    protected function getKeyById(string $id): string
+    protected function getKeyById(string|int $id): string
     {
         return sprintf('%s_%s', self::PREFIX, $id);
     }

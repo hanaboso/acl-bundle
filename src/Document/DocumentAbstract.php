@@ -4,7 +4,7 @@ namespace Hanaboso\AclBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Hanaboso\AclBundle\Attribute\OwnerAttribute;
-use Hanaboso\UserBundle\Entity\UserInterface;
+use Hanaboso\UserBundle\Document\User;
 
 /**
  * Class DocumentAbstract
@@ -15,36 +15,36 @@ abstract class DocumentAbstract
 {
 
     /**
-     * @var UserInterface|null
+     * @var User|null
      */
     #[ODM\ReferenceOne(strategy: 'set', targetDocument: 'Hanaboso\UserBundle\Document\User')]
     #[OwnerAttribute]
-    protected ?UserInterface $owner;
+    protected ?User $owner;
 
     /**
      * DocumentAbstract constructor.
      *
-     * @param UserInterface|null $owner
+     * @param User|null $owner
      */
-    function __construct(?UserInterface $owner)
+    function __construct(?User $owner)
     {
         $this->owner = $owner;
     }
 
     /**
-     * @return UserInterface|null
+     * @return User|null
      */
-    public function getOwner(): ?UserInterface
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
 
     /**
-     * @param UserInterface|null $owner
+     * @param User|null $owner
      *
      * @return $this
      */
-    public function setOwner(?UserInterface $owner): self
+    public function setOwner(?User $owner): self
     {
         $this->owner = $owner;
 

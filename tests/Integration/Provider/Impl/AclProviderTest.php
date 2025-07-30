@@ -25,16 +25,16 @@ final class AclProviderTest extends DatabaseTestCaseAbstract
         /** @var AclProvider $databaseProvider */
         $databaseProvider = self::getContainer()->get('hbpf.acl.provider');
 
-        $ruleOne = (new Rule())->setResource('R1');
+        $ruleOne = new Rule()->setResource('R1');
         $this->pfd($ruleOne);
-        $ruleTwo = (new Rule())->setResource('R2');
+        $ruleTwo = new Rule()->setResource('R2');
         $this->pfd($ruleTwo);
-        $ruleThree = (new Rule())->setResource('R3');
+        $ruleThree = new Rule()->setResource('R3');
         $this->pfd($ruleThree);
-        $ruleFour = (new Rule())->setResource('R4');
+        $ruleFour = new Rule()->setResource('R4');
         $this->pfd($ruleFour);
 
-        $groupOne = (new Group(NULL))
+        $groupOne = new Group(NULL)
             ->setName('G1')
             ->addRule($ruleOne)
             ->addRule($ruleThree);
@@ -42,7 +42,7 @@ final class AclProviderTest extends DatabaseTestCaseAbstract
         $ruleThree->setGroup($groupOne);
         $this->pfd($groupOne);
 
-        $groupTwo = (new Group(NULL))
+        $groupTwo = new Group(NULL)
             ->setName('G1')
             ->addRule($ruleTwo)
             ->addRule($ruleFour);
@@ -50,7 +50,8 @@ final class AclProviderTest extends DatabaseTestCaseAbstract
         $ruleFour->setGroup($groupTwo);
         $this->pfd($groupTwo);
 
-        $user = (new User())->setEmail('user@example.com');
+        $user = new User();
+        $user->setEmail('user@example.com');
         $this->pfd($user);
 
         $groupOne->addUser($user);

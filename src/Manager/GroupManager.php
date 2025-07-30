@@ -9,14 +9,16 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Hanaboso\AclBundle\Document\Group as DmGroup;
 use Hanaboso\AclBundle\Entity\Group;
-use Hanaboso\AclBundle\Entity\GroupInterface;
 use Hanaboso\AclBundle\Enum\ResourceEnum;
 use Hanaboso\AclBundle\Exception\AclException;
 use Hanaboso\AclBundle\Provider\AclRuleProviderInterface;
 use Hanaboso\AclBundle\Repository\Document\GroupRepository as GroupRepositoryDocument;
 use Hanaboso\AclBundle\Repository\Entity\GroupRepository as GroupRepositoryEntity;
 use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
-use Hanaboso\UserBundle\Entity\UserInterface;
+use Hanaboso\UserBundle\Document\TmpUser as DmTmpUser;
+use Hanaboso\UserBundle\Document\User as DmUser;
+use Hanaboso\UserBundle\Entity\TmpUser;
+use Hanaboso\UserBundle\Entity\User;
 use Hanaboso\UserBundle\Enum\UserTypeEnum;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
@@ -51,16 +53,20 @@ class GroupManager
     }
 
     /**
-     * @param UserInterface $user
-     * @param string|null   $id
-     * @param string|null   $groupName
+     * @param User|DmUser|TmpUser|DmTmpUser $user
+     * @param string|null                   $id
+     * @param string|null                   $groupName
      *
      * @throws AclException
      * @throws MongoDBException
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function addUserIntoGroup(UserInterface $user, ?string $id = NULL, ?string $groupName = NULL): void
+    public function addUserIntoGroup(
+        User|DmUser|TmpUser|DmTmpUser $user,
+        ?string $id = NULL,
+        ?string $groupName = NULL,
+    ): void
     {
         $query = [];
 
@@ -79,7 +85,7 @@ class GroupManager
         try {
             /** @phpstan-var class-string<Group|DmGroup> $groupClass */
             $groupClass = $this->resourceProvider->getResource(ResourceEnum::GROUP);
-            /** @var GroupInterface|null $group */
+            /** @var Group|DmGroup|null $group */
             $group = $this->dm->getRepository($groupClass)->findOneBy($query);
         } catch (ResourceProviderException $e) {
             throw new AclException($e->getMessage(), $e->getCode());
@@ -90,11 +96,15 @@ class GroupManager
         }
 
         if ($user->getType() === UserTypeEnum::TMP_USER) {
-            $group->addTmpUser($user);
+            /** @var TmpUser|DmTmpUser $u */
+            $u = $user;
+            $group->addTmpUser($u);
         }
 
         if ($user->getType() === UserTypeEnum::USER) {
-            $group->addUser($user);
+            /** @var User|DmUser $u */
+            $u = $user;
+            $group->addUser($u);
         }
 
         $this->aclProvider->invalid([$user->getId()]);
@@ -103,16 +113,20 @@ class GroupManager
     }
 
     /**
-     * @param UserInterface $user
-     * @param string|null   $id
-     * @param string|null   $groupName
+     * @param User|DmUser|TmpUser|DmTmpUser $user
+     * @param string|null                   $id
+     * @param string|null                   $groupName
      *
      * @throws AclException
      * @throws MongoDBException
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function removeUserFromGroup(UserInterface $user, ?string $id = NULL, ?string $groupName = NULL): void
+    public function removeUserFromGroup(
+        User|DmUser|TmpUser|DmTmpUser $user,
+        ?string $id = NULL,
+        ?string $groupName = NULL,
+    ): void
     {
         $query = [];
 
@@ -131,7 +145,7 @@ class GroupManager
         try {
             /** @phpstan-var class-string<Group|DmGroup> $groupClass */
             $groupClass = $this->resourceProvider->getResource(ResourceEnum::GROUP);
-            /** @var GroupInterface|null $group */
+            /** @var Group|DmGroup|null $group */
             $group = $this->dm->getRepository($groupClass)->findOneBy($query);
         } catch (ResourceProviderException $e) {
             throw new AclException($e->getMessage(), $e->getCode());
@@ -172,13 +186,13 @@ class GroupManager
     }
 
     /**
-     * @param UserInterface $user
+     * @param User|DmUser|TmpUser|DmTmpUser $user
      *
      * @return mixed[]
      * @throws MongoDBException
      * @throws AclException
      */
-    public function getUserGroups(UserInterface $user): array
+    public function getUserGroups(User|DmUser|TmpUser|DmTmpUser $user): array
     {
         try {
             /** @phpstan-var class-string<Group|DmGroup> $groupClass */
@@ -190,9 +204,13 @@ class GroupManager
         }
 
         if ($user->getType() === UserTypeEnum::USER) {
-            $groups = $repo->getUserGroups($user);
+            /** @var User|DmUser $u */
+            $u      = $user;
+            $groups = $repo->getUserGroups($u);
         } else {
-            $groups = $repo->getTmpUserGroups($user);
+            /** @var TmpUser|DmTmpUser $u */
+            $u      = $user;
+            $groups = $repo->getTmpUserGroups($u);
         }
 
         $res = [];
@@ -209,10 +227,10 @@ class GroupManager
      */
 
     /**
-     * @param mixed[]       $users
-     * @param UserInterface $user
+     * @param mixed[]                       $users
+     * @param User|DmUser|TmpUser|DmTmpUser $user
      */
-    private function removeItem(array &$users, UserInterface $user): void
+    private function removeItem(array &$users, User|DmUser|TmpUser|DmTmpUser $user): void
     {
         foreach ($users as $key => $item) {
             if ($item->getId() == $user->getId()) {
