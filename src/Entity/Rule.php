@@ -36,7 +36,6 @@ class Rule
 
     /**
      * @var int
-
      */
     #[ORM\Column(type: 'integer')]
     private int $actionMask;

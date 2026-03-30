@@ -18,7 +18,7 @@ final class ExtActionEnum extends ActionEnum
     /**
      * @var string[]
      */
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
     protected static array $choices = [
         self::READ   => self::READ,
         self::WRITE  => self::WRITE,
@@ -26,16 +26,16 @@ final class ExtActionEnum extends ActionEnum
         self::TEST   => self::TEST,
         self::TEST2  => self::TEST2,
     ];
-    // @codingStandardsIgnoreEnd
+    // phpcs:enable
 
     /**
      * @var mixed[]
      */
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
     protected static array $globalActions = [
         self::WRITE => self::WRITE,
         self::TEST  => self::TEST,
     ];
-    // @codingStandardsIgnoreEnd
+    // phpcs:enable
 
 }

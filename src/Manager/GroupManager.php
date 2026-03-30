@@ -59,8 +59,8 @@ class GroupManager
      *
      * @throws AclException
      * @throws MongoDBException
-     * @throws ORMException
      * @throws OptimisticLockException
+     * @throws ORMException
      */
     public function addUserIntoGroup(
         User|DmUser|TmpUser|DmTmpUser $user,
@@ -119,8 +119,8 @@ class GroupManager
      *
      * @throws AclException
      * @throws MongoDBException
-     * @throws ORMException
      * @throws OptimisticLockException
+     * @throws ORMException
      */
     public function removeUserFromGroup(
         User|DmUser|TmpUser|DmTmpUser $user,
@@ -189,8 +189,8 @@ class GroupManager
      * @param User|DmUser|TmpUser|DmTmpUser $user
      *
      * @return mixed[]
-     * @throws MongoDBException
      * @throws AclException
+     * @throws MongoDBException
      */
     public function getUserGroups(User|DmUser|TmpUser|DmTmpUser $user): array
     {
@@ -221,10 +221,6 @@ class GroupManager
 
         return $res;
     }
-
-    /**
-     * ----------------------------------------- HELPERS ----------------------------------------
-     */
 
     /**
      * @param mixed[]                       $users

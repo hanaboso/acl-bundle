@@ -20,6 +20,7 @@ use Hanaboso\UserBundle\Model\User\Event\UserEvent;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
 use LogicException;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
@@ -27,6 +28,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  *
  * @package AclBundleTests\Unit\Manager
  */
+#[AllowMockObjectsWithoutExpectations]
 #[CoversClass(AccessManager::class)]
 final class AccessManagerTest extends KernelTestCaseAbstract
 {

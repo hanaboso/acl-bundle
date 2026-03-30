@@ -10,6 +10,7 @@ use Hanaboso\PhpCheckUtils\PhpUnit\Traits\CustomAssertTrait;
 use Hanaboso\UserBundle\Entity\User;
 use Hanaboso\UserBundle\Model\User\Event\DeleteBeforeUserEvent;
 use Hanaboso\UserBundle\Model\User\Event\UserEvent;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
@@ -17,6 +18,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  *
  * @package AclBundleTests\Unit\Manager
  */
+#[AllowMockObjectsWithoutExpectations]
 #[CoversClass(UserManager::class)]
 final class UserManagerTest extends KernelTestCaseAbstract
 {
