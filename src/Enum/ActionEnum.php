@@ -25,13 +25,13 @@ class ActionEnum extends EnumAbstract
      *
      * @var string[]
      */
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
     protected static array $choices = [
         self::READ   => self::READ,
         self::WRITE  => self::WRITE,
         self::DELETE => self::DELETE,
     ];
-    // @codingStandardsIgnoreEnd
+    // phpcs:enable
 
     /**
      * @var mixed[]

@@ -28,8 +28,8 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
     public function testMaskAction(): void
     {
         $factory = self::getContainer()->get('hbpf.factory.mask');
-        //@codingStandardsIgnoreLine
-        $data    = ['read'   => FALSE, 'write', 'delete' => 'true'];
+        // phpcs:ignore
+        $data = ['read' => FALSE, 'write', 'delete' => 'true'];
 
         self::assertSame(6, $factory->maskAction($data, ResourceEnum::TOKEN));
     }
@@ -119,7 +119,7 @@ final class MaskFactoryTest extends KernelTestCaseAbstract
         self::assertEquals(
             ['read', 'delete', 'test2'],
             $factory->getActionsFromMask(
-                //@codingStandardsIgnoreLine
+                // phpcs:ignore
                 $factory->maskAction(['read', 'write' => FALSE, 'delete', 'test2'], ResourceEnum::TOKEN),
             ),
         );

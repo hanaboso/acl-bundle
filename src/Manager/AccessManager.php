@@ -130,7 +130,7 @@ final class AccessManager implements EventSubscriberInterface
             $this->dm->flush();
 
             return $group;
-        } catch (ORMException | LogicException $e) {
+        } catch (LogicException | ORMException $e) {
             throw new AclException($e->getMessage(), $e->getCode());
         }
     }
@@ -183,7 +183,7 @@ final class AccessManager implements EventSubscriberInterface
 
             $this->factory->getDefaultRules($group);
             $this->dm->flush();
-        } catch (ResourceProviderException | ORMException $e) {
+        } catch (ORMException | ResourceProviderException $e) {
             throw new AclException($e->getMessage(), $e->getCode());
         }
     }
@@ -337,7 +337,7 @@ final class AccessManager implements EventSubscriberInterface
             }
 
             return $rule;
-        } catch (ResourceProviderException | MongoDBException | LogicException $e) {
+        } catch (LogicException | MongoDBException | ResourceProviderException $e) {
             throw new AclException($e->getMessage(), $e->getCode());
         }
     }
@@ -387,7 +387,7 @@ final class AccessManager implements EventSubscriberInterface
             }
 
             return $res;
-        } catch (ResourceProviderException | ReflectionException $e) {
+        } catch (ReflectionException | ResourceProviderException $e) {
             throw new AclException($e->getMessage(), $e->getCode());
         }
     }
@@ -459,7 +459,7 @@ final class AccessManager implements EventSubscriberInterface
             }
 
             return $user;
-        } catch (ResourceProviderException | MongoDBException $e) {
+        } catch (MongoDBException | ResourceProviderException $e) {
             throw new AclException($e->getMessage(), $e->getCode());
         }
     }

@@ -102,7 +102,7 @@ final class AclProvider implements AclRuleProviderInterface
             $this->store($user, $groups);
 
             return $groups;
-        } catch (ResourceProviderException | LogicException | MongoDBException $e) {
+        } catch (LogicException | MongoDBException | ResourceProviderException $e) {
             throw new AclException($e->getMessage(), $e->getCode());
         }
     }

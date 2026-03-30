@@ -93,7 +93,7 @@ class RuleFactory
             }
 
             return $rules;
-        } catch (ResourceProviderException | ORMException $e) {
+        } catch (ORMException | ResourceProviderException $e) {
             throw new AclException($e->getMessage(), $e->getCode());
         }
     }
