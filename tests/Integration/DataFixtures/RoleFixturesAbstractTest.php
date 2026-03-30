@@ -13,6 +13,7 @@ use Hanaboso\AclBundle\Factory\MaskFactory;
 use Hanaboso\AclBundle\Repository\Document\RuleRepository;
 use Hanaboso\PhpCheckUtils\PhpUnit\Traits\CustomAssertTrait;
 use LogicException;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -21,6 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @package AclBundleTests\Integration\DataFixtures
  */
+#[AllowMockObjectsWithoutExpectations]
 #[CoversClass(RoleFixtureAbstract::class)]
 final class RoleFixturesAbstractTest extends DatabaseTestCaseAbstract
 {

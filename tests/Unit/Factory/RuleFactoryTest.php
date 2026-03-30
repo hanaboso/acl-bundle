@@ -14,6 +14,7 @@ use Hanaboso\AclBundle\Factory\RuleFactory;
 use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
@@ -21,6 +22,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  *
  * @package AclBundleTests\Unit\Factory
  */
+#[AllowMockObjectsWithoutExpectations]
 #[CoversClass(RuleFactory::class)]
 final class RuleFactoryTest extends KernelTestCaseAbstract
 {

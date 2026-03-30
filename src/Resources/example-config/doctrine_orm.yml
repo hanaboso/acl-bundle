@@ -10,20 +10,17 @@ doctrine:
                 password: 'root'
     orm:
         default_entity_manager: ~
-        auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
         connection: default
-        proxy_dir: "%kernel.cache_dir%/doctrine/orm/Proxies"
-        proxy_namespace: Proxies
         mappings:
             UserEntity:
-                type: annotation
+                type: attribute
                 is_bundle: false
                 dir: "%src_dir%/src/Entity"
                 prefix: Hanaboso\UserBundle\Entity
             AclEntity:
-                type: annotation
+                type: attribute
                 is_bundle: false
                 dir: "%src_dir%/src/Entity"
                 prefix: Hanaboso\AclBundle\Entity

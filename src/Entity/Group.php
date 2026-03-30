@@ -43,12 +43,7 @@ class Group extends EntityAbstract
      */
     #[ORM\JoinTable(
         name: 'group_inheritance',
-        joinColumns: [
-            new ORM\JoinColumn(
-                name: 'parent_id',
-                referencedColumnName: 'id',
-            ),
-        ],
+        joinColumns: [new ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id')],
         inverseJoinColumns: [new ORM\JoinColumn(name: 'child_id', referencedColumnName: 'id')],
     )]
     #[ORM\ManyToMany(targetEntity: 'Hanaboso\AclBundle\Entity\Group', inversedBy: 'children')]

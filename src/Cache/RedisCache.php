@@ -59,10 +59,6 @@ final class RedisCache implements ProviderCacheInterface
     }
 
     /**
-     * ---------------------------------- HELPERS ------------------------------
-     */
-
-    /**
      * @return Client<mixed>
      */
     private function getClient(): Client

@@ -15,12 +15,14 @@ use Hanaboso\PhpCheckUtils\PhpUnit\Traits\CustomAssertTrait;
 use Hanaboso\UserBundle\Document\User;
 use Hanaboso\UserBundle\Provider\ResourceProvider;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
 /**
  * Class GroupManagerTest
  *
  * @package AclBundleTests\Unit\Manager
  */
+#[AllowMockObjectsWithoutExpectations]
 final class GroupManagerTest extends KernelTestCaseAbstract
 {
 

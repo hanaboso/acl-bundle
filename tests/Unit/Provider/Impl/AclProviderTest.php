@@ -15,6 +15,7 @@ use Hanaboso\CommonsBundle\Database\Locator\DatabaseManagerLocator;
 use Hanaboso\UserBundle\Entity\User;
 use Hanaboso\UserBundle\Provider\ResourceProviderException;
 use Hanaboso\Utils\String\Json;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
@@ -22,6 +23,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  *
  * @package AclBundleTests\Unit\Provider\Impl
  */
+#[AllowMockObjectsWithoutExpectations]
 #[CoversClass(AclProvider::class)]
 final class AclProviderTest extends KernelTestCaseAbstract
 {
