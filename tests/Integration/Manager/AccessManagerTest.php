@@ -168,7 +168,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('nullReadPer');
         $this->createRule($user, 11);
         $r = self::getContainer()->get('hbpf.access.manager')->isAllowed('test', 'group', $user);
-        self::assertNotEmpty($r);
+        self::assertTrue($r);
     }
 
     /**
@@ -179,7 +179,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('nullReadPer');
         $this->createRule($user, 19, 'token');
         $r = self::getContainer()->get('hbpf.access.manager')->isAllowed('test2', 'token', $user);
-        self::assertNotEmpty($r);
+        self::assertTrue($r);
     }
 
     /**
@@ -190,7 +190,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         $user = $this->createUser('nullReadPer');
         $this->createRule($user, 11, 'token', 1);
         $r = self::getContainer()->get('hbpf.access.manager')->isAllowed('test', 'token', $user);
-        self::assertNotEmpty($r);
+        self::assertTrue($r);
     }
 
     /**
@@ -480,7 +480,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
         /** @var Group $gp */
         $gp = $this->dm->find(Group::class, $rule->getGroup()->getId());
         self::getContainer()->get('hbpf.access.manager')->removeGroup($gp);
-        self::assertEmpty($this->dm->getRepository(Rule::class)->findAll());
+        self::assertCount(0, $this->dm->getRepository(Rule::class)->findAll());
     }
 
     /**
@@ -508,7 +508,7 @@ final class AccessManagerTest extends DatabaseTestCaseAbstract
 
         /** @var Group $gp2 */
         $gp2 = $this->em->find(ORMGroup::class, $group->getId());
-        self::assertEmpty($gp2->getParents());
+        self::assertCount(0, $gp2->getParents());
     }
 
     /**

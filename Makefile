@@ -1,9 +1,9 @@
 .PHONY: init-dev test
 
-DC=docker-compose
-DE=docker-compose exec -T app
-DEC=docker-compose exec -T  app composer
-DM=docker-compose exec -T mariadb
+DC=docker compose
+DE=docker compose exec -T app
+DEC=docker compose exec -T  app composer
+DM=docker compose exec -T mariadb
 
 .env:
 	sed -e "s/{DEV_UID}/$(shell if [ "$(shell uname)" = "Linux" ]; then echo $(shell id -u); else echo '1001'; fi)/g" \
@@ -59,7 +59,7 @@ phpstan:
 	$(DE) ./vendor/bin/phpstan analyse -c ./phpstan.neon -l 8 src tests
 
 phpunit:
-	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p $$(nproc)--runner=WrapperRunner tests/Unit
+	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p $$(nproc) --runner=WrapperRunner tests/Unit
 
 phpintegration: database-create
 	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p $$(nproc) --runner=WrapperRunner tests/Integration
