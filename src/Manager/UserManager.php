@@ -16,7 +16,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @package Hanaboso\AclBundle\Manager
  */
-final class UserManager implements EventSubscriberInterface
+final readonly class UserManager implements EventSubscriberInterface
 {
 
     /**
@@ -24,7 +24,7 @@ final class UserManager implements EventSubscriberInterface
      *
      * @param AccessManager $accessManager
      */
-    public function __construct(private readonly AccessManager $accessManager)
+    public function __construct(private AccessManager $accessManager)
     {
     }
 

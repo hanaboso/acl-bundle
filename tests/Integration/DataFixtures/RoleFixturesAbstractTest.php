@@ -51,7 +51,7 @@ final class RoleFixturesAbstractTest extends DatabaseTestCaseAbstract
         $repo = $b->getRepository(Rule::class);
 
         $all = $repo->findAll();
-        self::assertNotEmpty($all);
+        self::assertNotCount(0, $all);
     }
 
     /**
