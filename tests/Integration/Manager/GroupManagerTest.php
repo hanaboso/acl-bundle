@@ -154,7 +154,7 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
 
         $man->removeUserFromGroup($user, NULL, 'd');
 
-        self::assertEmpty($this->dm->getRepository(Group::class)->findAll());
+        self::assertCount(0, $this->dm->getRepository(Group::class)->findAll());
     }
 
     /**
@@ -225,7 +225,7 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
         $man = self::getContainer()->get('hbpf.manager.group');
 
         $res = $man->getUserGroups($u);
-        self::assertNotEmpty($res);
+        self::assertNotCount(0, $res);
         self::assertEquals(
             ['name' => $group->getName(), 'id' => $group->getId(), 'level' => $group->getLevel()],
             $res[0],
@@ -267,7 +267,7 @@ final class GroupManagerTest extends DatabaseTestCaseAbstract
         $man = self::getContainer()->get('hbpf.manager.group');
 
         $res = $man->getUserGroups($u);
-        self::assertNotEmpty($res);
+        self::assertNotCount(0, $res);
         self::assertEquals(
             ['name' => $group->getName(), 'id' => $group->getId(), 'level' => $group->getLevel()],
             $res[0],

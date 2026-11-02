@@ -39,12 +39,17 @@ final class ActionEnumTest extends KernelTestCaseAbstract
             $arr[] = $str;
         }
 
-        $class = new ActionEnum();
+        $class   = new ActionEnum();
+        $choices = ActionEnum::getChoices();
         $this->setProperty($class, 'choices', $arr);
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Amount of actions exceeded 32.');
-        $class::getActionBit('32');
+        try {
+            $class::getActionBit('32');
+        } finally {
+            $this->setProperty($class, 'choices', $choices);
+        }
     }
 
     /**

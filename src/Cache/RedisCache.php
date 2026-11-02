@@ -11,7 +11,7 @@ use Predis\Client;
  *
  * @package Hanaboso\AclBundle\Cache
  */
-final class RedisCache implements ProviderCacheInterface
+final readonly class RedisCache implements ProviderCacheInterface
 {
 
     /**
@@ -19,7 +19,7 @@ final class RedisCache implements ProviderCacheInterface
      *
      * @param string $redisDsn
      */
-    public function __construct(private readonly string $redisDsn)
+    public function __construct(private string $redisDsn)
     {
     }
 

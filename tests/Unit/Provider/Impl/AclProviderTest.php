@@ -45,7 +45,7 @@ final class AclProviderTest extends KernelTestCaseAbstract
         );
 
         $res = $a->getGroups($this->getUser());
-        self::assertNotEmpty($res);
+        self::assertNotCount(0, $res);
     }
 
     /**
